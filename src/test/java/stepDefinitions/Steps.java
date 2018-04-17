@@ -41,9 +41,9 @@ public class Steps {
         element.click();
     }
 
-    @Then("^I listen to some sweet tunes for (\\d+) minutes$")
-    public void waitForMinutes(int minutes) throws Throwable {
-        int time = minutes * 1000 * 60;
+    @Then("^I listen to some sweet tunes for (\\d+) seconds")
+    public void waitForMinutes(int seconds) throws Throwable {
+        int time = seconds * 1000;
         Thread.sleep(time);
     }
 }
