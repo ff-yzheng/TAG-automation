@@ -18,6 +18,7 @@ To run:
 
 - Download the appropriate driver for the browser you wish to use and put it somewhere on your machine
 - Replace the following in pom.xml with the driver you chose
+```
 <systemProperties>
     <property>
         <name>webdriver</name>
@@ -28,6 +29,7 @@ To run:
         <value>/Path/To/Driver</value>
     </property>
 </systemProperties>
+```
 
 Once that file is in, run:
 ```
