@@ -5,8 +5,8 @@ public class Locator {
     // Login Page
     public static final String CHEVRON_LOGO_IMG = "//*[@id='headerForm:customerCommandLnk']";
     public static final String BP_LOGO_IMG = "//*[@id='headerForm:auCommandLnk']";
-    public static final String USERNAME = "j_username"; // id
-    public static final String PASSWORD = "j_password"; // id
+    public static final String USERNAME_FIELD = "j_username"; // id
+    public static final String PASSWORD_FIELD = "j_password"; // id
     public static final String SIGNIN = "btn_login"; // id
     public static final String FORGOT_PASSWORD = "emailPassword"; //id
     public static final String CONTACT_US = "contactUs"; //id

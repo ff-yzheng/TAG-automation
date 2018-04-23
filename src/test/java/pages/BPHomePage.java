@@ -1,5 +1,6 @@
 package pages;
 
+import global.SharedWebDriver;
 import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -76,9 +77,15 @@ public class BPHomePage {
 
     private WebDriver driver;
 
-    public BPHomePage(WebDriver driver) {
-        this.driver = driver;
+    public BPHomePage() {
+        this.driver = SharedWebDriver.getDriver();
         PageFactory.initElements(driver, this);
+    }
+
+    public static BPHomePage navigateToHomePage() {
+        BPHomePage bpHomePage = new BPHomePage();
+        bpHomePage.driver.get("BPHOMEPAGE");
+        return bpHomePage;
     }
 
     public void validateUserLoggedInPage() throws Exception {
