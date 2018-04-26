@@ -16,8 +16,11 @@ To run:
 </settings>
 ```
 
-- Download the appropriate driver for the browser you wish to use and put it somewhere on your machine
-- Replace the following in pom.xml with the driver you chose
+(Gray steps below should no longer be needed since the drivers are in the project)
+
+- <div style="background-color:gray">Download the appropriate driver for the browser you wish to use and put it somewhere on your machine
+- <div style="background-color:gray">Replace the following in pom.xml with the driver you chose
+
 ```
 <systemProperties>
     <property>
@@ -30,6 +33,15 @@ To run:
     </property>
 </systemProperties>
 ```
+</div>
+
+- Add the following to the IntelliJ Run - Edit Configurations - Cucumber Java - VM Options
+
+```
+-Dwebdriver.chrome.driver=src/test/drivers/chromedriver.exe -Dwebdriver=chrome
+```
+
+
 
 Once that file is in, run:
 ```
