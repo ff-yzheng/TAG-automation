@@ -35,7 +35,7 @@ public class LoginSteps extends AbstractSteps {
         WaitUntilLoaded(loginPage.driver, loginPage.UserName);
 
         // Check to see if I am on the login page
-        assertThat(loginPage.UserName.isDisplayed(), is(equalTo(true)));
+        assertThat("Cannot find the username field", loginPage.UserName.isDisplayed(), is(equalTo(true)));
     }
 
     @When("^I login as (.*) with (.*)")
@@ -61,7 +61,7 @@ public class LoginSteps extends AbstractSteps {
         WaitUntilLoaded(loginPage.driver, loginPage.LogoutLink);
 
         // Check to see we are logged in by seeing if the logout link is present
-        assertThat(loginPage.LogoutLink.isDisplayed(), is(equalTo(true)));
+        assertThat("Cannot find the logout link", loginPage.LogoutLink.isDisplayed(), is(equalTo(true)));
     }
 
     @When("^I logout$")
@@ -75,7 +75,7 @@ public class LoginSteps extends AbstractSteps {
         loginPage.RefreshModel();
 
         // Verify I am on the login page
-        assertThat(loginPage.UserName.isDisplayed(), is(equalTo(true)));
+        assertThat("Cannot find the username field", loginPage.UserName.isDisplayed(), is(equalTo(true)));
     }
 
     @Then("^I should see the login failed alert$")
@@ -84,10 +84,9 @@ public class LoginSteps extends AbstractSteps {
 
         // Get the text from the alert, trimming spaces and line breaks
         String actualAlertText = AllTrim(loginPage.AlertText.getText());
-        //System.out.println("actualAlertText = " + actualAlertText);
 
         // Confirm that the alert text contains the expected message
-        assertThat(actualAlertText, containsString("The Login has failed. Please try again using a valid Username and Password."));
+        assertThat("Unexpected alert text", actualAlertText, containsString("The Login has failed. Please try again using a valid Username and Password."));
     }
 
     // SETMFAKey method creates the local storage setting such the MFA is skipped

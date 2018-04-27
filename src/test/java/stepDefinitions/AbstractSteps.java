@@ -35,7 +35,9 @@ public class AbstractSteps {
         // replace line breaks with a space
         value = value.replaceAll("\\r\\n|\\r|\\n", " ");
 
-        // trim leading and trailing spaces & return the result
-        return value.trim();
+        // trim leading and trailing spaces
+        value = value.trim();
+
+        return value;
     }
 }
