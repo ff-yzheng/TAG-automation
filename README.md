@@ -16,7 +16,7 @@ To run:
 </settings>
 ```
 
-(Gray steps below should no longer be needed since the drivers are in the project)
+(The pom.xml steps below should no longer be needed since the drivers are in the project)
 
 - <div style="background-color:gray">Download the appropriate driver for the browser you wish to use and put it somewhere on your machine
 - <div style="background-color:gray">Replace the following in pom.xml with the driver you chose

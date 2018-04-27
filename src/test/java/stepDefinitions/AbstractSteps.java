@@ -6,8 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-
 public class AbstractSteps {
 
     // Set the webdriver to be passed between stepdefinitions
@@ -22,8 +20,6 @@ public class AbstractSteps {
     }
 
     // Enable wait options in steps
-
-
     protected void WaitUntilLoaded(WebDriver activeDriver, WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
         wait.until((ExpectedConditions.visibilityOf(webElement)));
@@ -34,9 +30,12 @@ public class AbstractSteps {
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
 
+    // Trim all special characters and leading and trailing spaces
+    protected String AllTrim(String value){
+        // replace line breaks with a space
+        value = value.replaceAll("\\r\\n|\\r|\\n", " ");
 
-        /*
-        WebDriverWait wait = new WebDriverWait(webDriver, 5);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("xpath_to_search_textbox")));
-         */
+        // trim leading and trailing spaces & return the result
+        return value.trim();
+    }
 }

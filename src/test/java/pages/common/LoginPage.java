@@ -13,9 +13,6 @@ public class LoginPage extends TransactGlobalPage {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-//    public LoginPage(WebDriver driver){
-//        this.driver = driver;
-//    }
 
     // Page Info
     private static final String LOGIN_XPATH = "//input[@id='login_username']"; // An element that only shows on this page
@@ -30,11 +27,24 @@ public class LoginPage extends TransactGlobalPage {
         UserName.sendKeys(value);
     }
 
-    // WHY DON'T THESE WORK
-    public WebElement UserName2 = UserName;
-    //public Boolean HasUsernameField = UserName.isDisplayed();
+    // Password
+    @FindBy(how = How.XPATH, using = "//input[@name='Password']")
+    public WebElement Password;
 
-    public Boolean HasUsernameField() {
-        return UserName.isDisplayed();
+    public void SetPassword(String value) {
+        Password.clear();
+        Password.sendKeys(value);
     }
+
+    // Login button
+    @FindBy(how = How.XPATH, using = "//button[text()='Login']")
+    public WebElement LoginButton;
+
+    public void LoginClick(){
+        LoginButton.click();
+    }
+
+    // Alert Text
+    @FindBy(how = How.XPATH, using = "//div[@class='alert alert-danger alert-dismissible']")
+    public WebElement AlertText;
 }
