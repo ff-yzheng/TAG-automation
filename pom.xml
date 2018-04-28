@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cucumber-selenium</groupId>
-    <artifactId>selenium-test</artifactId>
+    <groupId>com.wex.tag</groupId>
+    <artifactId>tag-automation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
+            <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -40,7 +40,6 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!--Selenium Dependencies-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -62,6 +61,37 @@
             <artifactId>selenium-remote-driver</artifactId>
             <version>3.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>2.12.2</version>
+            <scope>provided</scope>
+        </dependency>
+<!--Added by Yingqiao to integrate cucumber with TestNG -->
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-testng -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.14.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>3.1.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.saucelabs</groupId>
+            <artifactId>sauce_testng</artifactId>
+            <version>2.1.21</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -71,6 +101,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.21.0</version>
                 <configuration>
+
                     <systemProperties>
                         <property>
                             <name>webdriver</name>
@@ -81,6 +112,16 @@
                             <value>src/test/drivers/chromedriver.exe</value>
                         </property>
                     </systemProperties>
+
+
+
+                        <forkMode>perthread</forkMode>
+                        <threadCount>3</threadCount>
+                        <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                        <includes>
+                            <include>**/*Runner.java</include>
+                        </includes>
+
                 </configuration>
             </plugin>
             <plugin>
