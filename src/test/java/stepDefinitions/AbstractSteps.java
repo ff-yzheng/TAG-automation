@@ -1,23 +1,28 @@
 package stepDefinitions;
 
+import global.SharedWebDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AbstractSteps {
 
+    /*
     // Set the webdriver to be passed between stepdefinitions
     protected WebDriver driver;
 
     protected WebDriver getDriver(){
         if (driver == null){
             // TODO: Read webdriver value from pom.xml instead of hardcoding to ChromeDriver here
+
             driver = new ChromeDriver();
         }
         return driver;
     }
+     */
 
     // Enable wait options in steps
     protected void WaitUntilLoaded(WebDriver activeDriver, WebElement webElement) {

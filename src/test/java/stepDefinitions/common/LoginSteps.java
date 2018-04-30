@@ -3,11 +3,13 @@ package stepDefinitions.common;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import global.SharedWebDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.common.LoginPage;
 import pages.common.MFAEntryPage;
 import stepDefinitions.AbstractSteps;
 
+import static global.SharedWebDriver.getDriver;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -21,7 +23,7 @@ public class LoginSteps extends AbstractSteps {
     @Given("^the login form at (.*)$")
     public void the_login_form_at_url(String url) {
 
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage(getDriver());
 
         // Navigate to url
         loginPage.driver.navigate().to(url);
