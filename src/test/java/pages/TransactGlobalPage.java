@@ -70,14 +70,23 @@ public class TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: block')]")
     public WebElement LoadingSpinnerIsActive;
 
-    // **** Shared Search Controls ****
-    // Row 1 is clickable
-    @FindBy(how = How.XPATH, using = "//div[@class~'table-container.*']//table/tbody/tr[@childindex=0 and @class='clickable']")
+    // **** Shared Grid & Search Controls ****
+    // Clickable Row 1
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'table-container')]/table/tbody/tr[@class='clickable']")
     public WebElement ClickableRow1;
+
+    // Row 1
+    @FindBy(how = How.XPATH, using = "//div[@class='table-container']/table/tbody/tr")
+    public WebElement GridRow1;
 
     // Card Number Search Field
     @FindBy(how = How.XPATH, using = "//label[@innertext='Card Number']/../?/input")
     public WebElement CardNumberSearchField;
+
+    public void SetCardNumberSearchField(String value) {
+        CardNumberSearchField.clear();
+        CardNumberSearchField.sendKeys(value);
+    }
 
     // Search Button
     @FindBy(how = How.XPATH, using = "//button[@innertext='Search']")
