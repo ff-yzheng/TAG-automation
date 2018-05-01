@@ -25,14 +25,19 @@ public class AbstractSteps {
      */
 
     // Enable wait options in steps
-    protected void WaitUntilLoaded(WebDriver activeDriver, WebElement webElement) {
+    protected void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
 
-    protected void WaitUntilLoaded(WebDriver activeDriver, WebElement webElement, int waitForSeconds) {
+    protected void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement, int waitForSeconds) {
         WebDriverWait wait = new WebDriverWait(activeDriver, waitForSeconds);
         wait.until((ExpectedConditions.visibilityOf(webElement)));
+    }
+
+    protected void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+        WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+        wait.until((ExpectedConditions.invisibilityOf(webElement)));
     }
 
     // Trim all special characters and leading and trailing spaces

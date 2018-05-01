@@ -50,6 +50,25 @@ public class TransactGlobalPage {
 
     // TODO: Add TAG Menu Items
 
+    // **** Breadcrumb Items ****
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[1]")
+    public WebElement BreadCrumb1;
+
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[2]")
+    public WebElement BreadCrumb2;
+
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[3]")
+    public WebElement BreadCrumb3;
+
+    // **** Loading Spinner/Modal ****
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container']")
+    public WebElement LoadingSpinner;
+
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: none')]")
+    public WebElement LoadingSpinnerIsHidden;
+
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: block')]")
+    public WebElement LoadingSpinnerIsActive;
 
     // **** Shared Search Controls ****
     // Row 1 is clickable

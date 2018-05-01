@@ -3,10 +3,8 @@ package stepDefinitions.common;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-import global.SharedWebDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.common.LoginPage;
-import pages.common.MFAEntryPage;
 import stepDefinitions.AbstractSteps;
 
 import static global.SharedWebDriver.getDriver;
@@ -34,7 +32,7 @@ public class LoginSteps extends AbstractSteps {
         loginPage.RefreshModel();
 
         // Wait until the page loads by checking for the username field before continuing
-        WaitUntilLoaded(loginPage.driver, loginPage.UserName);
+        WaitForElementToLoad(getDriver(), loginPage.UserName);
 
         // Check to see if I am on the login page
         assertThat("Cannot find the username field", loginPage.UserName.isDisplayed(), is(equalTo(true)));
@@ -60,7 +58,7 @@ public class LoginSteps extends AbstractSteps {
         loginPage.RefreshModel();
 
         // Wait until the page loads by checking for the logout link before continuing
-        WaitUntilLoaded(loginPage.driver, loginPage.LogoutLink);
+        WaitForElementToLoad(getDriver(), loginPage.LogoutLink);
 
         // Check to see we are logged in by seeing if the logout link is present
         assertThat("Cannot find the logout link", loginPage.LogoutLink.isDisplayed(), is(equalTo(true)));
@@ -82,7 +80,7 @@ public class LoginSteps extends AbstractSteps {
 
     @Then("^I should see the login failed alert$")
     public void iShouldSeeTheLoginFailedAlert() throws Throwable {
-        WaitUntilLoaded(loginPage.driver, loginPage.AlertText);
+        WaitForElementToLoad(getDriver(), loginPage.AlertText);
 
         // Get the text from the alert, trimming spaces and line breaks
         String actualAlertText = AllTrim(loginPage.AlertText.getText());
@@ -101,7 +99,7 @@ public class LoginSteps extends AbstractSteps {
         String keyString = "TRANSACT_GLOBAL_" + login + "_DEVICE_ID";
 
         // Create key and value in local storage
-        JavascriptExecutor jse = ((JavascriptExecutor)loginPage.driver);
+        JavascriptExecutor jse = ((JavascriptExecutor)getDriver());
         jse.executeScript("window.localStorage.setItem('" + keyString + "', 'Automation');");
     }
 }
