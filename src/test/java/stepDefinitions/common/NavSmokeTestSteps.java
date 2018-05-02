@@ -2,17 +2,13 @@ package stepDefinitions.common;
 
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.TransactGlobalPage;
 import stepDefinitions.AbstractSteps;
 
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -34,7 +30,6 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
         // Load the top level nav options in the Main menu
         List<WebElement> mainNav = loadMainMenuData();
-        List<WebElement> tabItems;
 
         // Loop through the top level menu items
         for(Integer i = 0; i < mainNav.size(); i++){
@@ -62,9 +57,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 System.out.println(menuName + " - " + subMenuName);
 
                 // Click the main then submenu
-                //WaitForElementToLoad(getDriver(), mainNav.get(i));
                 mainNav.get(i).click();
-                //WaitForElementToLoad(getDriver(), subMenuNav.get(i));
                 subMenuNav.get(j).click();
 
                 // Wait for the loading spinner to disappear before proceeding
@@ -103,7 +96,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                     // clickableRow exists but no tabs, need to click to get to the detail page
                     if (clickableRowExists && !tabsExist){
-                        System.out.println("clickable row exists but no tabs");
+                        //System.out.println("clickable row exists but no tabs");
 
                         // Click the clickable row
                         tagPage.ClickableRow1.click();
@@ -122,6 +115,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                         if (!tabsExist){
                             System.out.println("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
 
+                            // Check for error alert and report results
                             CheckForErrors();
                         }
                     }
@@ -129,7 +123,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     // If we are on the Cards screen, need to search for a card to get the detail screen to open
                     // I'm not sure why but subMenuName == "Cards" wasn't working , using contains instead
                     if (subMenuName.contains("Cards")){
-                        System.out.println("Cards screen");
+                        //System.out.println("Cards screen");
 
                         // Populate the Card search field
                         // Card number is for QA, eventually we'll probably need some for other environments and update the code here
@@ -148,7 +142,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     // tabs exist within clickable row case
                     // If tabs exist load the tab data before trying to loop through tabs
                     if (tabsExist){
-                        System.out.println("tabs exist within clickable row");
+                        //System.out.println("tabs exist within clickable row");
 
                         checkTabs();
                     }
@@ -160,8 +154,9 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     //tabsExist = ElementDisplays(tagPage.TabArea);
 
                     if (tabsExist){
-                        System.out.println("Tabs exist with no clickable row");
+                        //System.out.println("Tabs exist with no clickable row");
 
+                        RetryFindElement(tagPage.TabArea);
                         checkTabs();
                     }
                 }
@@ -169,16 +164,30 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
             }
         }
-
     }
 
     private List<WebElement> loadMainMenuData(){
 
-        List<WebElement> mainNav = tagPage.NavBarDropDowns.findElements(By.className("dropdown-toggle"));
+        tagPage.RefreshModel();
+        //WaitUntilElementIsReady(tagPage.NavBarDropDowns);
+        List<WebElement> mainNav = RetryFindElement(tagPage.NavBarDropDowns).findElements(By.className("dropdown-toggle"));
         return mainNav;
     }
 
     private List<WebElement> loadTabData(){
+
+        tagPage.RefreshModel();
+
+        // Code to, hopefully, prevent the sporadic StaleElementReferenceException
+        RetryFindElement(tagPage.TabArea);
+        /*
+        new WebDriverWait(getDriver(), 10)
+                .ignoring(StaleElementReferenceException.class)
+                .until((WebDriver d) -> {
+                    d.findElement(By.id("checkoutLink")).click();
+                    return true;
+                });
+        */
 
         List<WebElement> tabArea = tagPage.TabArea.findElements(By.className("tab"));
         return tabArea;
@@ -190,27 +199,57 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
         // Navigate through the tabs
         for (Integer k = 0; k < tabItems.size(); k++) {
+            // Reload the tabs for each iteration
+            tabItems = loadTabData();
+
             // Get the tab name
-            String tabName = AllTrim(tabItems.get(k).getAttribute("innerText"));
+            //String tabName = AllTrim(tabItems.get(k).getText()); // This was getting the tab count too
+            tagPage.RefreshModel();
+            //WaitUntilElementIsReady(tabItems.get(k));
+            String tabName = GetTestFromNodeOnly(RetryFindElement(tabItems.get(k)));
 
             // Report Menu, Submenu & Tab
             System.out.println("tab: " + tabName);
+            logInfo("tab: " + tabName);
 
             // Click the tab
-            tabItems.get(k).click();
+            tagPage.RefreshModel();
+            RetryFindElement(tabItems.get(k)).click();
+
+            // Wait to make sure page updates before next steps
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
+            // Wait for breadcrumb3 to change to expected before continuing
+            //WebElement breadcrumb3FoundByText = getDriver().findElement(By.xpath("//ol[@class='breadcrumb']/li[text()[contains(.,'" + tabName + "')]]"));
+            //WaitForElementToLoad(getDriver(), getDriver().findElement(By.xpath("//ol[@class='breadcrumb']/li[text()[contains(.,'" + tabName + "')]]")));
+
             // Make sure the breadcrumb shows the expected tab name (used contains since some tabs have counts in them)
-            assertThat("Breadcrumb3 is not what was expected", tabName, containsString(AllTrim(tagPage.BreadCrumb3.getAttribute("innerText"))));
+            //assertThat("Breadcrumb3 is not what was expected", tabName, containsString(AllTrim(tagPage.BreadCrumb3.getAttribute("innerText"))));
+            tagPage.RefreshModel();
+            assertThat("Breadcrumb3 is not what was expected", AllTrim(RetryFindElement(tagPage.BreadCrumb3).getAttribute("innerText")), is(equalTo(tabName)));
 
             CheckForErrors();
+        }
+    }
 
-            // Reload the tabs after the page refresh
-            tabItems = loadTabData();
+    private void CheckForErrors(){
+        // Check for error alert and report results
+        tagPage.RefreshModel();
+
+        try{
+            if(tagPage.AlertError.isDisplayed()){
+                System.out.println("    I see an error");
+            }
+            else{
+                System.out.println("    I don't see an error");
+            }
+        }
+        catch(Exception exception){
+            System.out.println("    I don't see an error");
         }
     }
 }

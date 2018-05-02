@@ -99,22 +99,5 @@ public class TransactGlobalPage {
     // Error Alert
     @FindBy(how = How.XPATH, using = "//*[@class='form-error' and @innertext!~'Credit Limit.*' or @class='alert' or @class~'alert-danger']")
     public WebElement AlertError;
-
-    // TODO: Add Common reporting/logging functions
-/*
-    public void logInfo(String msg) {
-        test.info(MarkupHelper.createLabel(msg, ExtentColor.BLUE));
-    }
-
-    public void logFail(String msg) {
-        test.fail(MarkupHelper.createLabel(msg, ExtentColor.RED));
-        Assert.assertFalse(true, msg);
-    }
-
-    public void logPass(String msg) {
-        test.pass(MarkupHelper.createLabel(msg, ExtentColor.GREEN));
-    }
-*/
-
 }
 
