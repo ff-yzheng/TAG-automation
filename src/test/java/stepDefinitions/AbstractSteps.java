@@ -9,22 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class AbstractSteps {
-
-    /*
-    // Set the webdriver to be passed between stepdefinitions
-    protected WebDriver driver;
-
-    protected WebDriver getDriver(){
-        if (driver == null){
-            // TODO: Read webdriver value from pom.xml instead of hardcoding to ChromeDriver here
-
-            driver = new ChromeDriver();
-        }
-        return driver;
-    }
-     */
 
     // Enable wait options in steps
     protected void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
@@ -60,5 +47,10 @@ public class AbstractSteps {
         catch(NoSuchElementException e){
             return false;
         }
+    }
+
+    // TODO: Check for errors on page
+    protected void CheckForErrors(){
+        System.out.println("    checking for errors");
     }
 }

@@ -2,13 +2,17 @@ package stepDefinitions.common;
 
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.TransactGlobalPage;
 import stepDefinitions.AbstractSteps;
 
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -73,7 +77,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 //System.out.println("breadcrumb1: " + tagPage.BreadCrumb1.getAttribute("innerText"));
                 //System.out.println("breadcrumb2: " + tagPage.BreadCrumb2.getAttribute("innerText"));
 
-                // TODO: Check for errors on page
+                CheckForErrors();
 
                 // START WORK FOR ROW DETAILS
                 // Check to see if there is a clickable row on the page
@@ -97,22 +101,35 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 // I'm not sure why but subMenuName == "Cards" wasn't working, using contains instead
                 if (clickableRowExists || subMenuName.contains("Cards")){
 
-                    // Click the clickableRow it is present & if tabs are NOT present to get to the detail page
+                    // clickableRow exists but no tabs, need to click to get to the detail page
                     if (clickableRowExists && !tabsExist){
-                        //System.out.println("clickable row exists but no tabs");
+                        System.out.println("clickable row exists but no tabs");
 
                         // Click the clickable row
                         tagPage.ClickableRow1.click();
 
                         // Wait for clickable row to disappear
-                        WaitForElementToLoad(getDriver(), tagPage.TabArea); // TODO Wednesday Can't do this as there may not be tabs
+                        //WaitForElementToLoad(getDriver(), tagPage.TabArea); // Can't rely on this since some details pages don't have tabs (e.g. Partners)
+                        //WaitForElementToDisappear(getDriver(), tagPage.ClickableRow1); // Selenium bug with this https://github.com/angular/protractor/issues/3777
+                        WaitForElementToLoad(getDriver(), tagPage.BreadCrumb3);
                         Thread.sleep(500);
+
+                        // See if there are tabs present on the current page
+                        tabsExist = ElementDisplays(tagPage.TabArea);
+
+                        // If there are not tabs within the details page, report the breadcrumb and do error check
+                        // If there are tabs they will be cycled tjrough and checked later in this test
+                        if (!tabsExist){
+                            System.out.println("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
+
+                            CheckForErrors();
+                        }
                     }
 
                     // If we are on the Cards screen, need to search for a card to get the detail screen to open
                     // I'm not sure why but subMenuName == "Cards" wasn't working , using contains instead
                     if (subMenuName.contains("Cards")){
-                        //System.out.println("Cards screen");
+                        System.out.println("Cards screen");
 
                         // Populate the Card search field
                         // Card number is for QA, eventually we'll probably need some for other environments and update the code here
@@ -121,9 +138,8 @@ public class NavSmokeTestSteps extends AbstractSteps {
                         // Click the Search button
                         tagPage.SearchButton.click();
 
-                        // Wait for clickablerow to appear
-                        WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
-                        Thread.sleep(500);
+                        // Wait for tabs page to load
+                        WaitForElementToLoad(getDriver(), tagPage.TabArea);
                     }
 
                     // See if there are tabs present on the current page
@@ -132,40 +148,21 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     // tabs exist within clickable row case
                     // If tabs exist load the tab data before trying to loop through tabs
                     if (tabsExist){
-                        //System.out.println("tabs exist within clickable row");
+                        System.out.println("tabs exist within clickable row");
 
-                        // Load Tab Data
-                        tabItems = loadTabData();
-
-                        // Navigate through the tabs
-                        for (Integer k = 0; k < tabItems.size(); k++){
-                            // Get the tab name
-                            String tabName = AllTrim(tabItems.get(k).getAttribute("innerText"));
-
-                            // Report Menu, Submenu & Tab
-                            System.out.println("tab: "+ tabName);
-
-                            // Click the tab
-                            tabItems.get(k).click();
-                            Thread.sleep(500);
-
-                            // Make sure the breadcrumb shows the expected tab name
-                            assertThat("Breadcrumb3 is not what was expected", AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")), is(equalTo(tabName)));
-
-                            // TODO Check for errors
-
-                            // Reload the tabs after the page refresh
-                            tabItems = loadTabData();
-                        }
+                        checkTabs();
                     }
                 }
                 else
                 {
                     // tabs exist but there was no clickable row case
                     // If tabs exist load the tab data before trying to loop through tabs
+                    //tabsExist = ElementDisplays(tagPage.TabArea);
+
                     if (tabsExist){
-                        //System.out.println("Tabs exist with no clickable row");
-                        // TODO do same load and loop as 'tabs exist within clickable row' section
+                        System.out.println("Tabs exist with no clickable row");
+
+                        checkTabs();
                     }
                 }
                 System.out.println();
@@ -186,10 +183,34 @@ public class NavSmokeTestSteps extends AbstractSteps {
         List<WebElement> tabArea = tagPage.TabArea.findElements(By.className("tab"));
         return tabArea;
     }
-    /*
-    private List<WebElement> loadSubMenuData(){
-        List<WebElement> subMenuNav = mainNav.get(i).findElements(By.xpath("../ul/li/a"));
-        return subMenuNav;
+
+    private void checkTabs() {
+        // Load Tab Data
+        List<WebElement> tabItems = loadTabData();
+
+        // Navigate through the tabs
+        for (Integer k = 0; k < tabItems.size(); k++) {
+            // Get the tab name
+            String tabName = AllTrim(tabItems.get(k).getAttribute("innerText"));
+
+            // Report Menu, Submenu & Tab
+            System.out.println("tab: " + tabName);
+
+            // Click the tab
+            tabItems.get(k).click();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Make sure the breadcrumb shows the expected tab name (used contains since some tabs have counts in them)
+            assertThat("Breadcrumb3 is not what was expected", tabName, containsString(AllTrim(tagPage.BreadCrumb3.getAttribute("innerText"))));
+
+            CheckForErrors();
+
+            // Reload the tabs after the page refresh
+            tabItems = loadTabData();
+        }
     }
-    */
 }

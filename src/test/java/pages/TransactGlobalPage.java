@@ -51,12 +51,15 @@ public class TransactGlobalPage {
     // TODO: Add TAG Menu Items
 
     // **** Breadcrumb Items ****
+    // Breadcrumb1
     @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[1]")
     public WebElement BreadCrumb1;
 
+    // Breadcrumb2
     @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[2]")
     public WebElement BreadCrumb2;
 
+    // Breadcrumb3
     @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[3]")
     public WebElement BreadCrumb3;
 
@@ -80,7 +83,7 @@ public class TransactGlobalPage {
     public WebElement GridRow1;
 
     // Card Number Search Field
-    @FindBy(how = How.XPATH, using = "//label[@innertext='Card Number']/../?/input")
+    @FindBy(how = How.XPATH, using = "//input[@name='CardNumber']")
     public WebElement CardNumberSearchField;
 
     public void SetCardNumberSearchField(String value) {
@@ -89,7 +92,7 @@ public class TransactGlobalPage {
     }
 
     // Search Button
-    @FindBy(how = How.XPATH, using = "//button[@innertext='Search']")
+    @FindBy(how = How.XPATH, using = "//button[@id='search-btn']")
     public WebElement SearchButton;
 
     // **** Page Level Verification Items ****
