@@ -64,6 +64,11 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 WaitForElementToDisappear(getDriver(), tagPage.LoadingSpinner);
                 Thread.sleep(500); // Test is moving a little too fast even waiting for the spinner to disappear
 
+                // When going to the users page there is an extra delay in load that can break the test
+                if (subMenuName == "Users"){
+                    WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
+                }
+
                 // Make sure we are on the right page by checking the breadcrumb text
                 assertThat("Breadcrumb1 is not what was expected", AllTrim(tagPage.BreadCrumb1.getAttribute("innerText")), is(equalTo(menuName)));
                 assertThat("Breadcrumb2 is not what was expected", AllTrim(tagPage.BreadCrumb2.getAttribute("innerText")), is(equalTo(subMenuName)));
@@ -156,6 +161,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     if (tabsExist){
                         //System.out.println("Tabs exist with no clickable row");
 
+                        ExtraWait(subMenuName);
                         RetryFindElement(tagPage.TabArea);
                         checkTabs();
                     }
@@ -189,7 +195,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 });
         */
 
-        List<WebElement> tabArea = tagPage.TabArea.findElements(By.className("tab"));
+        List<WebElement> tabArea = RetryFindElement(tagPage.TabArea).findElements(By.className("tab"));
         return tabArea;
     }
 
@@ -199,6 +205,10 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
         // Navigate through the tabs
         for (Integer k = 0; k < tabItems.size(); k++) {
+            // If we are on the Chargeback or NPE page, wait for the grid to load before proceeding
+            // We know the grid is loaded when the url has 'page' in it
+            ExtraWait(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
+
             // Reload the tabs for each iteration
             tabItems = loadTabData();
 
@@ -222,6 +232,8 @@ public class NavSmokeTestSteps extends AbstractSteps {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            ExtraWait(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
 
             // Wait for breadcrumb3 to change to expected before continuing
             //WebElement breadcrumb3FoundByText = getDriver().findElement(By.xpath("//ol[@class='breadcrumb']/li[text()[contains(.,'" + tabName + "')]]"));
@@ -250,6 +262,35 @@ public class NavSmokeTestSteps extends AbstractSteps {
         }
         catch(Exception exception){
             System.out.println("    I don't see an error");
+        }
+    }
+
+    // If we are on the Chargeback or NPE page, wait for the grid to load before proceeding
+    // We know the grid is loaded when the url has 'page' in it
+    private void ExtraWait(String breadcrumb2) {
+
+        if (breadcrumb2.contains("Chargebacks") || breadcrumb2.contains("Non-Posted Exceptions")) {
+            Integer attempts = 0;
+            String url = getDriver().getCurrentUrl();
+
+            //System.out.println("Extra Wait url : " + url);
+            //System.out.println("!url contains " + !url.contains("page"));
+
+            while (!url.contains("page") && attempts < 10) {
+
+                //System.out.println("attempts: " + attempts.toString());
+
+                try {
+                    Thread.sleep(500);
+
+                    System.out.println("waiting");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                url = getDriver().getCurrentUrl();
+                attempts++;
+            }
         }
     }
 }

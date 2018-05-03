@@ -59,8 +59,9 @@ public class AbstractSteps{
             } catch (StaleElementReferenceException e) {
             }
             // Couldn't get the element, wait and try again
+
             try {
-                Thread.sleep(250);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
