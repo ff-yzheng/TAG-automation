@@ -3,7 +3,8 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 //@RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
+        //features = "src/test/resources/features",
+        features = "src/test/resources/features/NavSmokeTest.feature",
         glue = {"global", "stepDefinitions", "pages"},
         format = {
                 "pretty",
