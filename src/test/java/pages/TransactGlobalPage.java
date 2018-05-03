@@ -11,7 +11,7 @@ public class TransactGlobalPage {
 
     public WebDriver driver;
 
-    protected TransactGlobalPage(WebDriver driver) {
+    public TransactGlobalPage(WebDriver driver) {
         this.driver = SharedWebDriver.getDriver();
         PageFactory.initElements(driver, this);
     }
@@ -39,23 +39,65 @@ public class TransactGlobalPage {
         LogoutLink.click();
     }
 
+    // **** Navigation Options ****
+    // Nav Bar Region
+    @FindBy(how = How.XPATH, using = "//ul[@class='nav navbar-nav pull-right']")
+    public WebElement NavBarDropDowns;
+
+    // Tab Region
+    @FindBy(how = How.XPATH, using = "//ul[@class='nav nav-tabs']")
+    public WebElement TabArea;
+
     // TODO: Add TAG Menu Items
 
+    // **** Breadcrumb Items ****
+    // Breadcrumb1
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[1]")
+    public WebElement BreadCrumb1;
 
-    // TODO: Add Common reporting/logging functions
-/*
-    public void logInfo(String msg) {
-        test.info(MarkupHelper.createLabel(msg, ExtentColor.BLUE));
+    // Breadcrumb2
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[2]")
+    public WebElement BreadCrumb2;
+
+    // Breadcrumb3
+    @FindBy(how = How.XPATH, using = "//ol[@class='breadcrumb']/li[3]")
+    public WebElement BreadCrumb3;
+
+    // **** Loading Spinner/Modal ****
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container']")
+    public WebElement LoadingSpinner;
+
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: none')]")
+    public WebElement LoadingSpinnerIsHidden;
+
+    @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: block')]")
+    public WebElement LoadingSpinnerIsActive;
+
+    // **** Shared Grid & Search Controls ****
+    // Clickable Row 1
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'table-container')]/table/tbody/tr[@class='clickable']")
+    public WebElement ClickableRow1;
+
+    // Row 1
+    @FindBy(how = How.XPATH, using = "//div[@class='table-container']/table/tbody/tr")
+    public WebElement GridRow1;
+
+    // Card Number Search Field
+    @FindBy(how = How.XPATH, using = "//input[@name='CardNumber']")
+    public WebElement CardNumberSearchField;
+
+    public void SetCardNumberSearchField(String value) {
+        CardNumberSearchField.clear();
+        CardNumberSearchField.sendKeys(value);
     }
 
-    public void logFail(String msg) {
-        test.fail(MarkupHelper.createLabel(msg, ExtentColor.RED));
-        Assert.assertFalse(true, msg);
-    }
+    // Search Button
+    @FindBy(how = How.XPATH, using = "//button[@id='search-btn']")
+    public WebElement SearchButton;
 
-    public void logPass(String msg) {
-        test.pass(MarkupHelper.createLabel(msg, ExtentColor.GREEN));
-    }
-*/
+    // **** Page Level Verification Items ****
+    // Error Alert
+    @FindBy(how = How.XPATH, using = "//*[@class='form-error' and @innertext!~'Credit Limit.*' or @class='alert' or @class~'alert-danger']")
+    public WebElement AlertError;
 }
 
