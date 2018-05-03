@@ -48,7 +48,86 @@ public class TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//ul[@class='nav nav-tabs']")
     public WebElement TabArea;
 
-    // TODO: Add TAG Menu Items
+    // **** Menu & Submenu Items ****
+    // Program Management Menu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Program Management')]")
+    public WebElement ProgramMgmtMenu;
+
+    // FIs Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'FIs')]")
+    public WebElement FIsSubMenu;
+
+    // Partners Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Partners')]")
+    public WebElement PartnersSubMenu;
+
+    // Clients Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Clients')]")
+    public WebElement ClientsSubMenu;
+
+    // PM Companies Submenu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Program Management')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'Companies')]")
+    public WebElement CompaniesPMSubMenu;
+
+    // Operations Menu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Operations')]")
+    public WebElement OperationsMenu;
+
+    // Audit Log Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Audit Log')]")
+    public WebElement AuditLogSubMenu;
+
+    // Card Orders Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Card Orders')]")
+    public WebElement CardOrdersSubMenu;
+
+    // Chargebacks Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Chargebacks')]")
+    public WebElement ChargebacksSubMenu;
+
+    // Events Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Events')]")
+    public WebElement EventsSubMenu;
+
+    // Non-Posted Exceptions Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Non-Posted Exceptions')]")
+    public WebElement NonPostedExceptionsSubMenu;
+
+    // Financial Audit Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Financial Audit')]")
+    public WebElement FinancialAuditSubMenu;
+
+    // Customer Service Menu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Customer Service')]")
+    public WebElement CustomerServiceMenu;
+
+    // Cards Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Cards')]")
+    public WebElement CardsSubMenu;
+
+    // CS - Companies Submenu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Customer Service')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'Companies')]")
+    public WebElement CompaniesCSSubMenu;
+
+    // Security Menu
+    @FindBy(how = How.XPATH, using = "//a[@class='dropdown-toggle' and contains(text(),'Security')]")
+    public WebElement SecurityMenu;
+
+    // Roles Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Roles')]")
+    public WebElement RolesSubMenu;
+
+    // Users Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Users')]")
+    public WebElement UsersSubMenu;
+
+    // Settings Submenu
+    @FindBy(how = How.XPATH, using = "//ul[@class='dropdown-menu']/li/a[contains(text(),'Settings')]")
+    public WebElement SettingsSubMenu;
+
+    // Help Menu
+    @FindBy(how = How.XPATH, using = "//ul[@class='nav navbar-nav pull-right']/li/a[contains(text(),'Help')]")
+    public WebElement HelpMenu;
 
     // **** Breadcrumb Items ****
     // Breadcrumb1
@@ -92,7 +171,7 @@ public class TransactGlobalPage {
     }
 
     // Search Button
-    @FindBy(how = How.XPATH, using = "//button[@id='search-btn']")
+    @FindBy(how = How.XPATH, using = "//button[text()='Search']") // Need more definitions? //button[@id='search-btn']
     public WebElement SearchButton;
 
     // **** Page Level Verification Items ****
