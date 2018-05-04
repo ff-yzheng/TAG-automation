@@ -8,8 +8,8 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
         glue = {"global", "stepDefinitions", "pages"},
         format = {
                 "pretty",
-                "html:target/cucumber-reports/cucumber-pretty",
-                "json:target/cucumber-reports/CucumberTestReport.json",
+                "html:target/cucumber-report-html",
+                "json:target/cucumber-report-html/Cucumber.json",
                 "rerun:target/cucumber-reports/rerun.txt"
 
         }
