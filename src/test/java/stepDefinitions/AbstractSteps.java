@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import cucumber.api.java.en.Then;
 import global.SharedWebDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
