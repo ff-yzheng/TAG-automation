@@ -4,8 +4,10 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 //@RunWith(Cucumber.class)
 @CucumberOptions(
         //features = "src/test/resources/features",
-        features = "src/test/resources/features/NavSmokeTest.feature",
+        features = "src/test/resources/features/SmokeTest.feature",
         glue = {"global", "stepDefinitions", "pages"},
+        tags = {"~@IgnoreForNow"},
+
         format = {
                 "pretty",
                 "html:target/cucumber-report-html",
