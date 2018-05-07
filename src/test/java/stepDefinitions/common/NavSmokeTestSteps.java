@@ -62,7 +62,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                 // Wait for the loading spinner to disappear before proceeding
                 WaitForElementToDisappear(getDriver(), tagPage.LoadingSpinner);
-                Thread.sleep(500); // Test is moving a little too fast even waiting for the spinner to disappear
+                Thread.sleep(1000); // Test is moving a little too fast even waiting for the spinner to disappear
 
                 // When going to the users page there is an extra delay in load that can break the test
                 if (subMenuName == "Users"){
