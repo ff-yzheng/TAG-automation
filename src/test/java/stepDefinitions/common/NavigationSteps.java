@@ -1,8 +1,10 @@
 package stepDefinitions.common;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -21,7 +23,7 @@ public class NavigationSteps extends AbstractSteps {
     private TransactGlobalPage tagPage;
 
     @When("^I navigate to (.*) - (.*)")
-    public void i_navigate_to_MainMenu_SubMenu(String mainMenuText, String subMenuText) throws Throwable {
+    public void iNavigateToMainMenuSubMenu(String mainMenuText, String subMenuText) throws Throwable {
 
         tagPage= new TransactGlobalPage(getDriver());
 
@@ -53,7 +55,7 @@ public class NavigationSteps extends AbstractSteps {
     }
 
     @Then("^I wait for (\\d+) (.*)")
-    public void i_wait_for_seconds(int value, String timeUnit) throws Throwable {
+    public void iWaitForXTime(int value, String timeUnit) throws Throwable {
         Integer timeToWaitInMS = 0;
         Boolean uniteOfTimeValid = false;
 
@@ -86,5 +88,15 @@ public class NavigationSteps extends AbstractSteps {
         }
     }
 
+    @Then("^I should see the (.*) menu$")
+    public void iShouldSeeTheYMenu(String menuName) throws Throwable {
+        tagPage = new TransactGlobalPage(getDriver());
+
+        // Find the menu from the passed text value
+        Boolean menuPresent = tagPage.NavBarDropDowns.findElement(By.xpath("*/a[contains(text(),'" + menuName + "')]")).isDisplayed();
+
+        // Confirm that the menu is displayed
+        assertThat("Cannot find " + menuName + " menu", menuPresent, is(equalTo(true)));
+    }
 
 }
