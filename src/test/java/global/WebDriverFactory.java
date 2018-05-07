@@ -8,11 +8,17 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
+
+import java.net.URL;
+import java.net.MalformedURLException;
+
 
 public final class WebDriverFactory {
 
@@ -31,13 +37,13 @@ public final class WebDriverFactory {
             return Drivers.valueOf(webDriverProperty.toUpperCase()).newDriver();
         } catch (IllegalArgumentException e) {
             String msg = format("The webdriver system property '%s' did not match any " +
-                    "existing browser or the browser was not supported on your operating system. " +
-                    "Valid values are %s",
-                webDriverProperty, stream(Drivers
-                    .values())
-                    .map(Enum::name)
-                    .map(String::toLowerCase)
-                    .collect(toList()));
+                            "existing browser or the browser was not supported on your operating system. " +
+                            "Valid values are %s",
+                    webDriverProperty, stream(Drivers
+                            .values())
+                            .map(Enum::name)
+                            .map(String::toLowerCase)
+                            .collect(toList()));
 
             throw new IllegalStateException(msg, e);
         }
@@ -80,7 +86,25 @@ public final class WebDriverFactory {
                 DesiredCapabilities capabilities = DesiredCapabilities.edge();
                 return new EdgeDriver(capabilities);
             }
+        }, REMOTE {
+            @Override
+            public WebDriver newDriver() {
+                DesiredCapabilities caps = DesiredCapabilities.chrome();
+                caps.setCapability("platform", "Windows 7");
+                caps.setCapability("version", "38.0");
+                RemoteWebDriver remoteDriver = null;
+
+
+                try {
+                    remoteDriver = new RemoteWebDriver(new URL("http://yzheng:943377be-9ce8-4a98-8c29-5f721a07037f@ondemand.saucelabs.com:80/wd/hub"), caps);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                return remoteDriver;
+
+            }
         };
+
 
         public abstract org.openqa.selenium.WebDriver newDriver();
 
