@@ -19,7 +19,7 @@ public class LoginSteps extends AbstractSteps {
     //private MFAEntryPage mfaEntryPage;
 
     @Given("^the login form at (.*)$")
-    public void the_login_form_at_url(String url) {
+    public void theLoginFormAtUrl(String url) {
 
         loginPage = new LoginPage(getDriver());
 
@@ -39,7 +39,7 @@ public class LoginSteps extends AbstractSteps {
     }
 
     @When("^I login as (.*) with (.*)")
-    public void i_login_as_username_with_password(String userName, String password) throws Throwable {
+    public void iLoginAsUsernameWithPassword(String userName, String password) throws Throwable {
 
         // Set the local storage at login so MFA is skipped
         SetMFAKey(userName);
@@ -53,7 +53,7 @@ public class LoginSteps extends AbstractSteps {
     }
 
     @Then("^I should be authenticated$")
-    public void i_should_be_authenticated() throws Throwable {
+    public void iShouldBeAuthenticated() throws Throwable {
 
         loginPage.RefreshModel();
 
@@ -65,7 +65,7 @@ public class LoginSteps extends AbstractSteps {
     }
 
     @When("^I logout$")
-    public void i_logout() throws Throwable {
+    public void iLogout() throws Throwable {
         // click the logout link
         loginPage.Logout();
     }

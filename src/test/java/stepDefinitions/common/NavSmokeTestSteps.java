@@ -1,5 +1,6 @@
 package stepDefinitions.common;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -68,6 +69,8 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 if (subMenuName == "Users"){
                     WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
                 }
+
+                tagPage.RefreshModel();
 
                 // Make sure we are on the right page by checking the breadcrumb text
                 assertThat("Breadcrumb1 is not what was expected", AllTrim(tagPage.BreadCrumb1.getAttribute("innerText")), is(equalTo(menuName)));
@@ -283,7 +286,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 try {
                     Thread.sleep(500);
 
-                    System.out.println("waiting");
+                    //System.out.println("waiting");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
