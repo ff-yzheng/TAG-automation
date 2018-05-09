@@ -96,7 +96,7 @@ public class LoginSteps extends AbstractSteps {
     // have to provide MFA at login for that user in when running the next automated tests.
     private void SetMFAKey(String login){
         // Build login/key portion of js query string
-        String keyString = "TRANSACT_GLOBAL_" + login + "_DEVICE_ID";
+        String keyString = "TRANSACT_GLOBAL_" + login.toLowerCase() + "_DEVICE_ID";
 
         // Create key and value in local storage
         JavascriptExecutor jse = ((JavascriptExecutor)getDriver());

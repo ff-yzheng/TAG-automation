@@ -112,6 +112,46 @@ public class AbstractSteps{
     }
 
 
+    // Check for error alert and report results
+    public void CheckForErrors(){
+        Integer delayMSTime = 250;
+        Integer totalSeconds = 1;
+        Integer attempts = 0;
+        Integer maxAttempts = totalSeconds * 1000 / delayMSTime;
+        //System.out.println("maxAttempts: " + maxAttempts.toString());
+
+        // Check to see if an alert error is present
+        Boolean isPresent = getDriver().findElements(By.xpath("//div[contains(@class,'alert')]")).size() > 0;
+
+        while(attempts < maxAttempts){
+            //if(getDriver().findElement(By.xpath("//*[@class='form-error' and @innertext!~'Credit Limit.*' or @class='alert' or @class~'alert-danger']")).isDisplayed()){
+            if(isPresent){
+                System.out.println("    I see an error");
+                System.out.println("    Error message: " + getDriver().findElement(By.xpath("//div[contains(@class,'alert')]/p")).getText());
+                break;
+            }
+            else
+            {
+                //System.out.println("    No error after attempt " + attempts.toString() + " and " + attempts*delayMSTime + " miliseconds");
+
+                try {
+                    Thread.sleep(delayMSTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                attempts++;
+                isPresent = getDriver().findElements(By.xpath("//div[contains(@class,'alert')]")).size() > 0;
+            }
+        }
+
+        // report there were no errors if alert wasn't found after all attempts
+        if(!isPresent){
+            System.out.println("    No error detected");
+        }
+    }
+
+
+
     // TODO: Add Common reporting/logging functions
 
     protected void logInfo(String msg){

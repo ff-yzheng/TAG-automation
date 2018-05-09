@@ -17,7 +17,8 @@ Feature: Login
 
   Scenario: SettingUpNewUsers
     Given the login form at https://test.transact-global.net/
-    When I login as automationWEXRole2 with Abcd-1234
+    When I login as automationWEXRole1 with Abcd-1234
+    #When I login as specflowtest with ABCd-1234
     Then I wait for 120 seconds
 # Need to login manually 1 time to change the password
 # then run the script and complete MFA during the wait time

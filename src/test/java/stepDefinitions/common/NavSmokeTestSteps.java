@@ -1,9 +1,12 @@
 package stepDefinitions.common;
 
-import cucumber.api.Scenario;
 import cucumber.api.java.en.Then;
+import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.TransactGlobalPage;
 import stepDefinitions.AbstractSteps;
 
@@ -19,15 +22,13 @@ public class NavSmokeTestSteps extends AbstractSteps {
     private TransactGlobalPage tagPage;
 
     @Then("^I check every page I can find for errors$")
-    public void i_check_every_page_I_can_find_for_errors() throws Throwable {
+    public void iCheckEveryPageICanFindForErrors() throws Throwable {
 
         // Create the page object, using TransactGlobalPage since this test navigates every page of the site
         tagPage = new TransactGlobalPage(getDriver());
 
         // maximize the browser so the menu is visible (menu doesn't show if window is too small)
         getDriver().manage().window().maximize();
-
-        //Thread.sleep(2000);
 
         // Load the top level nav options in the Main menu
         List<WebElement> mainNav = loadMainMenuData();
@@ -61,20 +62,26 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 mainNav.get(i).click();
                 subMenuNav.get(j).click();
 
-                // Wait for the loading spinner to disappear before proceeding
-                WaitForElementToDisappear(getDriver(), tagPage.LoadingSpinner);
-                Thread.sleep(1000); // Test is moving a little too fast even waiting for the spinner to disappear
+                Thread.sleep(500);
+
+                // Wait for the loading spinner to turn off (display: none) before proceeding
+                WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//div[@class='loading-container' and contains(@style,'display: none')]")))));
+
+                tagPage.RefreshModel();
 
                 // When going to the users page there is an extra delay in load that can break the test
                 if (subMenuName == "Users"){
                     WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
                 }
 
-                tagPage.RefreshModel();
+                // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
+                wait = new WebDriverWait(getDriver(), 10);
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//a[text()='" + subMenuName + "']")))));
 
                 // Make sure we are on the right page by checking the breadcrumb text
-                assertThat("Breadcrumb1 is not what was expected", AllTrim(tagPage.BreadCrumb1.getAttribute("innerText")), is(equalTo(menuName)));
-                assertThat("Breadcrumb2 is not what was expected", AllTrim(tagPage.BreadCrumb2.getAttribute("innerText")), is(equalTo(subMenuName)));
+                assertThat("Breadcrumb1 is not what was expected", AllTrim(RetryFindElement(tagPage.BreadCrumb1).getAttribute("innerText")), is(equalTo(menuName)));
+                assertThat("Breadcrumb2 is not what was expected", AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")), is(equalTo(subMenuName)));
                 //System.out.println("breadcrumb1: " + tagPage.BreadCrumb1.getAttribute("innerText"));
                 //System.out.println("breadcrumb2: " + tagPage.BreadCrumb2.getAttribute("innerText"));
 
@@ -164,7 +171,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                     if (tabsExist){
                         //System.out.println("Tabs exist with no clickable row");
 
-                        ExtraWait(subMenuName);
+                        ExtraWaitForPagingToLoad(subMenuName);
                         RetryFindElement(tagPage.TabArea);
                         checkTabs();
                     }
@@ -210,7 +217,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
         for (Integer k = 0; k < tabItems.size(); k++) {
             // If we are on the Chargeback or NPE page, wait for the grid to load before proceeding
             // We know the grid is loaded when the url has 'page' in it
-            ExtraWait(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
+            ExtraWaitForPagingToLoad(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
 
             // Reload the tabs for each iteration
             tabItems = loadTabData();
@@ -229,14 +236,18 @@ public class NavSmokeTestSteps extends AbstractSteps {
             tagPage.RefreshModel();
             RetryFindElement(tabItems.get(k)).click();
 
-            // Wait to make sure page updates before next steps
+            // For slower loading pages: Wait until breadcrumb3 (found via expected text & xpath) is present before continuing
+            WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//ol[@class='breadcrumb']//*[contains(text(),'" + tabName + "')]")))));
+
+            // Extra wait to make sure page updates before next steps
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            ExtraWait(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
+            ExtraWaitForPagingToLoad(AllTrim(RetryFindElement(tagPage.BreadCrumb2).getAttribute("innerText")));
 
             // Wait for breadcrumb3 to change to expected before continuing
             //WebElement breadcrumb3FoundByText = getDriver().findElement(By.xpath("//ol[@class='breadcrumb']/li[text()[contains(.,'" + tabName + "')]]"));
@@ -251,26 +262,9 @@ public class NavSmokeTestSteps extends AbstractSteps {
         }
     }
 
-    private void CheckForErrors(){
-        // Check for error alert and report results
-        tagPage.RefreshModel();
-
-        try{
-            if(tagPage.AlertError.isDisplayed()){
-                System.out.println("    I see an error");
-            }
-            else{
-                System.out.println("    I don't see an error");
-            }
-        }
-        catch(Exception exception){
-            System.out.println("    I don't see an error");
-        }
-    }
-
     // If we are on the Chargeback or NPE page, wait for the grid to load before proceeding
     // We know the grid is loaded when the url has 'page' in it
-    private void ExtraWait(String breadcrumb2) {
+    private void ExtraWaitForPagingToLoad(String breadcrumb2) {
 
         if (breadcrumb2.contains("Chargebacks") || breadcrumb2.contains("Non-Posted Exceptions")) {
             Integer attempts = 0;
@@ -290,6 +284,9 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                //System.out.println(!url.contains("page"));
+                //System.out.println("attempts: " + attempts.toString());
 
                 url = getDriver().getCurrentUrl();
                 attempts++;
