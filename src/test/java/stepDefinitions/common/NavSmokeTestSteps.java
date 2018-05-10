@@ -77,7 +77,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                 // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
                 wait = new WebDriverWait(getDriver(), 10);
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//a[text()='" + subMenuName + "']")))));
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + subMenuName + "')]")))));
 
                 // Make sure we are on the right page by checking the breadcrumb text
                 assertThat("Breadcrumb1 is not what was expected", AllTrim(RetryFindElement(tagPage.BreadCrumb1).getAttribute("innerText")), is(equalTo(menuName)));
@@ -238,7 +238,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
             // For slower loading pages: Wait until breadcrumb3 (found via expected text & xpath) is present before continuing
             WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//ol[@class='breadcrumb']//*[contains(text(),'" + tabName + "')]")))));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + tabName + "')]")))));
 
             // Extra wait to make sure page updates before next steps
             try {

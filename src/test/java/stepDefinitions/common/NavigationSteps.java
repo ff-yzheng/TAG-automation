@@ -7,7 +7,10 @@ import cucumber.api.java.en.When;
 import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.TransactGlobalPage;
 import pages.common.LoginPage;
 import stepDefinitions.AbstractSteps;
@@ -48,6 +51,10 @@ public class NavigationSteps extends AbstractSteps {
         if (subMenuText == "Users"){
             WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
         }
+
+        // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), 10);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + subMenuText + "')]")))));
 
         // Confirm we are on the correct page
         assertThat("Breadcrumb1 is not what was expected", AllTrim(tagPage.BreadCrumb1.getAttribute("innerText")), is(equalTo(mainMenuText)));
