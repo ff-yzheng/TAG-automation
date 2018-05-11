@@ -33,6 +33,9 @@ public class NavSmokeTestSteps extends AbstractSteps {
         // Load the top level nav options in the Main menu
         List<WebElement> mainNav = loadMainMenuData();
 
+        // For storing the submenu name to make sure the old one disappears
+        String oldSubMenuName = "Home";
+
         // Loop through the top level menu items
         for(Integer i = 0; i < mainNav.size(); i++){
             // Need to refresh the menu data after every page refresh
@@ -76,8 +79,11 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 }
 
                 // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
-                wait = new WebDriverWait(getDriver(), 10);
+                //wait = new WebDriverWait(getDriver(), 10);
                 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + subMenuName + "')]")))));
+
+                // Wait until oldSubMenuName is no longer on page
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + oldSubMenuName + "')]")))));
 
                 // Make sure we are on the right page by checking the breadcrumb text
                 assertThat("Breadcrumb1 is not what was expected", AllTrim(RetryFindElement(tagPage.BreadCrumb1).getAttribute("innerText")), is(equalTo(menuName)));
@@ -86,6 +92,9 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 //System.out.println("breadcrumb2: " + tagPage.BreadCrumb2.getAttribute("innerText"));
 
                 CheckForErrors();
+
+                // Keep old subMenuName
+                oldSubMenuName = subMenuName;
 
                 // START WORK FOR ROW DETAILS
                 // Check to see if there is a clickable row on the page
@@ -176,8 +185,6 @@ public class NavSmokeTestSteps extends AbstractSteps {
                         checkTabs();
                     }
                 }
-                System.out.println();
-
             }
         }
     }
