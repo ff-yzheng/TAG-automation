@@ -1,13 +1,10 @@
-@TAG
 Feature: Login
-  @UI @Test
   Scenario: LoginFailure
    Given the login form at https://test.transact-global.net
    When I login as RannnorexAvidiaCRM with wrongpassword
    Then I should see the login failed alert
    And I should be on the login page
 
-  @UI @Test
   Scenario: LoginSuccess
     Given the login form at https://test.transact-global.net/
     When I login as specflowtest with ABCd-1234
@@ -15,12 +12,15 @@ Feature: Login
     When I logout
     Then I should be on the login page
 
-  Scenario: SettingUpNewUsers
+  Scenario: SettingUpNewUser
     Given the login form at https://test.transact-global.net/
     When I login as automationWEXRole1 with Abcd-1234
     #When I login as specflowtest with ABCd-1234
     Then I wait for 120 seconds
-# Need to login manually 1 time to change the password
-# then run the script and complete MFA during the wait time
-# then dev will need to update the user mfa entry in Mongo
-# then automation should be able to log in to use it
+# Steps to create a new user to use in automation
+# - Create the user in TAG as you normally would
+# - Manually login as the user to change the password
+# - Update user info in the SettingUpNewUser scenario
+# - Run and complete user MFA during the wait time
+# - Dev will need modify the MFA check flag in Mongo from false to true
+# - Automation should then be able log in as the user via the login steps

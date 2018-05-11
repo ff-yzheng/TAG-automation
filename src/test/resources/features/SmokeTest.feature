@@ -3,31 +3,23 @@ Feature: SmokeTest
 
   Background: User logged in
 	Given the login form at https://test.transact-global.net/
-	When I login as specflowtest with ABCd-1234
+	When I login as automationTAGSUPER with Abcd-1234
 	Then I should be authenticated
 
-  @UI @Test @IgnoreForNow
-  Scenario: LoginFailure
-	Given the login form at https://test.transact-global.net
-	When I login as RannnorexAvidiaCRM with wrongpassword
-	Then I should see the login failed alert
-	And I should be on the login page
-
-  @UI @Test  @IgnoreForNow
-  Scenario: LoginSuccess
-	When I login as specflowtest with ABCd-1234
-	Then I should be authenticated
+  @IgnoreForNow
+  Scenario: NavSmokeTestSuperUser
+	And I check every page I can find for errors
 	When I logout
 	Then I should be on the login page
 
-  # For showing 'I navigate to MAIN - SUBMENU'
+  # For demoing 'I navigate to MAIN - SUBMENU'
   Scenario: ShowMenuNavigation
 	When I navigate to Security - Users
 	Then I wait for 10 seconds
 	When I logout
 	Then I should be on the login page
 
-  # For showing 'I navigate to MAIN - SUBMENU'
+  # For demoing 'I search SEARCHFIELD for SEARCHVALUE'
   Scenario: ShowSearching
 	When I navigate to Program Management - Companies
 	When I search Company Name for ABC Company
@@ -46,36 +38,36 @@ Scenario: CheckSuperUserMainMenu
 	Then I should be on the login page
 
 Scenario: CheckSuperUserPMSubMenu
-	Then I should see the Program Management menu
-    And I navigate to Program Management - FIs
-	And I navigate to Program Management - Partners
-	And I navigate to Program Management - Clients
-	And I navigate to Program Management - Companies
+	Then I click on the Program Management menu
+    And I should see the Program Management - FIs submenu
+	And I should see the Program Management - Partners submenu
+	And I should see the Program Management - Clients submenu
+	And I should see the Program Management - Companies submenu
 	When I logout
 	Then I should be on the login page
 
   Scenario: CheckSuperUserOpsSubMenu
-    Then I should see the Operations menu
-    And I navigate to Operations - Audit Log
-    And I navigate to Operations - Card Orders
-    And I navigate to Operations - Chargebacks
-    And I navigate to Operations - Events
-    And I navigate to Operations - Non-Posted Exceptions
-    And I navigate to Operations - Financial Audit
+    Then I click on the Operations menu
+    And I should see the Operations - Audit Log submenu
+    And I should see the Operations - Card Orders submenu
+    And I should see the Operations - Chargebacks submenu
+    And I should see the Operations - Events submenu
+    And I should see the Operations - Non-Posted Exceptions submenu
+    And I should see the Operations - Financial Audit submenu
     When I logout
     Then I should be on the login page
 
   Scenario: CheckSuperUserCSSubMenu
-    Then I should see the Customer Service menu
-    And I navigate to Customer Service - Cards
-    And I navigate to Customer Service - Companies
+    Then I click on the Customer Service menu
+    And I should see the Customer Service - Cards submenu
+    And I should see the Customer Service - Companies submenu
     When I logout
     Then I should be on the login page
 
   Scenario: CheckSuperUserSecSubMenu
-    Then I should see the Security menu
-    And I navigate to Security - Roles
-    And I navigate to Security - Users
-    And I navigate to Security - Settings
+    Then I click on the Security menu
+    And I should see the Security - Roles submenu
+    And I should see the Security - Users submenu
+    And I should see the Security - Settings submenu
     When I logout
     Then I should be on the login page

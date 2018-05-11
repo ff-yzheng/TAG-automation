@@ -1,18 +1,26 @@
 package stepDefinitions;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.en.Then;
 import global.SharedWebDriver;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
+import static global.SharedWebDriver.scenario;
 
 public class AbstractSteps{
 
@@ -91,14 +99,6 @@ public class AbstractSteps{
         }
     }
 
-    // TODO: Global check for errors ?
-    /*
-    protected void CheckForErrors(){
-        System.out.println("    checking for errors");
-
-    }
-    */
-
     // Gets and returns the text of the parent node only (useful for getting the tab name without the count)
     public static String GetTestFromNodeOnly(WebElement webElement)
     {
@@ -110,7 +110,6 @@ public class AbstractSteps{
         }
         return text;
     }
-
 
     // Check for error alert and report results
     public void CheckForErrors(){
@@ -128,6 +127,9 @@ public class AbstractSteps{
             if(isPresent){
                 System.out.println("    I see an error");
                 System.out.println("    Error message: " + getDriver().findElement(By.xpath("//div[contains(@class,'alert')]/p")).getText());
+                //scenario.write("    I see an error");
+                scenario.write("    ERROR MESSAGE: " + getDriver().findElement(By.xpath("//div[contains(@class,'alert')]/p")).getText());
+                embedScreenshot(scenario);
                 break;
             }
             else
@@ -140,6 +142,7 @@ public class AbstractSteps{
                     e.printStackTrace();
                 }
                 attempts++;
+                //embedScreenshot(scenario);
                 isPresent = getDriver().findElements(By.xpath("//div[contains(@class,'alert')]")).size() > 0;
             }
         }
@@ -147,10 +150,21 @@ public class AbstractSteps{
         // report there were no errors if alert wasn't found after all attempts
         if(!isPresent){
             System.out.println("    No error detected");
+            //scenario.write("    No error detected");
         }
     }
 
-
+    // Capture and insert a screenshot into the report
+    public void embedScreenshot(Scenario scenario) {
+        try {
+            byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
+            scenario.embed(screenshot, "image/png");
+        } catch (WebDriverException wde) {
+            System.err.println(wde.getMessage());
+        } catch (ClassCastException cce) {
+            cce.printStackTrace();
+        }
+    }
 
     // TODO: Add Common reporting/logging functions
 

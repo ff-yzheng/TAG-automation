@@ -62,6 +62,9 @@ public class LoginSteps extends AbstractSteps {
 
         // Check to see we are logged in by seeing if the logout link is present
         assertThat("Cannot find the logout link", loginPage.LogoutLink.isDisplayed(), is(equalTo(true)));
+
+        // maximize the browser so the menu is visible (menu doesn't show if window is too small)
+        getDriver().manage().window().maximize();
     }
 
     @When("^I logout$")

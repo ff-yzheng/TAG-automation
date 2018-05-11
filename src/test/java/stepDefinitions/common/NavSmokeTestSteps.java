@@ -13,6 +13,7 @@ import stepDefinitions.AbstractSteps;
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
+import static global.SharedWebDriver.scenario;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -60,6 +61,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                 // Print the menu and submenu names to console
                 System.out.println(menuName + " - " + subMenuName);
+                scenario.write(menuName + " - " + subMenuName);
 
                 // Click the main then submenu
                 mainNav.get(i).click();
@@ -81,7 +83,6 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
                 //wait = new WebDriverWait(getDriver(), 10);
                 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + subMenuName + "')]")))));
-
                 // Wait until oldSubMenuName is no longer on page
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + oldSubMenuName + "')]")))));
 
@@ -93,7 +94,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                 CheckForErrors();
 
-                // Keep old subMenuName
+                // Keep old subMenuName for use in the next iteration
                 oldSubMenuName = subMenuName;
 
                 // START WORK FOR ROW DETAILS
@@ -138,6 +139,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                         // If there are tabs they will be cycled tjrough and checked later in this test
                         if (!tabsExist){
                             System.out.println("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
+                            scenario.write("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
 
                             // Check for error alert and report results
                             CheckForErrors();
@@ -151,7 +153,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
                         // Populate the Card search field
                         // Card number is for QA, eventually we'll probably need some for other environments and update the code here
-                        tagPage.SetCardNumberSearchField("5388997000021673");
+                        tagPage.SetCardNumberSearchField("5204718420012288");
 
                         // Click the Search button
                         tagPage.SearchButton.click();
@@ -237,7 +239,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
 
             // Report Menu, Submenu & Tab
             System.out.println("tab: " + tabName);
-            logInfo("tab: " + tabName);
+            scenario.write("tab: " + tabName);
 
             // Click the tab
             tagPage.RefreshModel();

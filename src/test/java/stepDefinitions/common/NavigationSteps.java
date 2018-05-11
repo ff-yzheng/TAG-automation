@@ -20,6 +20,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class NavigationSteps extends AbstractSteps {
 
@@ -53,12 +55,61 @@ public class NavigationSteps extends AbstractSteps {
         }
 
         // For slower loading pages: Wait until breadcrumb2 (found via expected text & xpath) is present before continuing
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(getDriver(), 10);
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'" + subMenuText + "')]")))));
+        // Extra wait to make sure the Home page breadcrumb is no longer present (hidden behind picture)
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath((("//*[@id='breadcrumb-region']//*[contains(text(),'Home')]")))));
 
         // Confirm we are on the correct page
         assertThat("Breadcrumb1 is not what was expected", AllTrim(tagPage.BreadCrumb1.getAttribute("innerText")), is(equalTo(mainMenuText)));
         assertThat("Breadcrumb2 is not what was expected", AllTrim(tagPage.BreadCrumb2.getAttribute("innerText")), is(equalTo(subMenuText)));
+    }
+
+    @Then("^I should see the (.*) menu$")
+    public void iShouldSeeTheYMenu(String menuName) throws Throwable {
+        // Find the menu from the passed text value
+        //Boolean menuPresent = getDriver().findElement(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + menuName + "')]")).isDisplayed();
+        //assertThat("Error: Cannot find " + menuName + " menu", menuPresent, is(equalTo(true)));
+
+        // Check to see if the menu is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + menuName + "')]")).isEmpty();
+        assertTrue("Error: Cannot find " + menuName + " menu", itemPresent);
+    }
+
+    @Then("^I should NOT see the (.*) menu$")
+    public void iShouldNOTSeeTheYMenu(String menuName) throws Throwable {
+        // Confirm that the menu is NOT found
+        //assertThat("Error: Found  " + menuName + " menu", getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + menuName + "')]")).isEmpty(), is(equalTo(true)));
+
+        // Confirm that the menu is NOT found
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + menuName + "')]")).isEmpty();
+        assertFalse("Error: Found " + menuName + " menu", itemPresent);
+    }
+
+    @Then("^I click on the (.*) menu$")
+    public void iClickOnTheYMenu(String mainMenuText) throws Throwable {
+        // Find the Main Menu item from the passed mainMenu
+        WebElement mainMenu = getDriver().findElement(By.xpath("//a[@class='dropdown-toggle' and contains(text(),'" + mainMenuText + "')]"));
+
+        // Click the main then submenu
+        mainMenu.click();
+    }
+
+    @Then("^I should see the (.*) - (.*) submenu")
+    public void iShouldSeeTheMainMenuSubMenu(String mainMenuText, String subMenuText) throws Throwable {
+        // Confirm that the menu is displayed
+        //assertThat("Error: Cannot find " + mainMenuText + " - " + subMenuText, false, is(equalTo(getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + mainMenuText + "')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'" + subMenuText + "')]")).isEmpty())));
+
+        // Check to see if the submenu is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + mainMenuText + "')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'" + subMenuText + "')]")).isEmpty();
+        assertTrue("Error: Cannot find " + mainMenuText + " - " + subMenuText, itemPresent);
+    }
+
+    @Then("^I should NOT see the (.*) - (.*) submenu")
+    public void iShouldNOTSeeTheMainMenuSubMenu(String mainMenuText, String subMenuText) throws Throwable {
+        // Confirm that the submenu is NOT found
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + mainMenuText + "')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'" + subMenuText + "')]")).isEmpty();
+        assertFalse("Error: Found " + mainMenuText + " - " + subMenuText, itemPresent);
     }
 
     @Then("^I wait for (\\d+) (.*)")
@@ -94,16 +145,4 @@ public class NavigationSteps extends AbstractSteps {
             e.printStackTrace();
         }
     }
-
-    @Then("^I should see the (.*) menu$")
-    public void iShouldSeeTheYMenu(String menuName) throws Throwable {
-        tagPage = new TransactGlobalPage(getDriver());
-
-        // Find the menu from the passed text value
-        Boolean menuPresent = tagPage.NavBarDropDowns.findElement(By.xpath("*/a[contains(text(),'" + menuName + "')]")).isDisplayed();
-
-        // Confirm that the menu is displayed
-        assertThat("Cannot find " + menuName + " menu", menuPresent, is(equalTo(true)));
-    }
-
 }
