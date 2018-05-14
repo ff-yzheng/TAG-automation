@@ -174,6 +174,10 @@ public class TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//button[text()='Search']") // Need more definitions? //button[@id='search-btn']
     public WebElement SearchButton;
 
+    // Add New Button
+    @FindBy(how = How.XPATH, using = "//a[@class='btn-icon-text']/span[contains(text(),'Add New')]")
+    public WebElement AddNewButton;
+
     // **** Page Level Verification Items ****
     // Error Alert
     @FindBy(how = How.XPATH, using = "//*[@class='form-error' and @innertext!~'Credit Limit.*' or @class='alert' or @class~'alert-danger']")
