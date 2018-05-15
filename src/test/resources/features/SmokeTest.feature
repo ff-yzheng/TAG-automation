@@ -29,8 +29,8 @@ Feature: SmokeTest
 	Then I should be on the login page
 
 Scenario: CheckSuperUserMainMenu
-	Then I should see the Program Management menu
-	And I should see the Operations menu
+	When I should see the Program Management menu
+	Then I should see the Operations menu
 	And I should see the Customer Service menu
 	And I should see the Security menu
 	And I should see the Help menu
@@ -38,8 +38,8 @@ Scenario: CheckSuperUserMainMenu
 	Then I should be on the login page
 
 Scenario: CheckSuperUserPMSubMenu
-	Then I click on the Program Management menu
-    And I should see the Program Management - FIs submenu
+	When I click on the Program Management menu
+    Then I should see the Program Management - FIs submenu
 	And I should see the Program Management - Partners submenu
 	And I should see the Program Management - Clients submenu
 	And I should see the Program Management - Companies submenu
@@ -47,8 +47,8 @@ Scenario: CheckSuperUserPMSubMenu
 	Then I should be on the login page
 
   Scenario: CheckSuperUserOpsSubMenu
-    Then I click on the Operations menu
-    And I should see the Operations - Audit Log submenu
+    When I click on the Operations menu
+    Then I should see the Operations - Audit Log submenu
     And I should see the Operations - Card Orders submenu
     And I should see the Operations - Chargebacks submenu
     And I should see the Operations - Events submenu
@@ -58,15 +58,15 @@ Scenario: CheckSuperUserPMSubMenu
     Then I should be on the login page
 
   Scenario: CheckSuperUserCSSubMenu
-    Then I click on the Customer Service menu
-    And I should see the Customer Service - Cards submenu
+    When I click on the Customer Service menu
+    Then I should see the Customer Service - Cards submenu
     And I should see the Customer Service - Companies submenu
     When I logout
     Then I should be on the login page
 
   Scenario: CheckSuperUserSecSubMenu
-    Then I click on the Security menu
-    And I should see the Security - Roles submenu
+    When I click on the Security menu
+    Then I should see the Security - Roles submenu
     And I should see the Security - Users submenu
     And I should see the Security - Settings submenu
     When I logout

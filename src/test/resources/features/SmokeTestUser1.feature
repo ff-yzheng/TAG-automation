@@ -13,8 +13,8 @@ Feature: SmokeTestUser1
 	Then I should be on the login page
 
 Scenario: CheckUser1MainMenu
-	Then I should see the Program Management menu
-	And I should see the Operations menu
+	When I should see the Program Management menu
+	Then I should see the Operations menu
 	And I should see the Customer Service menu
 	And I should NOT see the Security menu
 	And I should see the Help menu
@@ -22,8 +22,8 @@ Scenario: CheckUser1MainMenu
 	Then I should be on the login page
 
 Scenario: CheckUser1PMSubMenu
-	Then I click on the Program Management menu
-    And I should NOT see the Program Management - FIs submenu
+	When I click on the Program Management menu
+    Then I should NOT see the Program Management - FIs submenu
 	And I should NOT see the Program Management - Partners submenu
 	And I should see the Program Management - Clients submenu
 	And I should NOT see the Program Management - Companies submenu
