@@ -15,7 +15,7 @@ public class PMCompaniesCreditLimit extends TransactGlobalPage {
     }
 
     // Page Info
-    private static final String MFA_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Credit Limit')]"; // An element that only shows on this page
+    private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Credit Limit')]"; // An element that only shows on this page
 
     // Company Credit Limit
     @FindBy(how = How.XPATH, using = "//input[@name='CreditLimit.Cents']")

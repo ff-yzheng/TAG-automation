@@ -15,7 +15,7 @@ public class PMCompaniesBINs extends TransactGlobalPage {
     }
 
     // Page Info
-    private static final String MFA_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'BINs')]"; // An element that only shows on this page
+    private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'BINs')]"; // An element that only shows on this page
 
     // Corporate Account
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Corporate Account')]/../div/span")

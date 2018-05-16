@@ -15,7 +15,7 @@ public class PMCompaniesSetup extends TransactGlobalPage {
     }
 
     // Page Info
-    private static final String MFA_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Setup')]"; // An element that only shows on this page
+    private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Setup')]"; // An element that only shows on this page
 
     // FI Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='FiID']")
