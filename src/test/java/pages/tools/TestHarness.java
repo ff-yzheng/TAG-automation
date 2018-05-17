@@ -64,7 +64,6 @@ public class TestHarness extends TransactGlobalPage {
 
     // ** STEP 3 Download Transactions **
     // Download Transactions button
-    // TODO: Is there a way (maybe in step definition) to control where it downloads? See https://stackoverflow.com/questions/29770599/how-to-download-docx-file-using-selenium-webdriver-in-java/29770750#29770750
     @FindBy(how = How.XPATH, using = "//button[text()='Download transactions']")
     public WebElement DownloadTransactionsButton;
 

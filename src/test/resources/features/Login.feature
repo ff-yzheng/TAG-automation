@@ -25,7 +25,8 @@ Feature: Login
 # - Dev will need modify the MFA check flag in Mongo from false to true
 # - Automation should then be able log in as the user via the login steps
 
-  Scenario: UseTestHarness
+  Scenario: UseTestHarnessPOC
+    Proof of Concept work for using Test Harness
     Given the login form at https://test.transact-global.net/
     Given I open the TestHarness
     When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx

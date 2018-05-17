@@ -11,7 +11,6 @@ import stepDefinitions.AbstractSteps;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static global.SharedWebDriver.getDriver;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -19,20 +18,15 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class TestHarnessSteps extends AbstractSteps {
 
     private TestHarness testHarness;
-    private WebDriver testHarnessDriver;
+    private WebDriver testHarnessDriver; // driver specific to test harness so it gets it's own browser instance during test
 
     @Given("^I open the TestHarness")
     public void iOpenTheTestHarness() {
-
-
         testHarnessDriver = new ChromeDriver();
         testHarness = new TestHarness(testHarnessDriver);
 
         // Navigate to TestHarness url
         testHarnessDriver.navigate().to("http://mock.transact-global.net:8080/");
-
-        // Refresh the page model after load
-        //testHarness.RefreshModel();
 
         // Wait until the page loads by checking for the username field before continuing
         WaitForElementToLoad(testHarnessDriver, testHarness.Name);
@@ -41,17 +35,16 @@ public class TestHarnessSteps extends AbstractSteps {
         assertThat("Cannot find the username field", testHarness.Name.isDisplayed(), is(equalTo(true)));
     }
 
-
     @When("^I set the auth file path to (.*)$")
     public void iSetTheAuthFilePathToX(String value) throws Throwable {
-
+        // Sets the auth upload path & file without using the Browse button
         testHarness.SetAuthFileUploadPath(value);
 
     }
 
     @When("^I download the transaction file")
     public void iSetTheAuthFilePathToX() throws Throwable {
-        // TODO: Is there a way (maybe in step definition) to control where it downloads? See https://stackoverflow.com/questions/29770599/how-to-download-docx-file-using-selenium-webdriver-in-java/29770750#29770750
+        // TODO: Is there a way to control where it downloads? See https://stackoverflow.com/questions/29770599/how-to-download-docx-file-using-selenium-webdriver-in-java/29770750#29770750
 
         // Create object of Robot class
         Robot object = new Robot();
@@ -70,7 +63,5 @@ public class TestHarnessSteps extends AbstractSteps {
     @Then("^I close the TestHarness")
     public void iCloseTheTestHarness() {
         testHarnessDriver.close();
-
-
     }
 }
