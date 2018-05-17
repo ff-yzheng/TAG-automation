@@ -15,11 +15,11 @@ public class LoginPage extends TransactGlobalPage {
     }
 
     // Page Info
-    private static final String LOGIN_XPATH = "//input[@id='login_username']"; // An element that only shows on this page
+    private static final String PAGE_XPATH = "//input[@id='login_username']"; // An element that only shows on this page
     private static final String ALERT_XPATH = "//div[@class='alert alert-danger alert-dismissible']";
 
     // Username
-    @FindBy(how = How.XPATH, using = LOGIN_XPATH)
+    @FindBy(how = How.XPATH, using = "//input[@id='login_username']")
     public WebElement UserName;
 
     public void SetUsername(String value) {

@@ -15,10 +15,10 @@ public class MFAEntryPage extends TransactGlobalPage {
     }
 
     // Page Info
-    private static final String MFA_XPATH = "//input[@name='MFACode']"; // An element that only shows on this page
+    private static final String PAGE_XPATH = "//input[@name='MFACode']"; // An element that only shows on this page
 
     // MFA Code
-    @FindBy(how = How.XPATH, using = MFA_XPATH)
+    @FindBy(how = How.XPATH, using = "//input[@name='MFACode']")
     public WebElement MFACode;
 
     public void SetMFACode(String value) {
