@@ -106,7 +106,7 @@
                     <systemProperties>
                         <property>
                             <name>webdriver</name>
-                            <value>CHROME_HEADLESS</value>
+                            <value>CHROME</value>
                         </property>
 
                         <property>
