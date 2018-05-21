@@ -64,7 +64,7 @@ public class TestHarness extends TransactGlobalPage {
 
     // ** STEP 3 Download Transactions **
     // Download Transactions button
-    @FindBy(how = How.XPATH, using = "//button[text()='Download transactions']")
+    @FindBy(how = How.XPATH, using = "//button[text()='Download Transactions']")
     public WebElement DownloadTransactionsButton;
 
     // Transaction File

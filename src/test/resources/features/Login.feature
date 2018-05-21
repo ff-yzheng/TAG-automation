@@ -28,7 +28,10 @@ Feature: Login
   Scenario: UseTestHarnessPOC
     Proof of Concept work for using Test Harness
     Given the login form at https://test.transact-global.net/
-    Given I open the TestHarness
-    When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx
+    Given I open TestHarness
+    When I set the environment to test and name to JavaAutomation
+    When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx and upload
+    When I run authorizations on the TestHarnessAuthFile_copy.xlsx auth file
+    When I download the transaction file
     Then I wait for 15 seconds
     Then I close the TestHarness

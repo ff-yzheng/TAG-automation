@@ -117,7 +117,7 @@ public class NavigationSteps extends AbstractSteps {
         Integer timeToWaitInMS = 0;
         Boolean uniteOfTimeValid = false;
 
-        System.out.println("unitOfTime: " + timeUnit);
+        //System.out.println("unitOfTime: " + timeUnit);
 
         // Translate the value and timeUnit text to get the proper amount of time
         if(timeUnit.toLowerCase().equals("milliseconds")){
