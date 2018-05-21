@@ -5,10 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.xpath.operations.Bool;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.TransactGlobalPage;
@@ -33,7 +30,7 @@ public class NavigationSteps extends AbstractSteps {
         tagPage= new TransactGlobalPage(getDriver());
 
         // maximize the browser so the menu is visible (menu doesn't show if window is too small)
-        getDriver().manage().window().maximize();
+        getDriver().manage().window().setSize(new Dimension(1440, 900));
 
         // Find the Main Menu item from the passed mainMenu
         WebElement mainMenu = getDriver().findElement(By.xpath("//a[@class='dropdown-toggle' and contains(text(),'" + mainMenuText + "')]"));
