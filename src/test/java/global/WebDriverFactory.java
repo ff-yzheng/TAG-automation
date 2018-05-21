@@ -2,6 +2,7 @@ package global;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -60,7 +61,20 @@ public final class WebDriverFactory {
             @Override
             public WebDriver newDriver() {
                 DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-                return new ChromeDriver(capabilities);
+
+                 return new ChromeDriver(capabilities);
+
+            }
+        },CHROME_HEADLESS {
+            @Override
+            public WebDriver newDriver() {
+                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                // chromeOptions.setBinary("/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary");
+                ChromeOptions chromeOptions= new ChromeOptions();
+                chromeOptions.addArguments("--headless");
+                return new ChromeDriver(chromeOptions);
+                //  return new ChromeDriver(capabilities);
+
             }
         }, OPERA {
             @Override
