@@ -33,5 +33,5 @@ Feature: Login
     When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx and upload
     When I run authorizations on the TestHarnessAuthFile_copy.xlsx auth file
     When I download the transaction file
-    Then I wait for 15 seconds
+    When I set the transaction file path and upload
     Then I close the TestHarness
