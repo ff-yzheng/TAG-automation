@@ -8,7 +8,7 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 		Then I should be authenticated
 
 	Scenario: CheckFISuperUserMainMenu
-		Then I should see the Program Management 
+		Then I should see the Program Management menu
 		And  I should see the Operations menu
 		And  I should see the Customer Service menu
 		And  I should see the Security menu
