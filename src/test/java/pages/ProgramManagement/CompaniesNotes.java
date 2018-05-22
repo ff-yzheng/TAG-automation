@@ -1,4 +1,4 @@
-package pages.PMCompanies;
+package pages.ProgramManagement;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,9 +7,9 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import pages.TransactGlobalPage;
 
-public class PMCompaniesNotes extends TransactGlobalPage {
+public class CompaniesNotes extends TransactGlobalPage {
 
-    public PMCompaniesNotes(WebDriver driver){
+    public CompaniesNotes(WebDriver driver){
         super(driver);
         PageFactory.initElements(driver, this);
     }

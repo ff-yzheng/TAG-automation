@@ -1,4 +1,4 @@
-package pages.PMCompanies;
+package pages.ProgramManagement;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,9 +7,9 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import pages.TransactGlobalPage;
 
-public class PMCompaniesAuthorizationControls extends TransactGlobalPage {
+public class CompaniesAuthorizationControls extends TransactGlobalPage {
 
-    public PMCompaniesAuthorizationControls(WebDriver driver) {
+    public CompaniesAuthorizationControls(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }

@@ -1,4 +1,4 @@
-package pages.PMCompanies;
+package pages.ProgramManagement;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,9 +7,9 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import pages.TransactGlobalPage;
 
-public class PMCompaniesBINs extends TransactGlobalPage {
+public class CompaniesBINs extends TransactGlobalPage {
 
-    public PMCompaniesBINs(WebDriver driver){
+    public CompaniesBINs(WebDriver driver){
         super(driver);
         PageFactory.initElements(driver, this);
     }
