@@ -18,7 +18,7 @@ Feature: Create A Company
 	Then I should enter the Enter Phone Number – 706-243-6621
 	Then I should enter the Address 1 – 123 Test Lane
 	Then I should enter the City – Columbus
-	Then I should enter the State/Province – Georgia
+	Then I should enter the State/Province – Ohio
 	Then I should enter the Postal Code – 31904
 	Then I should enter the Tax ID Number – 212-05-0518
 	Then I should click the SAVE button
