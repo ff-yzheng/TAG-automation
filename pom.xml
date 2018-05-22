@@ -10,7 +10,10 @@
 
     <properties>
         <cucumber.version>1.2.5</cucumber.version>
+        <webdriver>CHROME</webdriver>
         <webdriver.chrome.driver>src/test/drivers/chromedriver.exe</webdriver.chrome.driver>
+        <webdriver.gecko.driver>src/test/drivers/geckodriver.exe</webdriver.gecko.driver>
+        <webdriver.ie.driver>src/test/drivers/IEDriverServer.exe</webdriver.ie.driver>
     </properties>
 
     <dependencies>
@@ -106,25 +109,20 @@
                     <systemProperties>
                         <property>
                             <name>webdriver</name>
-                            <value>CHROME</value>
+                            <value>${webdriver}</value>
                         </property>
-
                         <property>
                             <name>webdriver.chrome.driver</name>
-                            <value>src/test/drivers/chromedriver.exe</value>
+                            <value>${webdriver.chrome.driver}</value>
                         </property>
-
                         <property>
                             <name>webdriver.gecko.driver</name>
-                            <value>src/test/drivers/geckodriver.exe</value>
+                            <value>${webdriver.gecko.driver}</value>
                         </property>
                         <property>
                             <name>webdriver.ie.driver</name>
-                            <value>src/test/drivers/IEDriverServer.exe</value>
+                            <value>${webdriver.ie.driver}</value>
                         </property>
-
-                        webdriver.ie.driver
-
                     </systemProperties>
 
 
