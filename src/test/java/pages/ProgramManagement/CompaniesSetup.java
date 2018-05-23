@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
 
 public class CompaniesSetup extends TransactGlobalPage {
@@ -20,6 +21,11 @@ public class CompaniesSetup extends TransactGlobalPage {
     // FI Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='FiID']")
     public WebElement FIDropdown;
+
+    public void SetFIDropdown(String value){
+        Select select = new Select(FIDropdown);
+        select.selectByVisibleText(value);
+    }
 
     // FI Name
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'FI Name')]/../p")

@@ -26,7 +26,7 @@ Feature: Login
 # - Automation should then be able log in as the user via the login steps
 
   Scenario: UseTestHarnessPOC
-    Proof of Concept work for using Test Harness
+  Proof of Concept work for using Test Harness
     Given the login form at https://test.transact-global.net/
     Given I open TestHarness
     When I set the environment to test and name to JavaAutomation
@@ -35,3 +35,12 @@ Feature: Login
     When I download the transaction file
     When I set the transaction file path and upload
     Then I close the TestHarness
+
+  Scenario: CreateCompanyPrework
+    Given the login form at https://test.transact-global.net/
+    When I login as automationTAGSUPER with Abcd-1234
+    Then I should be authenticated
+    When I navigate to Program Management - Companies
+    When I click the Add New button
+    When I create a new company
+    Then I wait for 10 seconds

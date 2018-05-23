@@ -109,6 +109,12 @@ public class NavigationSteps extends AbstractSteps {
         assertFalse("Error: Found " + mainMenuText + " - " + subMenuText, itemPresent);
     }
 
+    @When("^I click the Add New button")
+    public void iClickTheAddNewButton() throws Throwable {
+        // Click the add new button
+        tagPage.AddNewButton.click();
+    }
+
     @Then("^I wait for (\\d+) (.*)")
     public void iWaitForXTime(int value, String timeUnit) throws Throwable {
         Integer timeToWaitInMS = 0;
