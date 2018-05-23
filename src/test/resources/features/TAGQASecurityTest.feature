@@ -14,7 +14,7 @@ Feature: TAG QA Role which has access to all FI-level privileges within the syst
 		And  I should not see the Security menu
 		And  I should see the Help menu
 		When I logout
-		Then I should be on the login p
+		Then I should be on the login page
 
 	Scenario: CheckTAGQAUserPMSubMenu
 		When I click on the Program Management menu
