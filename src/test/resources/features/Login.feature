@@ -32,3 +32,5 @@ Feature: Login
     When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx
     Then I wait for 15 seconds
     Then I close the TestHarness
+
+    Scenario: Ying's test for pull request code review
