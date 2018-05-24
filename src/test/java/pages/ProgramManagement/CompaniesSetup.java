@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
 
+import java.util.List;
+
 public class CompaniesSetup extends TransactGlobalPage {
 
     public CompaniesSetup(WebDriver driver){
@@ -38,6 +40,15 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Client Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='ClientID']")
     public WebElement ClientDropdown;
+
+    public void SetClientDropdown(String value){
+        Select select = new Select(ClientDropdown);
+        select.selectByVisibleText(value);
+    }
+
+    // Client Dropdown loaded, present when there is at least 2 options in client dropdown
+    @FindBy(how = How.XPATH, using = "//select[@name='ClientID']/option[2]")
+    public WebElement ClientDropdownLoaded;
 
     // Client Name
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Client Name')]/../div/p")
@@ -121,6 +132,23 @@ public class CompaniesSetup extends TransactGlobalPage {
     // StateProvince
     @FindBy(how = How.XPATH, using = "//select[@name='Contact.Address.State']")
     public WebElement StateProvince;
+
+    public void SetStateProvinceDropdown(String value){
+        Select select = new Select(StateProvince);
+
+        /*
+        // Code to list the options in the drop down
+        List<WebElement> options = select.getOptions();
+        System.out.println("List Size: " + options.size());
+
+        // Loop to print one by one
+        for (int j = 0; j < options.size(); j++) {
+            System.out.println(options.get(j).getAttribute("value") + " - " + options.get(j).getText());
+        }
+        */
+
+        select.selectByVisibleText(value);
+    }
 
     // Postal Code
     @FindBy(how = How.XPATH, using = "//input[@name='Contact.Address.PostalCode']")

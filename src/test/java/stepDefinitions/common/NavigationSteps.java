@@ -109,10 +109,37 @@ public class NavigationSteps extends AbstractSteps {
         assertFalse("Error: Found " + mainMenuText + " - " + subMenuText, itemPresent);
     }
 
+    @Then("^I should be on the (.*) tab$")
+    public void iShouldBeOnTheXTab(String tabName) throws Throwable {
+        // Check to see if I am on the correct tab
+        Boolean tabActive = !getDriver().findElements(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'" + tabName + "')]")).isEmpty();
+        assertTrue("Error: " + tabName + " is not the active tab", tabActive);
+    }
+
+    // Checks anywhere in the breadcrumb for the passed value
+    @Then("^I should be on the (.*) page$")
+    public void iShouldBeOnTheXPage(String value) throws Throwable {
+
+
+        // Check to see if I am on the correct tab
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ol[contains(@class,'breadcrumb')]//*[contains(text(),'" + value + "')]")).isEmpty();
+        assertTrue("Error: " + value + " not found in the page breadcrumb", itemPresent);
+    }
+
+    @Then("^I should see the (.*) tab$")
+    public static void iShouldSeeTheXTab(String tabName) throws Throwable {
+        // Check to see if the tab is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li/a[contains(text(),'" + tabName + "')]")).isEmpty();
+        assertTrue("Error: Cannot find " + tabName, itemPresent);
+    }
+
     @When("^I click the Add New button")
     public void iClickTheAddNewButton() throws Throwable {
         // Click the add new button
         tagPage.AddNewButton.click();
+
+        // Wait for Breadcrumb3 to load (when we should be on the new page)
+        WaitForElementToLoad(getDriver(), tagPage.BreadCrumb3);
     }
 
     @Then("^I wait for (\\d+) (.*)")

@@ -174,6 +174,14 @@ public class TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//button[text()='Search']") // Need more definitions? //button[@id='search-btn']
     public WebElement SearchButton;
 
+    // Save Button
+    @FindBy(how = How.XPATH, using = "//button[text()='Save']")
+    public WebElement SaveButton;
+
+    // Disabled Save Button
+    @FindBy(how = How.XPATH, using = "//button[text()='Save' and contains(@class,'disabled')]")
+    public WebElement DisabledSaveButton;
+
     // Add New Button
     @FindBy(how = How.XPATH, using = "//a[@class='btn-icon-text']/span[contains(text(),'Add New')]")
     public WebElement AddNewButton;

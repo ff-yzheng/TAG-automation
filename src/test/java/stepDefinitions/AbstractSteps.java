@@ -1,22 +1,15 @@
 package stepDefinitions;
 
 import cucumber.api.Scenario;
-import cucumber.api.java.en.Then;
-import global.SharedWebDriver;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.Reporter;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 
-import java.io.File;
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
@@ -35,6 +28,7 @@ public class AbstractSteps{
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
 
+    // I don't think this works consistently
     protected void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
         wait.until((ExpectedConditions.invisibilityOf(webElement)));
@@ -97,6 +91,42 @@ public class AbstractSteps{
         catch(NoSuchElementException e){
             return false;
         }
+    }
+
+    // Set a drop down by passing in the element and display text
+    protected void SetDropdownByText(WebElement webElement, String value){
+        Select select = new Select(webElement);
+        select.selectByVisibleText(value);
+    }
+
+    // Set a drop down by passing in the element and value
+    protected void SetDropdownByValue(WebElement webElement, String value){
+        Select select = new Select(webElement);
+        select.selectByValue(value);
+    }
+
+    // Methods to create date time string for uniquely naming things
+    // Return length is 23, fully formatted date and time to the milliseconds
+    protected String GenerateDateTimeStringFull(){
+        String format = "yyyy-MM-dd HH:mm:ss.SSS";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Return length is 12 (still a date to the second and trimmed of spaces and extra characters
+    protected String GenerateDateTimeStringShortest(){
+        String format = "yyMMddHHmmss";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Return length is 15 (year is 4 digit and space between date and time, to the second)
+    protected String GenerateDateTimeStringShort(){
+        String format = "yyyyMMdd HHmmss";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Format is passed into method, format must be valid like "yyyy-MM-dd HH:mm:ss.SSS"
+    protected String GenerateDateTimeStringCustom(String format){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
     }
 
     // Gets and returns the text of the parent node only (useful for getting the tab name without the count)

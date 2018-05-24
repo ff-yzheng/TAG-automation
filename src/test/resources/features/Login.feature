@@ -35,14 +35,3 @@ Feature: Login
     When I download the transaction file
     When I set the transaction file path and upload
     Then I close the TestHarness
-
-    Scenario: Ying's test for pull request code review
-
-  Scenario: CreateCompanyPrework
-    Given the login form at https://test.transact-global.net/
-    When I login as automationTAGSUPER with Abcd-1234
-    Then I should be authenticated
-    When I navigate to Program Management - Companies
-    When I click the Add New button
-    When I create a new company
-    Then I wait for 10 seconds
