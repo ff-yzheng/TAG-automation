@@ -28,10 +28,12 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 	Scenario: CheckTAGCRMUserPMFITabs
 		When I navigate to Program Management - FIs
 		Then I should be on the MCC Groups tab
-		And  I should see the FIs submenu – Authorization Controls tab
-		And  I should see the FIs submenu – Statements tab
-		And  I should not see the FIs submenu – Fees tab
-		And  I should not see the FIs submenu – Reports tab
+		And  I should see the Authorization Controls tab
+		And  I should see the Statements tab
+        And  I should not see the Setup tab
+        And  I should not see the BINs tab
+		And  I should not see the Fees tab
+		And  I should not see the Reports tab
 		When I logout
 		Then I should be on the login page
 
@@ -43,23 +45,6 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 		And  I should not see the Operations - Events submenu
 		And  I should see the Operations - Non-Posted Exceptions submenu
 		And  I should see the Operations - Financial Audit submenu
-		When I logout
-		Then I should be on the login page
-
-	Scenario: CheckTAGCRMUserOpsChargebackTabs
-		When I navigate to Operations - Chargebacks
-		Then I should be on 1st Chargeback tab
-		And  I should see the Chargebacks submenu – 2nd Presentment tab
-		And  I should see the Chargebacks submenu –2nd Chargeback
-		And  I should see the Chargebacks submenu – Arbitration tab
-		And  I should see the FIs Chargebacks submenu – Closed tab
-		When I logout
-		Then I should be on the login page
-
-	Scenario: CheckTAGCRMUserOpsNonPostedExceptionTabs
-		When I navigate to the Operations – Non-Posted Exceptions
-		Then I should be on Current NPEs tab
-		And  I should see the Non-Posted Exception submenu – Closed NPEs tab
 		When I logout
 		Then I should be on the login page
 

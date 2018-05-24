@@ -36,23 +36,6 @@ Feature: Partner Super Role which has access to all FI-level privileges within t
 		When I logout
 		Then I should be on the login page
 
-	Scenario: CheckPartnerSuperUserOpsChargebackTabs
-		When I navigate to Operations - Chargebacks
-		Then I should be on 1st Chargeback tab
-		And  I should see the Chargebacks submenu – 2nd Presentment tab
-		And  I should see the Chargebacks submenu –2nd Chargeback
-		And  I should see the Chargebacks submenu – Arbitration tab
-		And  I should see the FIs Chargebacks submenu – Closed tab
-		When I logout
-		Then I should be on the login page
-
-	Scenario: CheckPartnerSuperUserOpsNonPostedExceptionTabs
-		When I navigate to the Operations – Non-Posted Exceptions
-		Then I should be on Current NPEs tab
-		And  I should see the Non-Posted Exception submenu – Closed NPEs tab
-		When I logout
-		Then I should be on the login page
-
 	Scenario: CheckPartnerSuperMUserCSSubMenu
 		When I click on the Customer Service menu
 		Then I should see the Customer Service - Cards submenu

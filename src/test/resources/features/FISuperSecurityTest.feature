@@ -28,13 +28,13 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 	Scenario: CheckFISuperUserPMFITabs
 		When I navigate to Program Management - FIs
 		Then I should be on the Setup tab
-		And  I should see the FIs submenu – BINs tab
+		And  I should see the BINs tab
 		And  I should not see the ADD NEW button
-		And  I should see the FIs submenu – MCC Groups
-		And  I should see the FIs submenu – Authorization Controls tab
-		And  I should see the FIs submenu – Statements tab
-		And  I should see the FIs submenu – Fees tab
-		And  I should see the FIs submenu – Reports tab
+		And  I should see the MCC Groups tab
+		And  I should see the Authorization Controls tab
+		And  I should see the Statements tab
+		And  I should see the Fees tab
+		And  I should see the Reports tab
 		When I logout
 		Then I should be on the login page
 
@@ -52,17 +52,17 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 	Scenario: CheckFISuperUserOpsChargebackTabs
 		When I navigate to Operations - Chargebacks
 		Then I should be on 1st Chargeback tab
-		And  I should see the Chargebacks submenu – 2nd Presentment tab
-		And  I should see the Chargebacks submenu –2nd Chargeback
-		And  I should see the Chargebacks submenu – Arbitration tab
-		And  I should see the FIs 	Chargebacks submenu – Closed tab
+		And  I should see the 2nd Presentment tab
+		And  I should see the 2nd Chargeback
+		And  I should see the Arbitration tab
+		And  I should see the Closed tab
 		When I logout
 		Then I should be on the login page
 
 	Scenario: CheckFISuperUserOpsNonPostedExceptionTabs
 		When I navigate to the Operations – Non-Posted Exceptions
 		Then I should be on Current NPEs tab
-		And  I should see the Non-Posted Exception submenu – Closed NPEs tab
+		And  I should see the Closed NPEs tab
 		When I logout
 		Then I should be on the login page
 
