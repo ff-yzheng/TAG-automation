@@ -92,5 +92,5 @@ Feature: Create A Company
 	    And I press the SEARCH button
 		And I verify changes for USD Test Company
 		Then I see all entries for Company = USD Test Company
-		Then I logout
+		Then I logout of TAG
 
