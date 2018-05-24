@@ -6,59 +6,91 @@ Feature: Create A Company
 	When I login as wexeula with Abcd-1234
 	Then I should be authenticated
 
-  Scenario: AddNewCompanyMainMenu
-	Then I should see the Program Management menu
-	And I should see the Program Management – Companies submenu
-	Then I click on the Add New button
-	And I should see the Program Management – Companies – Setup page
-	Then I should select the FI Name – WEX Bank
-	Then I should select the Client Name – QA USD Client
-	Then I should enter the Company Name –  USD Test Company
-	Then I should enter the Enter Primary Contact – Esmith
-	Then I should enter the Enter Phone Number – 706-243-6621
-	Then I should enter the Address 1 – 123 Test Lane
-	Then I should enter the City – Columbus
-	Then I should enter the State/Province – Georgia
-	Then I should enter the Postal Code – 31904
-	Then I should enter the Tax ID Number – 212-05-0518
-	Then I should click the SAVE button
+  Scenario: AddNewCompany
+	When I navigate to Program Management-Companies submenu
+	When I click on the Add New button
+	Then I should be on the Program Management – Companies – Setup page
+	When I select the FI Name – WEX Bank
+	And I select the Client Name – QA USD Client
+	And I enter the Company Name –  USD Test Company
+	And I enter the Enter Primary Contact – Esmith
+	And I enter the Enter Phone Number – 706-243-6621
+	And I enter the Address 1 – 123 Test Lane
+	And I enter the City – Columbus
+	And I enter the State/Province – Ohio
+	And I enter the Postal Code – 31904
+	And I enter the Tax ID Number – 212-05-0518
+	And I click the SAVE button
 	Then I should see the company number and new tabs on the page
-	Then I should be on the BINS page0
 
 
-
+	Background: User logged in
+		Given the login form at https://test.transact-global.net/
+		When I login as wexeula with Abcd-1234
+		Then I should be authenticated
 
 
   Scenario: AssignBIN to new company
-	Then I should see the Program Management – Companies – BINs page
-	Then I should select the Scheme – MasterCard or Visa
-	Then I should select the Currency – USD
-	Then I should select the BIN – 520471
-	Then I should click the SAVE button
+	When I navigate to Program Management – Companies
+	And I search <Company Name for USD Test Company>
+	Then I should see the Currency – USD
+	And I select the BIN – 520471
+	And I click the SAVE button
 	Then I should be on the Credit Limit page
 
+
+
+	Background: User logged in
+		Given the login form at https://test.transact-global.net/
+		When I login as wexeula with Abcd-1234
+		Then I should be authenticated
+
   Scenario: Enter Credit Limit for new company
-	Then I should see the Program Management – Companies – Credit Limit page
-	Then I should enter the Credit Limit Amount – 10000.00
-	Then I should click the SAVE button
+	Then I see the Program Management – Companies – Credit Limit page
+	And I enter the Credit Limit Amount – 10000.00
+	And I click the SAVE button
 	Then I should be on the Billing Features page
 
+
+	Background: User logged in
+		Given the login form at https://test.transact-global.net/
+		When I login as wexeula with Abcd-1234
+		Then I should be authenticated
+
+
   Scenario: Enter Billing Features new company
-	Then I should see the Program Management – Companies – Billing Features page
-	Then I should select the Bill Cycle – Weekly
-	Then I should select the Cycle Day – Tuesday
-	Then I should select the Grace Period – 6 Days
-	Then I should select the Late Fee Percentage – No Late Fee
-	Then I should select the International Fee Percentage – Waive All Fees
-	Then I should select the Statement Template – WEX Bank AP
-	Then I should select the Payment Method – Check
-	Then I should click the SAVE button
+	Then I see the Program Management – Companies – Billing Features page
+	And I select the Bill Cycle – Weekly
+    And I select the Cycle Day – Tuesday
+	And I select the Grace Period – 6 Days
+	And I select the Late Fee Percentage – No Late Fee
+	And I select the International Fee Percentage – Waive All Fees
+	And I select the Statement Template – WEX Bank AP
+	And I select the Payment Method – Check
+	And I click the SAVE button
 	Then I should be on the Setup page
 
+	Background: User logged in
+		Given the login form at https://test.transact-global.net/
+		When I login as wexeula with Abcd-1234
+		Then I should be authenticated
+
   Scenario: UpdateCompanyStatus
-	And I should see the Program Management – Companies – Setup page
-	Then I should select the Status – Active
-	Then I should click the SAVE button
-	When I logout
-	Then I should be on the login page
+	Then I see the Program Management – Companies – Setup page
+	And I select the Status – Active
+	And I click the SAVE button
+	Then I should verify data via the Audit Log
+
+	Background: User logged in
+		Given the login form at https://test.transact-global.net/
+		When I login as wexeula with Abcd-1234
+		Then I should be authenticated
+
+	Scenario: VerifyChangesonAuditLog
+		Then I see the Operations - Audit Log page
+		And I select Type = Company = USD Test Company
+	    And I press the SEARCH button
+		And I verify changes for USD Test Company
+		Then I see all entries for Company = USD Test Company
+		Then I logout of TAG
 
