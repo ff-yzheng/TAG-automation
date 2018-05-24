@@ -76,7 +76,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 tagPage.RefreshModel();
 
                 // When going to the users page there is an extra delay in load that can break the test
-                if (subMenuName == "Users"){
+                if (subMenuName.equals("Users")){
                     WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
                 }
 

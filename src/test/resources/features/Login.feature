@@ -35,3 +35,5 @@ Feature: Login
     When I download the transaction file
     When I set the transaction file path and upload
     Then I close the TestHarness
+
+    Scenario: Ying's test for pull request code review
