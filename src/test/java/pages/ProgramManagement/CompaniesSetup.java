@@ -20,6 +20,10 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Page Info
     private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Setup')]"; // An element that only shows on this page
 
+    // Setup active tab
+    @FindBy(how = How.XPATH, using = "//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'Setup')]")
+    public WebElement SetupActiveTab;
+
     // FI Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='FiID']")
     public WebElement FIDropdown;
@@ -162,6 +166,11 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Status Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='Status']")
     public WebElement StatusDropdown;
+
+    public void SetStatusDropdown(String value){
+        Select select = new Select(StatusDropdown);
+        select.selectByVisibleText(value);
+    }
 
     // Over Credit Limit
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Over Credit Limit')]/../p")

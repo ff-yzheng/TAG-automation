@@ -17,6 +17,13 @@ public class CompaniesCreditLimit extends TransactGlobalPage {
     // Page Info
     private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Credit Limit')]"; // An element that only shows on this page
 
+    // Credit Limit active tab
+    @FindBy(how = How.XPATH, using = "//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'Credit Limit')]")
+    public WebElement CreditLimitActiveTab;
+
+    @FindBy(how = How.XPATH, using = "//div[@id='tabbed-content']//div[contains(text(),'You must select a BIN before setting a company credit limit.')]")
+    public WebElement BinNotSetWarning;
+
     // Company Credit Limit
     @FindBy(how = How.XPATH, using = "//input[@name='CreditLimit.Cents']")
     public WebElement CompanyCreditLimit;

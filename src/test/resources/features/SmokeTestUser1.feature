@@ -10,7 +10,7 @@ Feature: SmokeTestUser1
   Scenario: NavSmokeTestSuperUser
 	And I check every page I can find for errors
 	When I logout
-	Then I should be on the login page
+	Then I should be logged out and on the login page
 
 Scenario: CheckUser1MainMenu
 	When I should see the Program Management menu
@@ -19,7 +19,7 @@ Scenario: CheckUser1MainMenu
 	And I should NOT see the Security menu
 	And I should see the Help menu
 	When I logout
-	Then I should be on the login page
+	Then I should be logged out and on the login page
 
 Scenario: CheckUser1PMSubMenu
 	When I click on the Program Management menu
@@ -28,4 +28,4 @@ Scenario: CheckUser1PMSubMenu
 	And I should see the Program Management - Clients submenu
 	And I should NOT see the Program Management - Companies submenu
 	When I logout
-	Then I should be on the login page
+	Then I should be logged out and on the login page

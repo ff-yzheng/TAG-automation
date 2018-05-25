@@ -18,7 +18,7 @@ import static global.SharedWebDriver.scenario;
 public class AbstractSteps{
 
     // Enable wait options in steps
-    protected void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
+    public static void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
@@ -28,27 +28,38 @@ public class AbstractSteps{
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
 
-    // I don't think this works consistently
-    protected void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+    public static void WaitForUrlToContain(WebDriver activeDriver, String urlText) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
-        wait.until((ExpectedConditions.invisibilityOf(webElement)));
+        wait.until(ExpectedConditions.urlContains(urlText));
+    }
+
+    // I don't think this works consistently
+    public static void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+        WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+        //wait.until((ExpectedConditions.invisibilityOf(webElement)));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
     }
 
     // Method to check an element and retry 'attempts' times before failing due to stale element
-    protected Boolean WaitUntilElementIsReady(WebElement webElement) {
-        Boolean result = false;
+    public static void WaitUntilElementExists(WebElement webElement) {
         int attempts = 0;
         while (attempts < 3) {
             try {
                 //getDriver().findElement(by).click();
                 webElement.isDisplayed();
-                result = true;
-                break;
-            } catch (StaleElementReferenceException e) {
+                return;
+            } catch (NoSuchElementException e) {
+                e.printStackTrace();
+            }
+            // Couldn't find the element, wait and try again
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             attempts++;
         }
-        return result;
     }
 
     // Method to check an element and retry 'attempts' times before failing due to stale element
@@ -59,7 +70,7 @@ public class AbstractSteps{
                 //getDriver().findElement(by).click();
                 webElement.isDisplayed();
                 return webElement;
-            } catch (StaleElementReferenceException e) {
+            } catch (StaleElementReferenceException e) { //catch (StaleElementReferenceException | NoSuchElementException e)
             }
             // Couldn't get the element, wait and try again
 
@@ -193,6 +204,15 @@ public class AbstractSteps{
             System.err.println(wde.getMessage());
         } catch (ClassCastException cce) {
             cce.printStackTrace();
+        }
+    }
+
+    public static String getElementXPath(WebDriver driver, WebElement element) {
+        try {
+            return (String) ((JavascriptExecutor) driver).executeScript("gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();", element);
+        } catch (NoSuchElementException e){
+            // if we can't find the element, return an xpath for an element that will never exist so it doesn't ever fail here
+            return "id(\"some-id-nobody-would-ever-usee\")/div[1]/div[2]/footer[1]/div[1]/button[1]";
         }
     }
 
