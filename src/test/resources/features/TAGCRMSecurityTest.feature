@@ -14,7 +14,7 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 		And  I should not see the Security menu
 		And  I should see the Help menu
 		When I logout
-		Then I should be on the login
+		Then I should be on the login page
 
 	Scenario: CheckTAGCRMUserPMSubMenu
 		When I click on the Program Management menu
