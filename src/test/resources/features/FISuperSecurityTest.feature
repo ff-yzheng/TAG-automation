@@ -29,12 +29,13 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 		When I navigate to Program Management - FIs
 		Then I should be on the Setup tab
 		And  I should see the BINs tab
-		And  I should not see the ADD NEW button
 		And  I should see the MCC Groups tab
 		And  I should see the Authorization Controls tab
 		And  I should see the Statements tab
 		And  I should see the Fees tab
 		And  I should see the Reports tab
+		When I navigate to BINs tab
+		Then I should not see the ADD New button
 		When I logout
 		Then I should be on the login page
 
