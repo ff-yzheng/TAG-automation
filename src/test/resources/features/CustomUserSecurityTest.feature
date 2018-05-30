@@ -46,23 +46,22 @@ Feature:
 		Then I should see Card Number field
 		And  I should see Search button
 		When I enter "5476550200019204" for Card Number field
-		And  I click Search button
-		Then I should be on Setup tab
-		And  I should see Authorizations tab
-		And  I should see Transaction tab
-		And  I should see Notes tab
-		And  I should see Manual Authorization tab
-		And  I should see Instant Approval tab
-		When I am on Setup tab
-		Then I update the <Credit Limit Max>, <Credit Limit Min> field
-		When I click Save button
+		And  I click on the SEARCH
+		Then I should be on the Setup tab
+		And  I should see the Authorizations tab
+		And  I should see the Transactions tab
+		And  I should see the Notes tab
+		And  I should see the Manual Authorization  tab
+		And  I should see the Instant Approval tab
+		When I am on the Setup tab
+		Then I update the
+          |Credit Limit Max| |Credit Limit Min|
+          | 2,000.00       | |100.00		  |
+   		And  I click on the SAVE
 		Then I should see the message on top "Updates have been saved."
 		When I logout
 		Then I should be logged out and on the login page
 
-		Examples:
-		|Credit Limit Max| |Credit Limit Min|
-		| 2,000.00       | |100.00			|
 
 		#How do I increment the Credit Limit Max and Credit Limit Min whenever the script is run? (Question for Todd)
 
@@ -70,13 +69,15 @@ Feature:
 		#Verify Audit Log page captures Credit Limit Max and Credit Limit Min updates
 
 		 When I navigate to Operations - Audit Log
-		 Then I should see the update for <Credit Limit Max>, <Credit Limit Min> field
+		 Then I should select Card from the DDL for Type
+		 And  I should enter "5476550200019204" for Card Number field
+		 And  I click on the SEARCH
+		 Then I should see the update for
+           |Credit Limit Max| |Credit Limit Min|
+           | 2,000.00       | |100.00		   |
 		 When I log out
 		 Then I should be logged out and on the login page
 
-	 	Examples:
-	 	|Credit Limit Max| |Credit Limit Min|
-	 	| 2,000.00       | |100.00			|
 
 		 #How do verify the increment in the previous steps is verified on the Audit Log page? (Question for Todd)
 
@@ -90,15 +91,15 @@ Feature:
 		And  I should see Client Name field
 		And  I should see the Search button
 		When I enter "0002886" for Company Number field
-		And  I Click Search button
+		And  I click on the SEARCH
 		Then I should see only one record with "Company 1 (WIRE)" for Company Name column
 		And  I should see "0002886" for Company Number column
 		When I click on "0002886" for Company Number
-		Then I should be on Authorizations tab
-		And  I should see Transactions tab
-		And  I should see Statements tab
-		And  I should see Payments tab
-		And  I should see Notes tab
+		Then I should be on the Authorizations tab
+		And  I should see the Transactions tab
+		And  I should see the Statements tab
+		And  I should see the Payments tab
+		And  I should see the Notes tab
 		When I navigate to Payments tab
 		Then I should see "Amount" field
 		And  I should see "Submit" button
@@ -126,10 +127,10 @@ Feature:
 		And  I select "Wex Bank" from the drop down list for Owner field
 		Then I should see only one record with "Automation Custom Role" for Role Name column
 		When I click on "Automation Custom Role"
-		Then I should see Edit Role tab
+		Then I should see the Edit Role tab
 		When I uncheck Post Payment privilege
 		And  I uncheck Edit Card privilege
-		When I click Save button
+		When I click on the SAVE
 		Then I should see the message on top "Updates have been saved."
 		When I logout
 		Then I should be logged out and on the login page
@@ -147,7 +148,7 @@ Feature:
 		And  I should see Search button
 		When I enter "5476550200019204" for Card Number field
 		And  I click Search button
-		Then I should be on Setup tab
+		Then I should be on the Setup tab
 		And  I should see all the fields are greyed out
 		And  I should not be able to update Credit Limit Max field
 		And  I should not be able to update Credit Limit Min field
@@ -163,15 +164,15 @@ Feature:
 		And  I should see Client Name field
 		And  I should see the Search button
 		When I enter "0002886" for Company Number field
-		And  I Click Search button
+		And  I Click on the SEARCH
 		Then I should see only one record with "Company 1 (WIRE)" for Company Name column
 		And  I should see "0002886" for Company Number column
 		When I click on "0002886" for Company Number
-		Then I should be on Authorizations tab
-		And  I should see Transactions tab
-		And  I should see Statements tab
-		And  I should see Payments tab
-		And  I should see Notes tab
+		Then I should be on the Authorizations tab
+		And  I should see the Transactions tab
+		And  I should see the Statements tab
+		And  I should see the Payments tab
+		And  I should see the Notes tab
 		When I navigate to Payments tab
 		Then I should not see the "Amount" field
 		And  I should not see the "Submit" button
