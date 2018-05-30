@@ -189,7 +189,7 @@ public class TransactGlobalPage {
 
         /*
         // Wait for loading spinner to disappear
-        AbstractSteps.WaitForElementToDisappear(getDriver(), LoadingSpinner);
+        AbstractSteps.WaitForElementToLoad(getDriver(), LoadingSpinnerIsHidden);
 
         // wait for Updates have been saved alert to disappear before continuing
         AbstractSteps.WaitForElementToDisappear(getDriver(), AlertSuccess);

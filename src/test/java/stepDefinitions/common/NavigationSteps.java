@@ -27,7 +27,7 @@ public class NavigationSteps extends AbstractSteps {
     @When("^I navigate to (.*) - (.*)")
     public void iNavigateToMainMenuSubMenu(String mainMenuText, String subMenuText) throws Throwable {
 
-        tagPage= new TransactGlobalPage(getDriver());
+        tagPage = new TransactGlobalPage(getDriver());
 
         // maximize the browser so the menu is visible (menu doesn't show if window is too small)
         getDriver().manage().window().setSize(new Dimension(1440, 900));

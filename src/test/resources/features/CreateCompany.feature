@@ -14,8 +14,7 @@ Feature: Create A Company
 	#Next step only needed when logging in as TAGSuper
 	When I set the FI Name dropdown to WEX Bank
 	And I create a new company with <Client Name>, <Company Name Start>, <Primary Contact>, <Phone Number>, <Address1>, <City>,  <StateProvince>, <Postal Code>, <Tax ID Number>, <Currency>, <BIN>, <Credit Limit>, <Bill Cycle>, <Cycle Day>, <Grace Period>, <Late Fee Percentage>, <International Fee Percentage>, <Statement Template>, <Payment Method>
-	#LEFT OFF HERE
-	Then I verify the new company changes in the audit log for <Client Name>, <Company Name Start>, <Primary Contact>, <Phone Number>, <Address1>, <City>,  <StateProvince>, <Postal Code>, <Tax ID Number>, <Currency>, <BIN>, <Credit Limit>, <Bill Cycle>, <Cycle Day>, <Grace Period>, <Late Fee Percentage>, <International Fee Percentage>, <Statement Template>, <Payment Method>
+	#Then I verify the new company changes in the audit log for <Client Name>, <Company Name Start>, <Primary Contact>, <Phone Number>, <Address1>, <City>,  <StateProvince>, <Postal Code>, <Tax ID Number>, <Currency>, <BIN>, <Credit Limit>, <Bill Cycle>, <Cycle Day>, <Grace Period>, <Late Fee Percentage>, <International Fee Percentage>, <Statement Template>, <Payment Method>
 	#Eventually verify the API calls after a new company is activated
 	When I logout
 	Then I should be logged out and on the login page

@@ -2,10 +2,13 @@ package stepDefinitions.ProgramManagement;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import pages.Operations.AuditLog;
 import pages.ProgramManagement.*;
 import stepDefinitions.AbstractSteps;
+import stepDefinitions.common.NavigationSteps;
 
 import static global.SharedWebDriver.getDriver;
+import static global.SharedWebDriver.scenario;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -21,6 +24,7 @@ public class CompaniesSteps extends AbstractSteps {
     private CompaniesBillingFeatures companiesBillingFeatures;
     private CompaniesAuthorizationControls companiesAuthorizationControls;
     private CompaniesNotes companiesNotes;
+    private AuditLog auditLog;
 
     private String companyNumber;
     private String companyNameFull;
@@ -150,6 +154,13 @@ public class CompaniesSteps extends AbstractSteps {
         // click Save
         companiesBINs.ClickSaveButtonAndWait();
 
+        // Need extra wait because modal is sometimes in the way for next click
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // Go to Credit Limit Tab
         try {
             iClickOnTheYTab("Credit Limit");
@@ -225,11 +236,53 @@ public class CompaniesSteps extends AbstractSteps {
 
     @Then("I verify the new company changes in the audit log for (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*)")
     public void iVerifyTheNewCompanyChangesInTheAuditLog(String clientName, String companyNameStart, String primaryContact, String phoneNumber, String address1, String city, String stateProvince, String postalCode, String taxIdNumber, String currency, String bin, String creditLimit, String billCycle, String cycleDay, String gracePeriod, String lateFeePerc, String interFeePerc, String statementTemplate, String paymentMethod) {
+        auditLog = new AuditLog(getDriver());
+
         // Go to Ops - Audit Log
+        auditLog.OperationsMenu.click();
+        auditLog.AuditLogSubMenu.click();
+        WaitUntilElementExists(auditLog.SearchButton);
 
         // Search for Type company and the company name
+        auditLog.SetTypeDropdown("Company");
+        auditLog.CompanyNumberSearchField.sendKeys(companyNumber);
+        auditLog.SearchButton.click();
+        WaitUntilElementExists(auditLog.LoadingSpinnerIsHidden);
 
         // Verify the entries in the audit log
+        embedScreenshot(scenario);
+
+        // Find the row with field name entry
+        String statusRowNumber = GetRowNumberFromCellText("Status");
+        String paymentMethodRowNumber = GetRowNumberFromCellText("Payment Method");
+        String billCycleRowNumber = GetRowNumberFromCellText("Bill Cycle");
+        String interFeeRowNumber = GetRowNumberFromCellText("International Fee");
+        String creditLimitAmtRowNumber = GetRowNumberFromCellText("Credit Limit Amount");
+        String binsRowNumber = GetRowNumberFromCellText("BINs");
+        String cardExpirationRowNumber = GetRowNumberFromCellText("Card Expiration");
+        String cardAddressRowNumber = GetRowNumberFromCellText("Card Address");
+        String primaryContactRowNumber = GetRowNumberFromCellText("Primary Contact");
+        String addressRowNumber = GetRowNumberFromCellText("Address");
+        String taxIdNumberRowNumber = GetRowNumberFromCellText("Tax ID Number");
+        String phoneRowNumber = GetRowNumberFromCellText("Phone");
+        String nameRowNumber = GetRowNumberFromCellText("Name");
+        String daysToHoldRowNumber = GetRowNumberFromCellText("Days To Hold");
+
+        System.out.println("status row " + statusRowNumber);
+        System.out.println("pmt method row " + paymentMethodRowNumber);
+        System.out.println("billcycle row " + billCycleRowNumber);
+        System.out.println("interbation fee row " + interFeeRowNumber);
+        System.out.println("cred limit row " + creditLimitAmtRowNumber);
+        System.out.println("bins row " + binsRowNumber);
+        System.out.println("card exp row " + cardExpirationRowNumber);
+        System.out.println("card address row " + cardAddressRowNumber);
+        System.out.println("primary contact row " + primaryContactRowNumber);
+        System.out.println("address row " + addressRowNumber);
+        System.out.println("tax id row " + taxIdNumberRowNumber);
+        System.out.println("phone row " + phoneRowNumber);
+        System.out.println("name row " + nameRowNumber);
+        System.out.println("days to hold row " + daysToHoldRowNumber);
+
 
         // Eventually have a test that the API creating a new company was sent to EnCompass and CoreCard?
 

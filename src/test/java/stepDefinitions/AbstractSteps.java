@@ -40,23 +40,25 @@ public class AbstractSteps{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
     }
 
-    // Method to check an element and retry 'attempts' times before failing due to stale element
+    // Method to check an element and retry 'attempts' times before failing due to element not found
     public static void WaitUntilElementExists(WebElement webElement) {
         int attempts = 0;
-        while (attempts < 3) {
+        while (attempts < 5) {
             try {
                 //getDriver().findElement(by).click();
                 webElement.isDisplayed();
-                return;
+                //System.out.println("does it get passed the isDisplyed?");
+                break;
             } catch (NoSuchElementException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             // Couldn't find the element, wait and try again
 
             try {
                 Thread.sleep(500);
+                //System.out.println("attempt: " + attempts);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+               // e.printStackTrace();
             }
             attempts++;
         }
@@ -102,6 +104,20 @@ public class AbstractSteps{
         catch(NoSuchElementException e){
             return false;
         }
+    }
+
+    // Find the row number by looking for a text value
+    public String GetRowNumberFromCellText(String cellText){
+        // Find the first cell which contains the cellText
+        WebElement cellWithText = getDriver().findElement(By.xpath("//table//td[contains(text(),'" + cellText + "')]"));
+
+        // Get the parent tr element
+        WebElement parentElement = (WebElement) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].parentNode;", cellWithText);
+
+        // Get the rowIndex of the cell's parent tr element
+        String parentRowIndex = parentElement.getAttribute("rowIndex");
+
+        return parentRowIndex;
     }
 
     // Set a drop down by passing in the element and display text
