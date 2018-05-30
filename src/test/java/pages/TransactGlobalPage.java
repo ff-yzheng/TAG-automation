@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import stepDefinitions.AbstractSteps;
+
+import static global.SharedWebDriver.getDriver;
 
 public class TransactGlobalPage {
 
@@ -174,6 +177,29 @@ public class TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//button[text()='Search']") // Need more definitions? //button[@id='search-btn']
     public WebElement SearchButton;
 
+    // Save Button
+    @FindBy(how = How.XPATH, using = "//button[text()='Save']")
+    public WebElement SaveButton;
+
+    public void ClickSaveButtonAndWait(){
+        SaveButton.click();
+
+        // wait for save button to be disabled
+        AbstractSteps.WaitForElementToLoad(getDriver(), DisabledSaveButton);
+
+        /*
+        // Wait for loading spinner to disappear
+        AbstractSteps.WaitForElementToDisappear(getDriver(), LoadingSpinner);
+
+        // wait for Updates have been saved alert to disappear before continuing
+        AbstractSteps.WaitForElementToDisappear(getDriver(), AlertSuccess);
+        */
+    }
+
+    // Disabled Save Button
+    @FindBy(how = How.XPATH, using = "//button[text()='Save' and contains(@class,'disabled')]")
+    public WebElement DisabledSaveButton;
+
     // Add New Button
     @FindBy(how = How.XPATH, using = "//a[@class='btn-icon-text']/span[contains(text(),'Add New')]")
     public WebElement AddNewButton;
@@ -182,5 +208,11 @@ public class TransactGlobalPage {
     // Error Alert
     @FindBy(how = How.XPATH, using = "//*[@class='form-error' and @innertext!~'Credit Limit.*' or @class='alert' or @class~'alert-danger']")
     public WebElement AlertError;
+
+    // Alert success
+    @FindBy(how = How.XPATH, using = "//div[@id='alert-region']//div[contains(@class,'alert-success')]")
+    public WebElement AlertSuccess;
+
+
 }
 

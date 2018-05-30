@@ -73,8 +73,8 @@ public class LoginSteps extends AbstractSteps {
         loginPage.Logout();
     }
 
-    @Then("^I should be on the login page$")
-    public void iShouldBeOnTheLoginPage() throws Throwable {
+    @Then("^I should be logged out and on the login page$")
+    public void iShouldBeLoggedOutAndOnTheLoginPage() throws Throwable {
         loginPage.RefreshModel();
 
         // Verify I am on the login page

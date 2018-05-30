@@ -1,22 +1,15 @@
 package stepDefinitions;
 
 import cucumber.api.Scenario;
-import cucumber.api.java.en.Then;
-import global.SharedWebDriver;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.Reporter;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 
-import java.io.File;
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
@@ -25,7 +18,7 @@ import static global.SharedWebDriver.scenario;
 public class AbstractSteps{
 
     // Enable wait options in steps
-    protected void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
+    public static void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
@@ -35,26 +28,38 @@ public class AbstractSteps{
         wait.until((ExpectedConditions.visibilityOf(webElement)));
     }
 
-    protected void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+    public static void WaitForUrlToContain(WebDriver activeDriver, String urlText) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
-        wait.until((ExpectedConditions.invisibilityOf(webElement)));
+        wait.until(ExpectedConditions.urlContains(urlText));
+    }
+
+    // I don't think this works consistently
+    public static void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+        WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+        //wait.until((ExpectedConditions.invisibilityOf(webElement)));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
     }
 
     // Method to check an element and retry 'attempts' times before failing due to stale element
-    protected Boolean WaitUntilElementIsReady(WebElement webElement) {
-        Boolean result = false;
+    public static void WaitUntilElementExists(WebElement webElement) {
         int attempts = 0;
         while (attempts < 3) {
             try {
                 //getDriver().findElement(by).click();
                 webElement.isDisplayed();
-                result = true;
-                break;
-            } catch (StaleElementReferenceException e) {
+                return;
+            } catch (NoSuchElementException e) {
+                e.printStackTrace();
+            }
+            // Couldn't find the element, wait and try again
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             attempts++;
         }
-        return result;
     }
 
     // Method to check an element and retry 'attempts' times before failing due to stale element
@@ -65,7 +70,7 @@ public class AbstractSteps{
                 //getDriver().findElement(by).click();
                 webElement.isDisplayed();
                 return webElement;
-            } catch (StaleElementReferenceException e) {
+            } catch (StaleElementReferenceException e) { //catch (StaleElementReferenceException | NoSuchElementException e)
             }
             // Couldn't get the element, wait and try again
 
@@ -97,6 +102,42 @@ public class AbstractSteps{
         catch(NoSuchElementException e){
             return false;
         }
+    }
+
+    // Set a drop down by passing in the element and display text
+    protected void SetDropdownByText(WebElement webElement, String value){
+        Select select = new Select(webElement);
+        select.selectByVisibleText(value);
+    }
+
+    // Set a drop down by passing in the element and value
+    protected void SetDropdownByValue(WebElement webElement, String value){
+        Select select = new Select(webElement);
+        select.selectByValue(value);
+    }
+
+    // Methods to create date time string for uniquely naming things
+    // Return length is 23, fully formatted date and time to the milliseconds
+    protected String GenerateDateTimeStringFull(){
+        String format = "yyyy-MM-dd HH:mm:ss.SSS";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Return length is 12 (still a date to the second and trimmed of spaces and extra characters
+    protected String GenerateDateTimeStringShortest(){
+        String format = "yyMMddHHmmss";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Return length is 15 (year is 4 digit and space between date and time, to the second)
+    protected String GenerateDateTimeStringShort(){
+        String format = "yyyyMMdd HHmmss";
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    // Format is passed into method, format must be valid like "yyyy-MM-dd HH:mm:ss.SSS"
+    protected String GenerateDateTimeStringCustom(String format){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
     }
 
     // Gets and returns the text of the parent node only (useful for getting the tab name without the count)
@@ -163,6 +204,15 @@ public class AbstractSteps{
             System.err.println(wde.getMessage());
         } catch (ClassCastException cce) {
             cce.printStackTrace();
+        }
+    }
+
+    public static String getElementXPath(WebDriver driver, WebElement element) {
+        try {
+            return (String) ((JavascriptExecutor) driver).executeScript("gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();", element);
+        } catch (NoSuchElementException e){
+            // if we can't find the element, return an xpath for an element that will never exist so it doesn't ever fail here
+            return "id(\"some-id-nobody-would-ever-usee\")/div[1]/div[2]/footer[1]/div[1]/button[1]";
         }
     }
 

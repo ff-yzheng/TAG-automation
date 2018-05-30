@@ -83,13 +83,31 @@ public class NavigationSteps extends AbstractSteps {
         assertFalse("Error: Found " + menuName + " menu", itemPresent);
     }
 
-    @Then("^I click on the (.*) menu$")
+    @When("^I click on the (.*) menu")
     public void iClickOnTheYMenu(String mainMenuText) throws Throwable {
         // Find the Main Menu item from the passed mainMenu
         WebElement mainMenu = getDriver().findElement(By.xpath("//a[@class='dropdown-toggle' and contains(text(),'" + mainMenuText + "')]"));
 
         // Click the main then submenu
         mainMenu.click();
+    }
+
+    @When("^I click on the (.*) tab")
+    public static void iClickOnTheYTab(String tabName) throws Throwable {
+        // Find the tab item from the passed tabName
+        WebElement tab = getDriver().findElement(By.xpath("//ul[contains(@class,'nav nav-tabs')]//a[contains(text(),'" + tabName + "')]"));
+
+        // Click the main then submenu
+        tab.click();
+
+        // This won't always work since the display name isn't always the url name (i.e. 1st Chargebacks and firstchargebak)
+        //WaitForUrlToContain(getDriver(), tabName);
+
+        //Thread.sleep(2000);
+
+        // Wait for the tab to go active
+        //WaitUntilElementExists(getDriver().findElement(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'" + tabName + "')]")));
+        //WaitForElementToLoad(getDriver(), getDriver().findElement(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'" + tabName + "')]")));
     }
 
     @Then("^I should see the (.*) - (.*) submenu")
@@ -107,6 +125,37 @@ public class NavigationSteps extends AbstractSteps {
         // Confirm that the submenu is NOT found
         Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'navbar')]/li/a[contains(text(),'" + mainMenuText + "')]/../ul[@class='dropdown-menu']/li/a[contains(text(),'" + subMenuText + "')]")).isEmpty();
         assertFalse("Error: Found " + mainMenuText + " - " + subMenuText, itemPresent);
+    }
+
+    @Then("^I should be on the (.*) tab$")
+    public void iShouldBeOnTheXTab(String tabName) throws Throwable {
+        // Check to see if I am on the correct tab
+        Boolean tabActive = !getDriver().findElements(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'" + tabName + "')]")).isEmpty();
+        assertTrue("Error: " + tabName + " is not the active tab", tabActive);
+    }
+
+    // Checks anywhere in the breadcrumb for the passed value
+    @Then("^I should be on the (.*) page$")
+    public void iShouldBeOnTheXPage(String value) throws Throwable {
+        // Check to see if I am on the correct tab
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ol[contains(@class,'breadcrumb')]//*[contains(text(),'" + value + "')]")).isEmpty();
+        assertTrue("Error: " + value + " not found in the page breadcrumb", itemPresent);
+    }
+
+    @Then("^I should see the (.*) tab$")
+    public static void iShouldSeeTheXTab(String tabName) throws Throwable {
+        // Check to see if the tab is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//ul[contains(@class,'nav nav-tabs')]/li/a[contains(text(),'" + tabName + "')]")).isEmpty();
+        assertTrue("Error: Cannot find " + tabName, itemPresent);
+    }
+
+    @When("^I click the Add New button")
+    public void iClickTheAddNewButton() throws Throwable {
+        // Click the add new button
+        tagPage.AddNewButton.click();
+
+        // Wait for Breadcrumb3 to load (when we should be on the new page)
+        WaitForElementToLoad(getDriver(), tagPage.BreadCrumb3);
     }
 
     @Then("^I wait for (\\d+) (.*)")
