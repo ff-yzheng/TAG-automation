@@ -2,18 +2,20 @@ package stepDefinitions;
 
 import cucumber.api.Scenario;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ByIdOrName;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Reporter;
 import org.openqa.selenium.OutputType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static global.SharedWebDriver.getDriver;
 import static global.SharedWebDriver.scenario;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class AbstractSteps{
 
@@ -33,11 +35,56 @@ public class AbstractSteps{
         wait.until(ExpectedConditions.urlContains(urlText));
     }
 
-    // I don't think this works consistently
+    // I haven't been able to get a wait for invisibility when passing an elemenet to work consistently
+    // I created a method that take an xpath as the 2nd parameter that works
+    // I have been make the XPATH in the page models public for any elements I need to wait to go invis
+    // See these for examples; AlertSuccess and LoadingSpinner
+    /*
     public static void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
+        // Wait so the element has a chance to appear before the implicit wait for disappear
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // check for the passes element to disappear
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+
+        // Trying the following method always times out and says it failed waiting to invisibility of element
         //wait.until((ExpectedConditions.invisibilityOf(webElement)));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
+
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(webElement.getAttribute("id"))));
+
+        // Also tried this to try and wait for alert to disappear but it didn't work
+        //        Wait wait = new FluentWait(activeDriver)
+        //       .withTimeout(10, SECONDS)
+        //       .pollingEvery(100, MILLISECONDS);
+
+        //WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+        //wait.until((ExpectedConditions.invisibilityOf(webElement)));
+        //wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(getElementXPath(activeDriver, webElement))));
+
+        //System.out.println("xpath = " + getElementXPath(activeDriver, webElement));
+        //System.out.println("id = " + webElement.getAttribute("id"));
+    }
+    */
+
+    // Method to wait for an element to disappear by passing xpath
+    // to use for page model elements, make the XPATH a public String
+    // Examples in TransactGlobalPge.java: AlertSuccess and LoadingSpinner
+    public static void WaitForElementToDisappear(WebDriver activeDriver, String elementXPath){
+        // Wait so the element has a chance to appear before the implicit wait for disappear
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Check for the element via the passed xpath
+        WebDriverWait wait = new WebDriverWait(activeDriver, 10);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(elementXPath)));
     }
 
     // Method to check an element and retry 'attempts' times before failing due to element not found
@@ -108,8 +155,8 @@ public class AbstractSteps{
 
     // Find the row number by looking for a text value
     public String GetRowNumberFromCellText(String cellText){
-        // Find the first cell which contains the cellText
-        WebElement cellWithText = getDriver().findElement(By.xpath("//table//td[contains(text(),'" + cellText + "')]"));
+        // Find the first cell which equals the cellText
+        WebElement cellWithText = getDriver().findElement(By.xpath("//table//td[text()='" + cellText + "']"));
 
         // Get the parent tr element
         WebElement parentElement = (WebElement) ((JavascriptExecutor) getDriver()).executeScript("return arguments[0].parentNode;", cellWithText);
@@ -224,11 +271,21 @@ public class AbstractSteps{
     }
 
     public static String getElementXPath(WebDriver driver, WebElement element) {
+
+        // Need to wait because I found it was running so fast it was trying to find the element before it existed
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // get the element xpath, if the element is not found it defaults to a non-existent element (so calling functions don't break)_
         try {
             return (String) ((JavascriptExecutor) driver).executeScript("gPt=function(c){if(c.id!==''){return'id(\"'+c.id+'\")'}if(c===document.body){return c.tagName}var a=0;var e=c.parentNode.childNodes;for(var b=0;b<e.length;b++){var d=e[b];if(d===c){return gPt(c.parentNode)+'/'+c.tagName+'['+(a+1)+']'}if(d.nodeType===1&&d.tagName===c.tagName){a++}}};return gPt(arguments[0]).toLowerCase();", element);
         } catch (NoSuchElementException e){
             // if we can't find the element, return an xpath for an element that will never exist so it doesn't ever fail here
-            return "id(\"some-id-nobody-would-ever-usee\")/div[1]/div[2]/footer[1]/div[1]/button[1]";
+            System.out.println("getElementXPath could not find the element to get the xpath");
+            return "id(\"some-id-nobody-would-ever-use\")/div[1]/div[2]/footer[1]/div[1]/button[1]";
         }
     }
 

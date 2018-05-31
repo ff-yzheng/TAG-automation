@@ -2,13 +2,21 @@ package stepDefinitions.ProgramManagement;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
+import org.testng.internal.collections.Pair;
 import pages.Operations.AuditLog;
 import pages.ProgramManagement.*;
+import pages.TransactGlobalPage;
 import stepDefinitions.AbstractSteps;
-import stepDefinitions.common.NavigationSteps;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static global.SharedWebDriver.getDriver;
 import static global.SharedWebDriver.scenario;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -28,6 +36,7 @@ public class CompaniesSteps extends AbstractSteps {
 
     private String companyNumber;
     private String companyNameFull;
+    private String stateAbbrev;
 
     @When("I set the FI Name dropdown to (.*)")
     public void iCreateANewCompanyWithReqFields(String fiName){
@@ -79,6 +88,9 @@ public class CompaniesSteps extends AbstractSteps {
         companiesSetup.StateProvince.sendKeys(stateProvince);
         companiesSetup.SetPostalCode(postalCode);
         companiesSetup.SetTaxIDNumber(taxIdNumber);
+
+        // Saving state abbrev for later verifications
+        stateAbbrev = companiesSetup.StateProvince.getAttribute("value");
 
         companiesSetup.ClickSaveButtonAndWait();
         /*
@@ -232,6 +244,17 @@ public class CompaniesSteps extends AbstractSteps {
 
         // confirm the company shows as Active
         assertThat("Status is not Active", companiesSetup.StatusDropdown.getAttribute("value"), is(equalTo("Active")));
+
+        // Wait for loading and alert to go away before ending the step
+        WaitUntilElementExists(companiesSetup.LoadingSpinnerIsHidden);
+        // Haven't found a good way to check for element to disappear without passing the String xpath
+        //WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
+        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
+
+        /*
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='alert-region']//div[contains(@class,'alert-success')]")));
+        */
     }
 
     @Then("I verify the new company changes in the audit log for (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*)")
@@ -249,39 +272,59 @@ public class CompaniesSteps extends AbstractSteps {
         auditLog.SearchButton.click();
         WaitUntilElementExists(auditLog.LoadingSpinnerIsHidden);
 
+        // Need to reformat the credit limit for verification step (entered as number, displayed with thousands separator)
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
+        String formattedCL = decimalFormat.format(Long.parseLong(creditLimit));
+
         // Verify the entries in the audit log
-        embedScreenshot(scenario);
+        // Set up an array of pairs (field name, expected value) to look for in the table
+        ArrayList<Pair<String, String>> dataToVerify = new ArrayList<Pair<String, String>>();
 
-        // Find the row with field name entry
-        String statusRowNumber = GetRowNumberFromCellText("Status");
-        String paymentMethodRowNumber = GetRowNumberFromCellText("Payment Method");
-        String billCycleRowNumber = GetRowNumberFromCellText("Bill Cycle");
-        String interFeeRowNumber = GetRowNumberFromCellText("International Fee");
-        String creditLimitAmtRowNumber = GetRowNumberFromCellText("Credit Limit Amount");
-        String binsRowNumber = GetRowNumberFromCellText("BINs");
-        String cardExpirationRowNumber = GetRowNumberFromCellText("Card Expiration");
-        String cardAddressRowNumber = GetRowNumberFromCellText("Card Address");
-        String primaryContactRowNumber = GetRowNumberFromCellText("Primary Contact");
-        String addressRowNumber = GetRowNumberFromCellText("Address");
-        String taxIdNumberRowNumber = GetRowNumberFromCellText("Tax ID Number");
-        String phoneRowNumber = GetRowNumberFromCellText("Phone");
-        String nameRowNumber = GetRowNumberFromCellText("Name");
-        String daysToHoldRowNumber = GetRowNumberFromCellText("Days To Hold");
+        // populate the pairs to test
+        dataToVerify.add(Pair.create("Status","Active"));
+        dataToVerify.add(Pair.create("Payment Method",paymentMethod));
+        dataToVerify.add(Pair.create("Bill Cycle",billCycle)); // 3 entered values in this 1 row
+        dataToVerify.add(Pair.create("Bill Cycle",cycleDay));
+        dataToVerify.add(Pair.create("Bill Cycle",gracePeriod));
+        dataToVerify.add(Pair.create("International Fee",interFeePerc));
+        dataToVerify.add(Pair.create("Credit Limit Amount",formattedCL)); // 2 entered values in this 1 row
+        dataToVerify.add(Pair.create("Credit Limit Amount",currency));
+        dataToVerify.add(Pair.create("BINs",bin));
+        dataToVerify.add(Pair.create("Card Address",address1)); // 4 entered values in this 1 row
+        dataToVerify.add(Pair.create("Card Address",city));
+        dataToVerify.add(Pair.create("Card Address",stateAbbrev));
+        dataToVerify.add(Pair.create("Card Address",postalCode));
+        dataToVerify.add(Pair.create("Primary Contact",primaryContact));
+        dataToVerify.add(Pair.create("Address",address1)); // 4 entered values in this 1 row
+        dataToVerify.add(Pair.create("Address",city));
+        dataToVerify.add(Pair.create("Address",stateAbbrev));
+        dataToVerify.add(Pair.create("Address",postalCode));
+        dataToVerify.add(Pair.create("Tax ID Number",taxIdNumber));
+        dataToVerify.add(Pair.create("Phone",phoneNumber));
+        dataToVerify.add(Pair.create("Name",companyNameFull));
 
-        System.out.println("status row " + statusRowNumber);
-        System.out.println("pmt method row " + paymentMethodRowNumber);
-        System.out.println("billcycle row " + billCycleRowNumber);
-        System.out.println("interbation fee row " + interFeeRowNumber);
-        System.out.println("cred limit row " + creditLimitAmtRowNumber);
-        System.out.println("bins row " + binsRowNumber);
-        System.out.println("card exp row " + cardExpirationRowNumber);
-        System.out.println("card address row " + cardAddressRowNumber);
-        System.out.println("primary contact row " + primaryContactRowNumber);
-        System.out.println("address row " + addressRowNumber);
-        System.out.println("tax id row " + taxIdNumberRowNumber);
-        System.out.println("phone row " + phoneRowNumber);
-        System.out.println("name row " + nameRowNumber);
-        System.out.println("days to hold row " + daysToHoldRowNumber);
+        //data.get(0).first();
+        //System.out.println("size " + dataToVerify.size());
+
+        Integer i = 0;
+
+        do {
+            //System.out.println("Iteration " + i.toString());
+            // Get the row number for the field
+            String rowNumber = GetRowNumberFromCellText(dataToVerify.get(i).first());
+
+            // Build the xpath for the row
+            String rowXpath = "//table/tbody/tr[" + rowNumber + "]";
+
+            // Looks for the expected test somewhere in that row
+            System.out.println("Checking " + dataToVerify.get(i).first() + " row for " + dataToVerify.get(i).second());
+            scenario.write("Checking " + dataToVerify.get(i).first() + " row for " + dataToVerify.get(i).second());
+            assertThat("Could not find " + dataToVerify.get(i).second() + " in row " + rowNumber, getDriver().findElement(By.xpath(rowXpath)).getText(), containsString(dataToVerify.get(i).second()));
+
+            // Next
+            i++;
+        }
+        while (i < dataToVerify.size());
 
 
         // Eventually have a test that the API creating a new company was sent to EnCompass and CoreCard?

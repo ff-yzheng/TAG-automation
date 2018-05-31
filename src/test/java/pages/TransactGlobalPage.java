@@ -146,7 +146,9 @@ public class TransactGlobalPage {
     public WebElement BreadCrumb3;
 
     // **** Loading Spinner/Modal ****
-    @FindBy(how = How.XPATH, using = "//div[@class='loading-container']")
+    public final String LoadingSpinnerXPATH = "//div[@class='loading-container']";
+
+    @FindBy(how = How.XPATH, using = LoadingSpinnerXPATH)
     public WebElement LoadingSpinner;
 
     @FindBy(how = How.XPATH, using = "//div[@class='loading-container' and contains(@style,'display: none')]")
@@ -210,9 +212,9 @@ public class TransactGlobalPage {
     public WebElement AlertError;
 
     // Alert success
-    @FindBy(how = How.XPATH, using = "//div[@id='alert-region']//div[contains(@class,'alert-success')]")
+    public final String AlertSuccessXPATH = "//div[@id='alert-region']//div[contains(@class,'alert-success')]";
+
+    @FindBy(how = How.XPATH, using = AlertSuccessXPATH)
     public WebElement AlertSuccess;
-
-
 }
 

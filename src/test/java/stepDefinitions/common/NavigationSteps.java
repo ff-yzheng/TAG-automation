@@ -43,7 +43,7 @@ public class NavigationSteps extends AbstractSteps {
         subMenu.click();
 
         // Wait for the loading spinner to disappear before proceeding
-        WaitForElementToDisappear(getDriver(), tagPage.LoadingSpinner);
+        WaitForElementToDisappear(getDriver(), tagPage.LoadingSpinnerXPATH);
         Thread.sleep(500); // Test is moving a little too fast even waiting for the spinner to disappear
 
         // When going to the users page there is an extra delay in load that can break the test
