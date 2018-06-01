@@ -6,13 +6,10 @@ import org.openqa.selenium.By;
 import org.testng.internal.collections.Pair;
 import pages.Operations.AuditLog;
 import pages.ProgramManagement.*;
-import pages.TransactGlobalPage;
 import stepDefinitions.AbstractSteps;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import static global.SharedWebDriver.getDriver;
 import static global.SharedWebDriver.scenario;
@@ -34,9 +31,9 @@ public class CompaniesSteps extends AbstractSteps {
     private CompaniesNotes companiesNotes;
     private AuditLog auditLog;
 
-    private String companyNumber;
-    private String companyNameFull;
-    private String stateAbbrev;
+    private String companyNumber = "uninitialized";
+    private String companyNameFull = "uninitialized";
+    private String stateAbbrev = "uninitialized";
 
     @When("I set the FI Name dropdown to (.*)")
     public void iCreateANewCompanyWithReqFields(String fiName){
@@ -66,9 +63,6 @@ public class CompaniesSteps extends AbstractSteps {
         if you are a TAG super and need to pick on FI you'll need an extra step to pick FI
         before running this step definition
         */
-        // Set the FI Dropdown
-        //companiesSetup.SetFIDropdown("WEX Bank");
-        // Could also do:SetDropdownByText(companiesSetup.FIDropdown, "WEX Bank");
 
         // Set client dropdown
         companiesSetup.SetClientDropdown(clientName);
@@ -82,7 +76,7 @@ public class CompaniesSteps extends AbstractSteps {
         companiesSetup.SetPhoneNumber(phoneNumber);
         companiesSetup.SetAddress1(address1);
         companiesSetup.SetCity(city);
-        // I'm not sure why but I've been unable to set the state drop down via the value and text
+        // I'm not sure why but I've been unable to set the state drop down via the value and text, using sendKeys instead
         //companiesSetup.SetStateProvinceDropdown(stateProvince);
         //SetDropdownByValue(companiesSetup.StateProvince, stateProvince);
         companiesSetup.StateProvince.sendKeys(stateProvince);
@@ -93,14 +87,6 @@ public class CompaniesSteps extends AbstractSteps {
         stateAbbrev = companiesSetup.StateProvince.getAttribute("value");
 
         companiesSetup.ClickSaveButtonAndWait();
-        /*
-        // click Save
-        companiesSetup.SaveButton.click();
-        // wait for save button to be disabled
-        WaitForElementToLoad(getDriver(), companiesSetup.DisabledSaveButton);
-        // wait for Updates have been saved alert to disappear before continuing
-        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccess);
-        */
 
         companiesSetup.RefreshModel();
 
@@ -113,7 +99,7 @@ public class CompaniesSteps extends AbstractSteps {
         companyNumber = companiesSetup.CompanyNumber.getText();
         System.out.println("Company number: " + companyNumber);
 
-        // I should see the new tabs
+        // Verify that I see the new tabs
         try {
             iShouldSeeTheXTab("BINs");
             iShouldSeeTheXTab("Credit Limit");
@@ -137,7 +123,7 @@ public class CompaniesSteps extends AbstractSteps {
         // Wait for the Credit Limit tab to go active
         WaitUntilElementExists(companiesCreditLimit.CreditLimitActiveTab);
 
-        // Check that CL tab says: You must select a BIN before setting a company credit limit.
+        // Verify that CL tab says: You must select a BIN before setting a company credit limit.
         assertThat("Credit Limit tab doesn't have message to set BIN before credit limit", companiesCreditLimit.BinNotSetWarning.isDisplayed(), is(equalTo(true)));
 
         // Go to BIN tab
@@ -154,19 +140,19 @@ public class CompaniesSteps extends AbstractSteps {
 
         // Set the Scheme
         companiesBINs.SetSchemeDropdown("MasterCard");
-        // after picking scheme USD should be picked in Currency
+        // Verify that after picking scheme USD is shown in Currency
         assertThat("Default currency is not what was expected", companiesBINs.CurrencyDropdown.getAttribute("value"), is(equalTo(currency)));
 
         // Pick the BIN
         companiesBINs.SetBINsDropdown(bin);
 
-        // after picking BIN should see BIN status
+        // Verify that after picking a BIN that I see BIN status
         assertThat("BIN Status is empty", companiesBINs.BinStatus.getSize(), is(notNullValue()));
 
         // click Save
         companiesBINs.ClickSaveButtonAndWait();
 
-        // Need extra wait because modal is sometimes in the way for next click
+        // Need an extra wait because modal is sometimes in the way for next click
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -188,7 +174,7 @@ public class CompaniesSteps extends AbstractSteps {
         // Enter credit limit
         companiesCreditLimit.CompanyCreditLimit.sendKeys(creditLimit);
 
-        // After entering a credit limit I should see company credit limit met options
+        // Verify that after entering a credit limit I see the company credit limit met options
         assertThat("Credit limit decline/override options are not present", companiesCreditLimit.DeclineAuthsRadioButton.isDisplayed(), is(equalTo(true)));
 
         // click Save
@@ -242,19 +228,12 @@ public class CompaniesSteps extends AbstractSteps {
         // click Save
         companiesSetup.ClickSaveButtonAndWait();
 
-        // confirm the company shows as Active
+        // Verify that the company shows as Active
         assertThat("Status is not Active", companiesSetup.StatusDropdown.getAttribute("value"), is(equalTo("Active")));
 
         // Wait for loading and alert to go away before ending the step
         WaitUntilElementExists(companiesSetup.LoadingSpinnerIsHidden);
-        // Haven't found a good way to check for element to disappear without passing the String xpath
-        //WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
         WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
-
-        /*
-        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='alert-region']//div[contains(@class,'alert-success')]")));
-        */
     }
 
     @Then("I verify the new company changes in the audit log for (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*)")
@@ -266,15 +245,14 @@ public class CompaniesSteps extends AbstractSteps {
         auditLog.AuditLogSubMenu.click();
         WaitUntilElementExists(auditLog.SearchButton);
 
-        // Search for Type company and the company name
+        // Search for Type company and the company number
         auditLog.SetTypeDropdown("Company");
         auditLog.CompanyNumberSearchField.sendKeys(companyNumber);
         auditLog.SearchButton.click();
         WaitUntilElementExists(auditLog.LoadingSpinnerIsHidden);
 
         // Need to reformat the credit limit for verification step (entered as number, displayed with thousands separator)
-        DecimalFormat decimalFormat = new DecimalFormat("#,###.##");
-        String formattedCL = decimalFormat.format(Long.parseLong(creditLimit));
+        String formattedCL = FormatWithThousandAnd2Decimals(creditLimit);
 
         // Verify the entries in the audit log
         // Set up an array of pairs (field name, expected value) to look for in the table
@@ -303,9 +281,6 @@ public class CompaniesSteps extends AbstractSteps {
         dataToVerify.add(Pair.create("Phone",phoneNumber));
         dataToVerify.add(Pair.create("Name",companyNameFull));
 
-        //data.get(0).first();
-        //System.out.println("size " + dataToVerify.size());
-
         Integer i = 0;
 
         do {
@@ -325,7 +300,6 @@ public class CompaniesSteps extends AbstractSteps {
             i++;
         }
         while (i < dataToVerify.size());
-
 
         // Eventually have a test that the API creating a new company was sent to EnCompass and CoreCard?
 

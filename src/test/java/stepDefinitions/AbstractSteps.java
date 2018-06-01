@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.*;
 import org.testng.Reporter;
 import org.openqa.selenium.OutputType;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class AbstractSteps{
         wait.until(ExpectedConditions.urlContains(urlText));
     }
 
-    // I haven't been able to get a wait for invisibility when passing an elemenet to work consistently
-    // I created a method that take an xpath as the 2nd parameter that works
-    // I have been make the XPATH in the page models public for any elements I need to wait to go invis
+    // I haven't been able to get a wait for invisibility when passing an element to work consistently
+    // I created a method that take an xpath string as the 2nd parameter that works
+    // I have been making the XPATH in the page models public for any elements I need to wait to go invis
     // See these for examples; AlertSuccess and LoadingSpinner
     /*
     public static void WaitForElementToDisappear(WebDriver activeDriver, WebElement webElement){
@@ -142,6 +143,14 @@ public class AbstractSteps{
         value = value.trim();
 
         return value;
+    }
+
+    // Format the number with thousands separator and 2 decimals
+    protected String FormatWithThousandAnd2Decimals(String value){
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###.##");
+        String formatted = decimalFormat.format(Long.parseLong(value));
+
+        return formatted;
     }
 
     protected Boolean ElementDisplays(WebElement webElement){
