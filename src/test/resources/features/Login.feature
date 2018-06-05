@@ -28,10 +28,19 @@ Feature: Login
   Scenario: UseTestHarnessPOC
     Proof of Concept work for using Test Harness
     Given the login form at https://test.transact-global.net/
-    Given I open TestHarness
+    And I open TestHarness
     When I set the environment to test and name to JavaAutomation
-    When I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx and upload
-    When I run authorizations on the TestHarnessAuthFile_copy.xlsx auth file
-    When I download the transaction file
-    When I set the transaction file path and upload
+    And I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx and upload
+    And I run authorizations on the TestHarnessAuthFile_copy.xlsx auth file
+    And I download the transaction file
+    And When I set the transaction file path and upload
     Then I close the TestHarness
+
+  Scenario: EnCompassCreateMlogPOC
+    Proof of Concept / Test work for Create Mlog within EnCompass
+    Given the login form at https://test.transact-global.net/
+    And I open EnCompass
+    Then I login to EnCompass as a SuperUser
+    And I select the 0003232 company number on the EnCompass select org page
+    And I wait for 1 seconds
+
