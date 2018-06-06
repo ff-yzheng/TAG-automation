@@ -4,7 +4,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 //@RunWith(Cucumber.class)
 @CucumberOptions(
         //features = "src/test/resources/features",
-        features = "src/test/resources/features/CreateCompany.feature",
+        features = "src/test/resources/features/ProgramManagement/Companies/CreateCompany.feature",
         glue = {"global", "stepDefinitions", "pages"},
         tags = {"~@IgnoreForNow"},
 
