@@ -3,6 +3,7 @@ package stepDefinitions.tools;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,6 +19,12 @@ public class EnCompassSteps extends AbstractSteps {
 
     private EnCompass enCompass;
     private WebDriver enCompassDriver; // driver specific to test harness so it gets it's own browser instance during test
+
+    // Variables to save the card and  mlog information
+    public String mlogId;
+    public String cardNumber;
+    public String cardExpDate;
+    public String cardCsc;
 
     @Given("^I open EnCompass")
     public void iOpenEnCompass() {
@@ -102,6 +109,57 @@ public class EnCompassSteps extends AbstractSteps {
 
         // Wait for Main EnCompass Screen to load
         WaitForElementToLoad(enCompassDriver, enCompass.HomeWelcomeMessage);
+    }
+
+    @When("^I navigate to the Create Merchant Log page in EnCompass")
+    public void iNavigateToTheCreateMlogPageInEnCompass() {
+        // Click Payables - Accounts Payable
+        enCompass.PayablesMenu.click();
+        enCompass.AccountsPayableSubMenu.click();
+
+        WaitForElementToLoad(enCompassDriver, enCompass.CreateMlogSideMenu);
+
+        // Click Create Mlog Sidemenu
+        enCompass.CreateMlogSideMenu.click();
+
+        WaitForElementToLoad(enCompassDriver, enCompass.MerchantDropDown);
+    }
+
+
+    @When("^I create an AP Plog with (.*) amount")
+    public void iCreateAnApPlogWithXAmount(String amount) {
+        // Merchant Drop down should have Purchase Log (* as value) as the default
+        //System.out.println("select value = " + enCompass.MerchantDropDown.getAttribute("value"));
+        assertThat("Purchase log is not set as the option", enCompass.MerchantDropDown.getAttribute("value").equals("*"), is(equalTo(true)));
+
+        // Populate the amount
+        enCompass.InvAmount.clear();
+        enCompass.InvAmount.sendKeys(amount);
+
+        // Populate the Inv Number with a random datetime
+        enCompass.InvNum.sendKeys(GenerateDateTimeStringShortest());
+
+        // Click the submit button
+        enCompass.SubmitButton.click();
+
+        // Wait for the Create Mlog success message
+        WaitForElementToLoad(enCompassDriver, enCompass.SuccessMessage);
+    }
+
+    @When("^I save the mlog and account information")
+    public void iSaveTheMlogAndAccountInformation() {
+        // Get the Mlog Id
+        mlogId = enCompass.MlogId.getText();
+        System.out.println("mlog id = " + mlogId);
+
+        // Get card info
+        cardNumber = enCompass.CardNumber.getText();
+        cardExpDate = enCompass.CardExpDate.getText();
+        cardCsc = enCompass.CardCsc.getText();
+
+        System.out.println("Card Num = " + cardNumber);
+        System.out.println("Card Exp = " + cardExpDate);
+        System.out.println("Card CSC = " + cardCsc);
     }
 
     @Then("^I close EnCompass")

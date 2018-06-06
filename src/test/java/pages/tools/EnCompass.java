@@ -25,6 +25,10 @@ public class EnCompass extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//span[@id='ctl00_contents_ctl03_TitleText']")
     public WebElement HomeWelcomeMessage;
 
+    // Success Message
+    @FindBy(how = How.XPATH, using = "//div[@id='ctl00_DivSuccessMessage']")
+    public WebElement SuccessMessage;
+
     // *** LOGIN PAGE ***
     // Username
     @FindBy(how = How.XPATH, using = "//input[@id='txtusername']")
@@ -95,7 +99,7 @@ public class EnCompass extends TransactGlobalPage {
     public WebElement PayablesMenu;
 
     // Accounts Payable Submenu
-    @FindBy(how = How.XPATH, using = "//span[@id='ctl00_MainMenu2_map']")
+    @FindBy(how = How.XPATH, using = "//div[@id='ctl00_MainMenu2_map']")
     public WebElement AccountsPayableSubMenu;
 
     // Create Merchant Log Sidemenu

@@ -190,20 +190,21 @@ public class AbstractSteps{
 
     // Set the checked status of a checkbox
     protected void SetCheckboxToTrue(WebElement webElement){
+        //System.out.println("Element " + webElement.getAttribute("id"));
+        //System.out.println("checked = " + webElement.getAttribute("checked"));
+
         // Check to see if the checkbox is checked
-        String checkedStatus = "initialze";
+        //String checkedStatus = "initialize";
 
-        try {
-            checkedStatus = webElement.getAttribute("checked");
-        } catch (Exception e) {
-            e.printStackTrace();
+        String checkedStatus = webElement.getAttribute("checked");
+
+        // if the checked status doesn't exist (it is null) set the string to false
+        if (checkedStatus == null){
+            checkedStatus = "false";
         }
 
-        if (checkedStatus.equals("checked")){
-            // the checkbox is already checked, do nothing
-        }
-        else{
-            // the checkbox is not check, click it
+        if (!checkedStatus.equals("true")){
+            // the checkbox is not checked, click it
             webElement.click();
         }
     }

@@ -33,7 +33,7 @@ Feature: Login
     And I set the auth file path to C:\Users\Todd.Gagel\Desktop\temp\TestHarnessAuthFile_copy.xlsx and upload
     And I run authorizations on the TestHarnessAuthFile_copy.xlsx auth file
     And I download the transaction file
-    And When I set the transaction file path and upload
+    And I set the transaction file path and upload
     Then I close the TestHarness
 
   Scenario: EnCompassCreateMlogPOC
@@ -41,6 +41,9 @@ Feature: Login
     Given the login form at https://test.transact-global.net/
     And I open EnCompass
     Then I login to EnCompass as a SuperUser
-    And I select the 0003232 company number on the EnCompass select org page
-    And I wait for 1 seconds
+    And I select the 0003414 company number on the EnCompass select org page
+    And I navigate to the Create Merchant Log page in EnCompass
+    And I create an AP Plog with 1.00 amount
+    And I save the mlog and account information
+    And I wait for 10 seconds
 
