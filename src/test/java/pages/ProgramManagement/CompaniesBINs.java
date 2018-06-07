@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
 
 public class CompaniesBINs extends TransactGlobalPage {
@@ -29,6 +30,11 @@ public class CompaniesBINs extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//select[@name='Scheme']")
     public WebElement SchemeDropdown;
 
+    public void SetSchemeDropdown(String value){
+        Select select = new Select(SchemeDropdown);
+        select.selectByVisibleText(value);
+    }
+
     // Currency
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Currency')]/../div/span")
     public WebElement Currency;
@@ -44,6 +50,11 @@ public class CompaniesBINs extends TransactGlobalPage {
     // BIN Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='bin']")
     public WebElement BinDropdown;
+
+    public void SetBINsDropdown(String value){
+        Select select = new Select(BinDropdown);
+        select.selectByValue(value);
+    }
 
     // BIN Status
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'BIN Status')]/../div/span")

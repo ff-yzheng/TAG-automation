@@ -5,7 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
+
+import java.util.List;
 
 public class CompaniesSetup extends TransactGlobalPage {
 
@@ -17,9 +20,18 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Page Info
     private static final String PAGE_XPATH = "//ol[@class='breadcrumb']/*[contains(text(),'Setup')]"; // An element that only shows on this page
 
+    // Setup active tab
+    @FindBy(how = How.XPATH, using = "//ul[contains(@class,'nav nav-tabs')]/li[@class='active']/a[contains(text(),'Setup')]")
+    public WebElement SetupActiveTab;
+
     // FI Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='FiID']")
     public WebElement FIDropdown;
+
+    public void SetFIDropdown(String value){
+        Select select = new Select(FIDropdown);
+        select.selectByVisibleText(value);
+    }
 
     // FI Name
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'FI Name')]/../p")
@@ -32,6 +44,15 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Client Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='ClientID']")
     public WebElement ClientDropdown;
+
+    public void SetClientDropdown(String value){
+        Select select = new Select(ClientDropdown);
+        select.selectByVisibleText(value);
+    }
+
+    // Client Dropdown loaded, present when there is at least 2 options in client dropdown
+    @FindBy(how = How.XPATH, using = "//select[@name='ClientID']/option[2]")
+    public WebElement ClientDropdownLoaded;
 
     // Client Name
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Client Name')]/../div/p")
@@ -116,6 +137,23 @@ public class CompaniesSetup extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//select[@name='Contact.Address.State']")
     public WebElement StateProvince;
 
+    public void SetStateProvinceDropdown(String value){
+        Select select = new Select(StateProvince);
+
+        /*
+        // Code to list the options in the drop down
+        List<WebElement> options = select.getOptions();
+        System.out.println("List Size: " + options.size());
+
+        // Loop to print one by one
+        for (int j = 0; j < options.size(); j++) {
+            System.out.println(options.get(j).getAttribute("value") + " - " + options.get(j).getText());
+        }
+        */
+
+        select.selectByVisibleText(value);
+    }
+
     // Postal Code
     @FindBy(how = How.XPATH, using = "//input[@name='Contact.Address.PostalCode']")
     public WebElement PostalCode;
@@ -128,6 +166,11 @@ public class CompaniesSetup extends TransactGlobalPage {
     // Status Dropdown
     @FindBy(how = How.XPATH, using = "//select[@name='Status']")
     public WebElement StatusDropdown;
+
+    public void SetStatusDropdown(String value){
+        Select select = new Select(StatusDropdown);
+        select.selectByVisibleText(value);
+    }
 
     // Over Credit Limit
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Over Credit Limit')]/../p")

@@ -3,6 +3,7 @@ package stepDefinitions.common;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.common.LoginPage;
 import stepDefinitions.AbstractSteps;
@@ -26,7 +27,8 @@ public class LoginSteps extends AbstractSteps {
         // Navigate to url
         loginPage.driver.navigate().to(url);
 
-        //Thread.sleep(5000);
+        // size the browser so the menu is visible (menu doesn't show if window is too small)
+        getDriver().manage().window().setSize(new Dimension(1440, 900));
 
         // Refresh the page model after load
         loginPage.RefreshModel();
@@ -63,8 +65,8 @@ public class LoginSteps extends AbstractSteps {
         // Check to see we are logged in by seeing if the logout link is present
         assertThat("Cannot find the logout link", loginPage.LogoutLink.isDisplayed(), is(equalTo(true)));
 
-        // maximize the browser so the menu is visible (menu doesn't show if window is too small)
-        getDriver().manage().window().maximize();
+        // size the browser so the menu is visible (menu doesn't show if window is too small)
+        getDriver().manage().window().setSize(new Dimension(1440, 900));
     }
 
     @When("^I logout$")
@@ -73,8 +75,8 @@ public class LoginSteps extends AbstractSteps {
         loginPage.Logout();
     }
 
-    @Then("^I should be on the login page$")
-    public void iShouldBeOnTheLoginPage() throws Throwable {
+    @Then("^I should be logged out and on the login page$")
+    public void iShouldBeLoggedOutAndOnTheLoginPage() throws Throwable {
         loginPage.RefreshModel();
 
         // Verify I am on the login page

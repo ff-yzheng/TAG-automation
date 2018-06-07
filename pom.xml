@@ -130,7 +130,7 @@
                     <threadCount>1</threadCount>
                     <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
                     <includes>
-                        <include>**/*SmokeTest.java</include>
+                        <include>**/*SmokeTest*.java</include>
                     </includes>
 
                 </configuration>
