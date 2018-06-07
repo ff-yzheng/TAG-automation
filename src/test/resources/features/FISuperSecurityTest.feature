@@ -4,7 +4,7 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 
 	Background: User logged in
 		Given the login form at https://test.transact-global.net/
-		When I login as automationFISuper with Abcd-4321
+		When I login as automationFISUPER with  Abcd-5321
 		Then I should be authenticated
 
 	Scenario: CheckFISuperUserMainMenu
@@ -34,7 +34,7 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 		And  I should see the Statements tab
 		And  I should see the Fees tab
 		And  I should see the Reports tab
-		When I navigate to BINs tab
+		When I click on the BINs tab
 		Then I should NOT see the ADD New button
 		When I logout
 		Then I should be logged out and on the login page
@@ -52,17 +52,17 @@ Feature: FI Super Role which has access to all FI-level privileges within the sy
 
 	Scenario: CheckFISuperUserOpsChargebackTabs
 		When I navigate to Operations - Chargebacks
-		Then I should be on 1st Chargeback tab
+		Then I should be on the 1st Chargeback tab
 		And  I should see the 2nd Presentment tab
-		And  I should see the 2nd Chargeback
+		And  I should see the 2nd Chargeback tab
 		And  I should see the Arbitration tab
 		And  I should see the Closed tab
 		When I logout
 		Then I should be logged out and on the login page
 
 	Scenario: CheckFISuperUserOpsNonPostedExceptionTabs
-		When I navigate to the Operations – Non-Posted Exceptions
-		Then I should be on Current NPEs tab
+		When I navigate to Operations - Non-Posted Exceptions
+		Then I should be on the Current NPEs tab
 		And  I should see the Closed NPEs tab
 		When I logout
 		Then I should be logged out and on the login page

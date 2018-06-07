@@ -31,7 +31,7 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 		And  I should see the Authorization Controls tab
 		And  I should see the Statements tab
         And  I should NOT see the Setup tab
-        And  I should NOT see the BINs tab
+		And  I should NOT see the BINs tab
 		And  I should NOT see the Fees tab
 		And  I should NOT see the Reports tab
 		When I logout

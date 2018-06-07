@@ -14,7 +14,7 @@ Feature: Login
 
   Scenario: SettingUpNewUser
     Given the login form at https://test.transact-global.net/
-    When I login as automationWEXRole1 with Abcd-1234
+    When I login as automationFISUPER with Abcd-5321
     #When I login as specflowtest with ABCd-1234
     Then I wait for 120 seconds
 # Steps to create a new user to use in automation

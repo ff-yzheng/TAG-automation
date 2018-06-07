@@ -66,7 +66,7 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		 Then I should select Card from the DDL for Type
 		 And  I search card number  for 5476550200019204
 		 And  I execute the search
-		 Then I should see Credit Limit for 2,000
+		 Then I should see Credit Limit Max for 2,000
 		 And  I should see Credit Limit Min for 100.00
 		 When I logout
 		 Then I should be logged out and on the login page
@@ -104,7 +104,7 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		And  I should see the Statements tab
 		And  I should see the Payments tab
 		And  I should see the Notes tab
-		When I navigate to Payments tab
+		When I click on the Payments tab
 		Then I should see "Amount" field
 		And  I should see "Submit" button
 		When I logout
