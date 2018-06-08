@@ -75,9 +75,9 @@ public class EnCompass extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_tbOrganizationId']")
     public WebElement OrganizationId;
 
-    // Search Button
+    // Search Button, Org Group Page
     @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_cmdSearch']")
-    public WebElement SearchButton;
+    public WebElement SearchOrgGroupButton;
 
     // Org Group Row 1
     @FindBy(how = How.XPATH, using = "//tbody/tr[@id='ctl00_contents_dgClients_ctl03']")
@@ -90,10 +90,52 @@ public class EnCompass extends TransactGlobalPage {
     public WebElement OrgGroupRow2;
 
     // Select Org Action
-    @FindBy(how = How.XPATH, using = "//a[@id='ctl00_contents_dgClients_rowButtons_actionLink0']")
-    public WebElement OrgSelectAction;
+    @FindBy(how = How.XPATH, using = "//a[text()='Select']")
+    public WebElement SelectOrgAction;
+
+    // Edit Org Org Group Settings Action
+    @FindBy(how = How.XPATH, using = "//a[text()='Edit Organization Group Settings']")
+    public WebElement EditOrgGroupOrgAction;
+
+    // Edit Row Action
+    @FindBy(how = How.XPATH, using = "//a[text()='Edit']")
+    public WebElement EditRowAction;
+
+    // *** ORGANIZATION GROUP SETTINGS ***
+    // Enable MFA Checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_chkEnableMultifactorAuthentication']")
+    public WebElement EnableMFACheckbox;
+
+    // Save Org Group Settings button
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_btnSaveOrgSetting']")
+    public WebElement SaveOrgGroupSettingsButton;
+
+    // *** ORGANIZATION SETTINGS ***
+    // Organization ID
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_txtOrgGroupLoginId']")
+    public WebElement OrganizationIdInput;
+
+    // Instant Approval section header
+    @FindBy(how = How.XPATH, using = "//h2[text()='Instant Approval']")
+    public WebElement InstantApprovalSection;
+
+    // Enable Instant Approval checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_chkEnableInstantApproval']")
+    public WebElement EnableInstantApprovalCheckbox;
+
+    // Save Client Profile button
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_btnSave']")
+    public WebElement SaveClientProfileButton;
+
+    // Close button
+    @FindBy(how = How.XPATH, using = "//input[@value='Close']")
+    public WebElement CloseButton;
 
     // *** ENCOMPASS MENU ***
+    // Super Admin Utilities link
+    @FindBy(how = How.XPATH, using = "//a[@id='ctl00_MainHeader_lnkSuperAdmin']")
+    public WebElement SuperAdminUtilitiesLink;
+
     // Payables Menu
     @FindBy(how = How.XPATH, using = "//span[@id='payablesItemText']")
     public WebElement PayablesMenu;
@@ -162,5 +204,80 @@ public class EnCompass extends TransactGlobalPage {
     // Card CSC
     @FindBy(how = How.XPATH, using = "//span[@id='ctl00_contents_lblCVC2value']")
     public WebElement CardCsc;
+
+    // *** SEARCH CONTROLS ***
+    // Search Term Dropdown
+    @FindBy(how = How.XPATH, using = "//select[@aria-label='Search Term']")
+    public WebElement SearchTermDropdown;
+
+    // Filter Type Dropdown
+    @FindBy(how = How.XPATH, using = "//select[@aria-label='Filter Type']")
+    public WebElement FilterTypeDropdown;
+
+    // Search Values Dropdown
+    @FindBy(how = How.XPATH, using = "//select[@aria-label='Search Term Values']")
+    public WebElement SearchValuesDropdown;
+
+    // Search button
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_btnSearch']")
+    public WebElement SearchButton;
+
+    // *** SUPER ADMIN - MANAGE AP ***
+    // AP Orgs Group Row 1
+    @FindBy(how = How.XPATH, using = "//tbody/tr[@id='ctl00_contents_dgAP_ctl03']")
+    public WebElement APOrgRow1;
+
+    // AP Orgs Row 2
+    public static final String APORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgAP_ctl04']";
+
+    @FindBy(how = How.XPATH, using = APORGROW2XPATH)
+    public WebElement APOrgRow2;
+
+    // Edit Row Action
+    // already defined above as EditRowAction
+
+    // Inventory Row Action
+    @FindBy(how = How.XPATH, using = "//a[text()='Inventory']")
+    public WebElement InventoryRowAction;
+
+    // *** AP CONFIGURATION PAGE ***
+    // Company Number (get)
+
+    // Status Email Address
+
+    // Enable AP Online Checkbox
+
+    // Enable SUGA Checkbox
+
+    // Enable APPlog Checkbox
+
+    // Dispute Reply To Email
+
+    // Enable Effective Dates Checkbox
+
+    // Override Corporate Credit Limit Checkbox
+
+    // Save AP Config Button
+
+
+    // *** INVENTORY PAGE
+    // Add New button
+
+    // Currency
+
+    // Min Quantity
+
+    // Max Quantity
+
+    // Order Quantity
+
+    // Purge Date
+
+    // Submit Button
+
+    // *** Job Test Automation ***
+
+
+
 
 }

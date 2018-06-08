@@ -3,14 +3,12 @@ package stepDefinitions.tools;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.tools.EnCompass;
 import stepDefinitions.AbstractSteps;
 
-import static java.lang.Thread.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -95,7 +93,7 @@ public class EnCompassSteps extends AbstractSteps {
         enCompass.CompanyNumber.sendKeys(orgId);
 
         // click search
-        enCompass.SearchButton.click();
+        enCompass.SearchOrgGroupButton.click();
 
         // Wait for search to complete by checking for when row 2 disappears (the search should only return 1 row)
         WaitForElementToDisappear(enCompassDriver, enCompass.ORGROW2XPATH);
@@ -104,8 +102,8 @@ public class EnCompassSteps extends AbstractSteps {
         enCompass.OrgGroupRow1.click();
 
         // Click Select action
-        WaitForElementToLoad(enCompassDriver, enCompass.OrgSelectAction);
-        enCompass.OrgSelectAction.click();
+        WaitForElementToLoad(enCompassDriver, enCompass.SelectOrgAction);
+        enCompass.SelectOrgAction.click();
 
         // Wait for Main EnCompass Screen to load
         WaitForElementToLoad(enCompassDriver, enCompass.HomeWelcomeMessage);
