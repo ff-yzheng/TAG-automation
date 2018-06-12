@@ -2,8 +2,8 @@
 Feature: SmokeTest
 
   Background: User logged in
-	Given the login form at https://test.transact-global.net/
-	When I login as automationTAGSUPER with Abcd-1234
+	Given I login TagUI
+	When I login as superUser
 	Then I should be authenticated
 
   Scenario: NavSmokeTestSuperUser

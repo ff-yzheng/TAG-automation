@@ -1,12 +1,14 @@
 import cucumber.api.CucumberOptions;
-import cucumber.api.testng.AbstractTestNGCucumberTests;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 
-//@RunWith(Cucumber.class)
+@RunWith(Cucumber.class)
 @CucumberOptions(
         //features = "src/test/resources/features",
-        features = "src/test/resources/features/SmokeTest.feature",
+        features ={"src/test/resources/features/SmokeTest.feature"} ,
         glue = {"global", "stepDefinitions", "pages"},
         tags = {"~@IgnoreForNow"},
+        dryRun =false,
 
         format = {
                 "pretty",
@@ -17,5 +19,5 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
         }
         //pretty:target/cucumber-json-report.json
 )
-public class SmokeTest extends AbstractTestNGCucumberTests{
+public class SmokeTest {
 }

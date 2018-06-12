@@ -1,8 +1,9 @@
 package stepDefinitions.common;
 
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import global.FileReaderManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.common.LoginPage;
@@ -17,15 +18,19 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class LoginSteps extends AbstractSteps {
 
     private LoginPage loginPage;
+    String tagURL= FileReaderManager.getInstance().getConfigReader().getTAGApplicationUrl();
+    String super_userName=FileReaderManager.getInstance().getConfigReader().getSuperUserName();
+    String automationTAGSUPER_password=FileReaderManager.getInstance().getConfigReader().getSuperUserPassword();
     //private MFAEntryPage mfaEntryPage;
 
-    @Given("^the login form at (.*)$")
-    public void theLoginFormAtUrl(String url) {
+    @Given("^I login TagUI$")
+    public void theLoginFormAtUrl() {
 
         loginPage = new LoginPage(getDriver());
 
+        System.out.println(tagURL);
         // Navigate to url
-        loginPage.driver.navigate().to(url);
+        loginPage.driver.navigate().to(tagURL);
 
         // size the browser so the menu is visible (menu doesn't show if window is too small)
         getDriver().manage().window().setSize(new Dimension(1440, 900));
@@ -40,15 +45,17 @@ public class LoginSteps extends AbstractSteps {
         assertThat("Cannot find the username field", loginPage.UserName.isDisplayed(), is(equalTo(true)));
     }
 
-    @When("^I login as (.*) with (.*)")
-    public void iLoginAsUsernameWithPassword(String userName, String password) throws Throwable {
+    @When("^I login as superUser")
+    public void iLoginAsUsernameWithPassword() throws Throwable {
 
         // Set the local storage at login so MFA is skipped
-        SetMFAKey(userName);
+        System.out.println(super_userName);
+        SetMFAKey(super_userName);
 
         // Populate username and password from feature file
-        loginPage.SetUsername(userName);
-        loginPage.SetPassword(password);
+        loginPage.SetUsername(super_userName);
+        loginPage.SetPassword(automationTAGSUPER_password);
+
 
         // Click login button
         loginPage.LoginClick();
