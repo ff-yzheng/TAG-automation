@@ -18,9 +18,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class LoginSteps extends AbstractSteps {
 
     private LoginPage loginPage;
-    String tagURL= FileReaderManager.getInstance().getConfigReader().getTAGApplicationUrl();
-    String super_userName=FileReaderManager.getInstance().getConfigReader().getSuperUserName();
-    String automationTAGSUPER_password=FileReaderManager.getInstance().getConfigReader().getSuperUserPassword();
+    String tagURL = FileReaderManager.getInstance().getConfigReader().getTAGApplicationUrl();
+    String super_userName = FileReaderManager.getInstance().getConfigReader().getSuperUserName();
+    String automationTAGSUPER_password = FileReaderManager.getInstance().getConfigReader().getSuperUserPassword();
     //private MFAEntryPage mfaEntryPage;
 
     @Given("^I login TagUI$")
@@ -106,12 +106,12 @@ public class LoginSteps extends AbstractSteps {
     // and when the MFA screen is up and enter the MFA validation.
     // That should create the matching record in TAG's database and you shouldn't
     // have to provide MFA at login for that user in when running the next automated tests.
-    private void SetMFAKey(String login){
+    private void SetMFAKey(String login) {
         // Build login/key portion of js query string
         String keyString = "TRANSACT_GLOBAL_" + login.toLowerCase() + "_DEVICE_ID";
 
         // Create key and value in local storage
-        JavascriptExecutor jse = ((JavascriptExecutor)getDriver());
+        JavascriptExecutor jse = ((JavascriptExecutor) getDriver());
         jse.executeScript("window.localStorage.setItem('" + keyString + "', 'Automation');");
     }
 }
