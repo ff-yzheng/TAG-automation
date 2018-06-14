@@ -3,16 +3,14 @@ Feature: Create A Company
 
   Background: User logged in
 	Given the login form at https://test.transact-global.net/
-	#When I login as automationFISUPER with Abcd-4321
-    When I login as automationTAGSUPER with Abcd-1234
+	When I login as automationFISUPER with Abcd-5321
+    #When I login as automationTAGSUPER with Abcd-1234
 	Then I should be authenticated
 
   Scenario Outline: Add New Company and Verify the Audit Log
 	When I navigate to Program Management - Companies
 	And I click the Add New button
 	Then I should be on the Setup page
-	#Next step only needed when logging in as TAGSuper
-	When I set the FI Name dropdown to WEX Bank
 	#Do we need to create a new client before this (so it shows in EnCompass as a new client and not adding to existing)
 	And I create a new company with <Client Name>, <Company Name Start>, <Primary Contact>, <Phone Number>, <Address1>, <City>,  <StateProvince>, <Postal Code>, <Tax ID Number>, <Currency>, <BIN>, <Credit Limit>, <Bill Cycle>, <Cycle Day>, <Grace Period>, <Late Fee Percentage>, <International Fee Percentage>, <Statement Template>, <Payment Method>
 	Then I verify the new company changes in the audit log for <Client Name>, <Company Name Start>, <Primary Contact>, <Phone Number>, <Address1>, <City>,  <StateProvince>, <Postal Code>, <Tax ID Number>, <Currency>, <BIN>, <Credit Limit>, <Bill Cycle>, <Cycle Day>, <Grace Period>, <Late Fee Percentage>, <International Fee Percentage>, <Statement Template>, <Payment Method>
