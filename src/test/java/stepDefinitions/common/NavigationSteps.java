@@ -225,8 +225,9 @@ public class NavigationSteps extends AbstractSteps {
         Boolean itemPresent = !getDriver().findElements(By.xpath("//tab[contains(text(),'" + tabName + "')]")).isEmpty();
         assertFalse("Error: Can find " + tabName, itemPresent);
 
-      }
-// Line 57 on Custom User Security Test 1
+    }
+
+    // Line 57 on Custom User Security Test 1
     @And("^I click on SAVE$")
     public void iClickOnSAVE() throws Throwable {
         // click on Save button
@@ -255,4 +256,4 @@ public class NavigationSteps extends AbstractSteps {
         Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + tabName + "')]")).isEmpty()
         assertTrue("Error: Cannot Find" + tabName, itemPresent);
     }
-
+}
