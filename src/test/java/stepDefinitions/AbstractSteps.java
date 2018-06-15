@@ -188,6 +188,27 @@ public class AbstractSteps{
         select.selectByValue(value);
     }
 
+    // Set the checked status of a checkbox
+    protected void SetCheckboxToTrue(WebElement webElement){
+        //System.out.println("Element " + webElement.getAttribute("id"));
+        //System.out.println("checked = " + webElement.getAttribute("checked"));
+
+        // Check to see if the checkbox is checked
+        //String checkedStatus = "initialize";
+
+        String checkedStatus = webElement.getAttribute("checked");
+
+        // if the checked status doesn't exist (it is null) set the string to false
+        if (checkedStatus == null){
+            checkedStatus = "false";
+        }
+
+        if (!checkedStatus.equals("true")){
+            // the checkbox is not checked, click it
+            webElement.click();
+        }
+    }
+
     // Methods to create date time string for uniquely naming things
     // Return length is 23, fully formatted date and time to the milliseconds
     protected String GenerateDateTimeStringFull(){

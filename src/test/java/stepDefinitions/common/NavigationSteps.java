@@ -2,6 +2,7 @@ package stepDefinitions.common;
 
 import cucumber.api.PendingException;
 import cucumber.api.Scenario;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -48,7 +49,7 @@ public class NavigationSteps extends AbstractSteps {
         Thread.sleep(500); // Test is moving a little too fast even waiting for the spinner to disappear
 
         // When going to the users page there is an extra delay in load that can break the test
-        if (subMenuText.equals("Users")){
+        if (subMenuText.equals("Users")) {
             WaitForElementToLoad(getDriver(), tagPage.ClickableRow1);
         }
 
@@ -167,22 +168,22 @@ public class NavigationSteps extends AbstractSteps {
         //System.out.println("unitOfTime: " + timeUnit);
 
         // Translate the value and timeUnit text to get the proper amount of time
-        if(timeUnit.toLowerCase().equals("milliseconds")){
+        if (timeUnit.toLowerCase().equals("milliseconds")) {
             uniteOfTimeValid = true;
             timeToWaitInMS = value;
         }
 
-        if(timeUnit.toLowerCase().equals("seconds")){
+        if (timeUnit.toLowerCase().equals("seconds")) {
             uniteOfTimeValid = true;
             timeToWaitInMS = value * 1000;
         }
 
-        if(timeUnit.toLowerCase().equals("minutes")){
+        if (timeUnit.toLowerCase().equals("minutes")) {
             uniteOfTimeValid = true;
             timeToWaitInMS = value * 60000;
         }
 
-        if (!uniteOfTimeValid){
+        if (!uniteOfTimeValid) {
             System.out.println("Invalid unit of time, you can only use 'milliseconds', 'seconds', and 'minutes'");
         }
 
@@ -193,4 +194,65 @@ public class NavigationSteps extends AbstractSteps {
         }
     }
 
+    // Luis
+
+    @Then("^I should NOT see the (.*) button$")
+    public static void iShouldNOTSeeTheXButton(String buttonName) throws Throwable {
+        // Check to see if the button is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//button[contains(text(),'" + buttonName + "')]")).isEmpty();
+        assertFalse("Error: Can find " + buttonName, itemPresent);
+    }
+
+    @Then("^I should see (.*) field$")
+    public static void iShouldSeeTheXField(String fieldName) throws Throwable {
+        // Check to see if the field is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + fieldName + "')]")).isEmpty();
+        assertTrue("Error: Cannot find " + fieldName, itemPresent);
+    }
+
+    @Then("^I should see the (.*) button$")
+    public static void iShouldSeeTheXButton(String buttonName) throws Throwable {
+        // Check to see if the button is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//button[contains(text(),'" + buttonName + "')]")).isEmpty();
+        assertTrue("Error: Can not Find " + buttonName, itemPresent);
+    }
+    //Naveed
+    //Line 34 - 37 on TAG CRM Security Test
+
+    @And("^I should NOT see the (.*) tab$")
+    public void iShouldNOTSeeTheSetupTab(String tabName) throws Throwable {
+        // Check to see if the tab is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//tab[contains(text(),'" + tabName + "')]")).isEmpty();
+        assertFalse("Error: Can find " + tabName, itemPresent);
+
+      }
+// Line 57 on Custom User Security Test 1
+    @And("^I click on SAVE$")
+    public void iClickOnSAVE() throws Throwable {
+        // click on Save button
+        tagPage.SaveButton
+        throw new PendingException();
+    }
+
+    @And("^I Click on the SEARCH$")
+    public void iClickOnTheSEARCH() throws Throwable {
+        // click on SEARCH button
+        throw new PendingException();
+    }
+
+    // Line 68 on Custom User Security Test 2
+    @Then("^I should NOT see the (.*) field$")
+    public void iShouldNOTSeeTheField(string fieldName) throws Throwable {
+        // Check to see if field is present
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + fieldName + "')]")).isEmpty()
+        assertFalse("Error: Can Find" + fieldName, itemPresent);
+    }
+
+    // Line 67 on Custom User Security Test 2
+    @When("^I navigate to (.*) tab$")
+    public void iNavigateToTab(String tabName) throws Throwable {
+        // Find the tab item
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + tabName + "')]")).isEmpty()
+        assertTrue("Error: Cannot Find" + tabName, itemPresent);
+    }
 
