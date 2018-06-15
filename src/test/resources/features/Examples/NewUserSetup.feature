@@ -5,7 +5,7 @@ Feature: New Automation User Setup
 # - Manually login as the user to change the password
 # - Update user info in the SettingUpNewUser scenario
 # - Run and complete user MFA during the wait time
-# - Dev will need modify the MFA check flag in Mongo from false to true
+# - Dev will need modify the MFA check flag in Mongo to false
 # - Automation should then be able log in as the user via the login steps
   Scenario: SettingUpNewUser
     Given the login form at https://test.transact-global.net/

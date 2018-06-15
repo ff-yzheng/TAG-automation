@@ -87,10 +87,12 @@ public class CompaniesSteps extends AbstractSteps {
         stateAbbrev = companiesSetup.StateProvince.getAttribute("value");
 
         companiesSetup.ClickSaveButtonAndWait();
+        WaitForElementToDisappear(getDriver(), companiesSetup.LoadingSpinnerXPATH);
+        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
 
         companiesSetup.RefreshModel();
 
-        WaitForElementToLoad(getDriver(), companiesSetup.CompanyNumber);
+        WaitForElementToLoad(getDriver(), RetryFindElement(companiesSetup.CompanyNumber));
 
         // I should see the company number
         assertThat("Cannot find the company number", RetryFindElement(companiesSetup.CompanyNumber).isDisplayed(), is(equalTo(true)));
@@ -151,6 +153,8 @@ public class CompaniesSteps extends AbstractSteps {
 
         // click Save
         companiesBINs.ClickSaveButtonAndWait();
+        WaitForElementToDisappear(getDriver(), companiesSetup.LoadingSpinnerXPATH);
+        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
 
         // Need an extra wait because modal is sometimes in the way for next click
         try {
@@ -227,13 +231,11 @@ public class CompaniesSteps extends AbstractSteps {
 
         // click Save
         companiesSetup.ClickSaveButtonAndWait();
+        WaitForElementToDisappear(getDriver(), companiesSetup.LoadingSpinnerXPATH);
+        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
 
         // Verify that the company shows as Active
         assertThat("Status is not Active", companiesSetup.StatusDropdown.getAttribute("value"), is(equalTo("Active")));
-
-        // Wait for loading and alert to go away before ending the step
-        WaitUntilElementExists(companiesSetup.LoadingSpinnerIsHidden);
-        WaitForElementToDisappear(getDriver(), companiesSetup.AlertSuccessXPATH);
     }
 
     @Then("I verify the new company changes in the audit log for (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*), (.*)")
