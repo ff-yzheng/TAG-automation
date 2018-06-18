@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         //features = "src/test/resources/features",
         features ={"src/test/resources/features/SmokeTest.feature"} ,
-        glue = {"global", "stepDefinitions", "pages"},
+        glue = {"global", "stepDefinitions"},
         tags = {"~@IgnoreForNow"},
         dryRun =false,
 
