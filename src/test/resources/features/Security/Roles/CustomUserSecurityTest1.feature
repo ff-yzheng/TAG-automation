@@ -3,7 +3,7 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 
 
 	Background: User logged in
-        Given I login TagUI
+        Given I navigate to TagUI
         When  I login as User1
         Then  I should be authenticated
 

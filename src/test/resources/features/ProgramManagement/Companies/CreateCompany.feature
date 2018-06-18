@@ -2,9 +2,8 @@
 Feature: Create A Company
 
   Background: User logged in
-	Given the login form at https://test.transact-global.net/
-	When I login as automationFISUPER with Abcd-5321
-    #When I login as automationTAGSUPER with Abcd-1234
+	Given I navigate to TagUI
+	When I login as FISUPER
 	Then I should be authenticated
 
   Scenario Outline: Add New Company and Verify the Audit Log

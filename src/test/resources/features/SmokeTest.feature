@@ -2,7 +2,7 @@
 Feature: SmokeTest
 
   Background: User logged in
-	Given I login TagUI
+	Given I navigate to TagUI
 	When I login as superUser
 	Then I should be authenticated
 

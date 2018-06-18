@@ -8,8 +8,7 @@ Feature: New Automation User Setup
 # - Dev will need modify the MFA check flag in Mongo to false
 # - Automation should then be able log in as the user via the login steps
   Scenario: SettingUpNewUser
-    Given the login form at https://test.transact-global.net/
-    When I login as automationFISUPER with Abcd-5321
-    #When I login as specflowtest with ABCd-1234
+    Given I navigate to TagUI
+    When I login as NEWUSERNAME with PASSWORD
     Then I wait for 120 seconds
 

@@ -35,8 +35,8 @@ public class LoginSteps extends AbstractSteps {
     String automationTAGQA_password = FileReaderManager.getInstance().getConfigReader().getTAGQAPassword();
     //private MFAEntryPage mfaEntryPage;
 
-    @Given("^I login TagUI$")
-    public void theLoginFormAtUrl() {
+    @Given("^I navigate to TagUI$")
+    public void iNavigateToTagUi() {
 
         loginPage = new LoginPage(getDriver());
 
@@ -68,12 +68,27 @@ public class LoginSteps extends AbstractSteps {
         loginPage.SetUsername(super_userName);
         loginPage.SetPassword(automationTAGSUPER_password);
 
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login with a wrong password")
+    public void iLoginWithAWrongPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(super_userName);
+        SetMFAKey(super_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(super_userName);
+        loginPage.SetPassword("wrongpassword");
 
         // Click login button
         loginPage.LoginClick();
     }
+
     @When("^I login as User1")
-   public void iLoginAsUser1WithPassword() throws Throwable {
+    public void iLoginAsUser1WithPassword() throws Throwable {
 
         // Set the local storage at login so MFA is skipped
         System.out.println(User1_userName);
@@ -82,7 +97,6 @@ public class LoginSteps extends AbstractSteps {
         // Populate username and password from feature file
         loginPage.SetUsername(User1_userName);
         loginPage.SetPassword(automationUser1_password);
-
 
         // Click login button
         loginPage.LoginClick();
@@ -99,7 +113,6 @@ public class LoginSteps extends AbstractSteps {
         loginPage.SetUsername(User2_userName);
         loginPage.SetPassword(automationUser2_password);
 
-
         // Click login button
         loginPage.LoginClick();
     }
@@ -114,7 +127,6 @@ public class LoginSteps extends AbstractSteps {
         // Populate username and password from feature file
         loginPage.SetUsername(FISUPER_userName);
         loginPage.SetPassword(automationFISUPER_password);
-
 
         // Click login button
         loginPage.LoginClick();
@@ -131,7 +143,6 @@ public class LoginSteps extends AbstractSteps {
         loginPage.SetUsername(PartnerSuper_userName);
         loginPage.SetPassword(automationPartnerSuper_password);
 
-
         // Click login button
         loginPage.LoginClick();
     }
@@ -146,7 +157,6 @@ public class LoginSteps extends AbstractSteps {
         // Populate username and password from feature file
         loginPage.SetUsername(TAGCRM_userName);
         loginPage.SetPassword(automationTAGCRM_password);
-
 
         // Click login button
         loginPage.LoginClick();
@@ -163,6 +173,18 @@ public class LoginSteps extends AbstractSteps {
         loginPage.SetUsername(TAGQA_userName);
         loginPage.SetPassword(automationTAGQA_password);
 
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as (.*) with (.*)")
+    public void iLoginAsUsernameWithPassword(String userName, String password) throws Throwable {
+        // Set the local storage at login so MFA is skipped
+        SetMFAKey(userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(userName);
+        loginPage.SetPassword(password);
 
         // Click login button
         loginPage.LoginClick();

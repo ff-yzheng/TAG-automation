@@ -3,7 +3,7 @@ Feature: Partner Super Role which has access to all FI-level privileges within t
 
 
 	Background: User logged in
-		Given I login TagUI
+		Given I navigate to TagUI
 		When  I login as PartnerSuper
 		Then  I should be authenticated
 

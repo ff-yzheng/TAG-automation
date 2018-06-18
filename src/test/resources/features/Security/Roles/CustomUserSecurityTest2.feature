@@ -2,7 +2,7 @@
 Feature: Custom role without privileges to Post Payment and Edit Card
 
 	Background: User logged in
-      Given I login TagUI
+      Given I navigate to TagUI
       When  I login as User2
       Then  I should be authenticated
 

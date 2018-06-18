@@ -2,9 +2,9 @@
 Feature: Create A Client
 
   Background: User logged in
-  Given the login form at https://test.transact-global.net/
+  Given I navigate to TagUI
 	#When I login as automationFISUPER with Abcd-1234
-  When I login as automationTAGSUPER with Abcd-1234
+  When I login as superUser
   Then I should be authenticated
 
   Scenario Outline: Add New Client and Verify the Audit Log

@@ -3,7 +3,7 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 
 
 	Background: User logged in
-      Given I login TagUI
+      Given I navigate to TagUI
       When  I login as TAGCRM
       Then  I should be authenticated
 

@@ -3,7 +3,7 @@ Feature: TAG QA Role which has access to all FI-level privileges within the syst
 
 
 	Background: User logged in
-		Given I login TagUI
+		Given I navigate to TagUI
 		When  I login as TAGQA
 		Then  I should be authenticated
 
