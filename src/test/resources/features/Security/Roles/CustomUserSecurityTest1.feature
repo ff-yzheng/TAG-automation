@@ -3,9 +3,9 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationUser1 with Abcd-4321
-		Then I should be authenticated
+        Given I login TagUI
+        When  I login as User1
+        Then  I should be authenticated
 
 	Scenario: CheckUser1MainMenu
 		Then I should see the Program Management menu

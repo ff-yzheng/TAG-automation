@@ -2,9 +2,9 @@
 Feature: Custom role without privileges to Post Payment and Edit Card
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationUser2 with Abcd-4321
-		Then I should be authenticated
+      Given I login TagUI
+      When  I login as User2
+      Then  I should be authenticated
 
 	Scenario: CheckUser1MainMenu
 		Then I should see the Program Management menu

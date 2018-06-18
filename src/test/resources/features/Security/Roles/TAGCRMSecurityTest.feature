@@ -3,9 +3,9 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationTAGCRM with Abcd-4321
-		Then I should be authenticated
+      Given I login TagUI
+      When  I login as TAGCRM
+      Then  I should be authenticated
 
 	Scenario: CheckTAGCRMUserMainMenu
 		Then I should see the Program Management menu

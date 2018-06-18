@@ -231,7 +231,7 @@ public class NavigationSteps extends AbstractSteps {
     @And("^I click on SAVE$")
     public void iClickOnSAVE() throws Throwable {
         // click on Save button
-        tagPage.SaveButton
+        tagPage.SaveButton.click();
         throw new PendingException();
     }
 
@@ -243,9 +243,9 @@ public class NavigationSteps extends AbstractSteps {
 
     // Line 68 on Custom User Security Test 2
     @Then("^I should NOT see the (.*) field$")
-    public void iShouldNOTSeeTheField(string fieldName) throws Throwable {
+    public void iShouldNOTSeeTheField(String fieldName) throws Throwable {
         // Check to see if field is present
-        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + fieldName + "')]")).isEmpty()
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + fieldName + "')]")).isEmpty();
         assertFalse("Error: Can Find" + fieldName, itemPresent);
     }
 
@@ -253,7 +253,7 @@ public class NavigationSteps extends AbstractSteps {
     @When("^I navigate to (.*) tab$")
     public void iNavigateToTab(String tabName) throws Throwable {
         // Find the tab item
-        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + tabName + "')]")).isEmpty()
+        Boolean itemPresent = !getDriver().findElements(By.xpath("//label[contains(text(),'" + tabName + "')]")).isEmpty();
         assertTrue("Error: Cannot Find" + tabName, itemPresent);
     }
 }
