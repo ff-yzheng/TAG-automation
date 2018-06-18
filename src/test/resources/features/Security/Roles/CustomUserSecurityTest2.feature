@@ -2,9 +2,9 @@
 Feature: Custom role without privileges to Post Payment and Edit Card
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationUser2 with Abcd-4321
-		Then I should be authenticated
+      Given I login TagUI
+      When  I login as User2
+      Then  I should be authenticated
 
 	Scenario: CheckUser1MainMenu
 		Then I should see the Program Management menu
@@ -35,7 +35,7 @@ Feature: Custom role without privileges to Post Payment and Edit Card
 
 		When I navigate to Customer Service - Cards
 		Then I should see Card Number field
-		And  I should see SEARCH button
+		And  I should see the SEARCH button
 		And  I search Card Number for 5476550200019204
 		And  I execute the search
 		Then I should be on the Setup tab
@@ -64,11 +64,12 @@ Feature: Custom role without privileges to Post Payment and Edit Card
 		And  I should see the Statements tab
 		And  I should see the Payments tab
 		And  I should see the Notes tab
-		When I navigate to Payments tab
-		Then I should not see the "Amount" field
-		And  I should not see the "Submit" button
+        When I navigate to Payments tab
+		Then I should NOT see the Amount field
+		And  I should NOT see the Submit button
 		When I logout
 		Then I should be logged out and on the login page
+
 
 
 

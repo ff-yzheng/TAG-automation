@@ -3,9 +3,9 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationUser1 with Abcd-4321
-		Then I should be authenticated
+        Given I login TagUI
+        When  I login as User1
+        Then  I should be authenticated
 
 	Scenario: CheckUser1MainMenu
 		Then I should see the Program Management menu
@@ -42,7 +42,7 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		#Verify all the tabs under card and update Credit Limit and Credit Min field
 		When I navigate to Customer Service - Cards
 		Then I should see Card Number field
-		And  I should see SEARCH button
+		And  I should see the SEARCH button
 		And  I search Card Number for 5476550200019204
 		And  I execute the search
 		Then I should be on the Setup tab
@@ -51,10 +51,10 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		And  I should see the Notes tab
 		And  I should see the Manual Authorization  tab
 		And  I should see the Instant Approval tab
-		When I am on the Setup tab
+		When I should be on the Setup tab
 		And  I set Credit Limit Max to 2,000
 		And  I set Credit Limit Min to 100.00
-		And  I click on SAVE
+        And  I click on SAVE
         Then I should see the message on top "Updates have been saved."
 		When I logout
 		Then I should be logged out and on the login page
@@ -66,7 +66,7 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		 Then I should select Card from the DDL for Type
 		 And  I search card number  for 5476550200019204
 		 And  I execute the search
-		 Then I should see Credit Limit for 2,000
+		 Then I should see Credit Limit Max for 2,000
 		 And  I should see Credit Limit Min for 100.00
 		 When I logout
 		 Then I should be logged out and on the login page
@@ -104,9 +104,9 @@ Feature: Custom role with privileges to View Payment History, Post Payment, Edit
 		And  I should see the Statements tab
 		And  I should see the Payments tab
 		And  I should see the Notes tab
-		When I navigate to Payments tab
-		Then I should see "Amount" field
-		And  I should see "Submit" button
+		When I click on the Payments tab
+		Then I should see Amount field
+		And  I should see the SUBMIT button
 		When I logout
 		Then I should be logged out and on the login page
 
