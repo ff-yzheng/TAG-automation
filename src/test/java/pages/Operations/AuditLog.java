@@ -84,6 +84,47 @@ public class AuditLog extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Card Issuer Reference')]/..//input")
     public WebElement CardIssuerReferenceSearchField;
 
+    //SearchButton
+    @FindBy(how = How.XPATH, using = "//*[@id='search-form']/div[3]/button")
+    public WebElement SearchButton;
+
+    @FindBy(how = How.XPATH, using = "//table[@class='table table-bordered table-striped table-fixed']/tbody/tr/td")
+    public WebElement table;
+
+    //Code for wait
+    public void iWaitForXTime(int value, String timeUnit) throws Throwable {
+        Integer timeToWaitInMS = 0;
+        Boolean uniteOfTimeValid = false;
+
+        //System.out.println("unitOfTime: " + timeUnit);
+
+        // Translate the value and timeUnit text to get the proper amount of time
+        if(timeUnit.toLowerCase().equals("milliseconds")){
+            uniteOfTimeValid = true;
+            timeToWaitInMS = value;
+        }
+
+        if(timeUnit.toLowerCase().equals("seconds")){
+            uniteOfTimeValid = true;
+            timeToWaitInMS = value * 1000;
+        }
+
+        if(timeUnit.toLowerCase().equals("minutes")){
+            uniteOfTimeValid = true;
+            timeToWaitInMS = value * 60000;
+        }
+
+        if (!uniteOfTimeValid){
+            System.out.println("Invalid unit of time, you can only use 'milliseconds', 'seconds', and 'minutes'");
+        }
+
+        try {
+            Thread.sleep(timeToWaitInMS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
