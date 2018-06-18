@@ -72,8 +72,9 @@ public class LoginSteps extends AbstractSteps {
         // Click login button
         loginPage.LoginClick();
     }
+
     @When("^I login as User1")
-   public void iLoginAsUser1WithPassword() throws Throwable {
+    public void iLoginAsUser1WithPassword() throws Throwable {
 
         // Set the local storage at login so MFA is skipped
         System.out.println(User1_userName);

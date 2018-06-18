@@ -1,9 +1,7 @@
 package stepDefinitions.common;
 
 import cucumber.api.java.en.Then;
-import org.apache.xpath.operations.Bool;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -60,7 +58,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                 String subMenuName = AllTrim(subMenuNav.get(j).getAttribute("innerText"));
 
                 // Print the menu and submenu names to console
-                System.out.println(menuName + " - " + subMenuName);
+                //System.out.println(menuName + " - " + subMenuName);
                 scenario.write(menuName + " - " + subMenuName);
 
                 // Click the main then submenu
@@ -138,7 +136,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
                         // If there are not tabs within the details page, report the breadcrumb and do error check
                         // If there are tabs they will be cycled tjrough and checked later in this test
                         if (!tabsExist){
-                            System.out.println("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
+                          //  System.out.println("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
                             scenario.write("single tab: " + AllTrim(tagPage.BreadCrumb3.getAttribute("innerText")));
 
                             // Check for error alert and report results
@@ -238,7 +236,7 @@ public class NavSmokeTestSteps extends AbstractSteps {
             String tabName = GetTestFromNodeOnly(RetryFindElement(tabItems.get(k)));
 
             // Report Menu, Submenu & Tab
-            System.out.println("tab: " + tabName);
+          //  System.out.println("tab: " + tabName);
             scenario.write("tab: " + tabName);
 
             // Click the tab
