@@ -125,7 +125,7 @@ public class EnCompass extends TransactGlobalPage {
 
     // Save Client Profile button
     @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_btnSave']")
-    public WebElement SaveClientProfileButton;
+    public WebElement SaveButton;
 
     // Close button
     @FindBy(how = How.XPATH, using = "//input[@value='Close']")
@@ -241,41 +241,73 @@ public class EnCompass extends TransactGlobalPage {
     public WebElement InventoryRowAction;
 
     // *** AP CONFIGURATION PAGE ***
-    // Company Number (get)
+    // Company Number / Org Abbrev (get)
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_txtOrganizationAbbr']")
+    public WebElement OrgAbbrev;
 
     // Status Email Address
+    @FindBy(how = How.XPATH, using = "//textarea[@id='ctl00_contents_txtEmailAddress']")
+    public WebElement StatusEmailAddress;
 
     // Enable AP Online Checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_chkbxEnableAPOnline']")
+    public WebElement EnableAPOnlineCheckbox;
 
-    // Enable SUGA Checkbox
+    // Enable SUGA (Single Use Ghost Accounts) Checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_chkbxSingleUseAccounts']")
+    public WebElement EnableSingleUseAccountsCheckbox;
 
     // Enable APPlog Checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_PurchaseLogCheckBox']")
+    public WebElement EnableAPPlogCheckbox;
 
     // Dispute Reply To Email
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_txtDisputeReplyToEmailAddress']")
+    public WebElement DisputeReplyToEmail;
 
     // Enable Effective Dates Checkbox
-
-    // Override Corporate Credit Limit Checkbox
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_EnableEffectiveDatesCheckBox']")
+    public WebElement EnableEffDatesCheckbox;
 
     // Save AP Config Button
-
+    // already defined above as SaveButton
 
     // *** INVENTORY PAGE
     // Add New button
+    @FindBy(how = How.XPATH, using = "//div[text()='Add New']")
+    public WebElement AddNewButton;
 
-    // Currency
+    // Currency dropdown
+    @FindBy(how = How.XPATH, using = "//select[@id='ctl00_contents_CurrencyDropdown']")
+    public WebElement CurrencyDropdown;
 
     // Min Quantity
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_InventoryMinText']")
+    public WebElement MinQuantity;
 
     // Max Quantity
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_InventoryMaxText']")
+    public WebElement MaxQuantity;
 
     // Order Quantity
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_OrderQtyText']")
+    public WebElement OrderQuantity;
 
     // Purge Date
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_PurgeDateText']")
+    public WebElement PurgeDate;
 
     // Submit Button
+    // already defined above as SubmitButton
 
     // *** Job Test Automation ***
+    // EnCompass Super Tools link
+
+    // Job Test Automation submenu link
+    @FindBy(how = How.XPATH, using = "//div[@id='ctl00_ctlSuperAdminMenu_jobTestAutomation']")
+    public WebElement JobTestAutomationLink;
+
+
 
 
 
