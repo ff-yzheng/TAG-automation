@@ -31,6 +31,11 @@ public class AuditLog extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//input[@name='username']")
     public WebElement UsernameSearchField;
 
+    public void SetUserName(String value) {
+        UsernameSearchField.clear();
+        UsernameSearchField.sendKeys(value);
+    }
+
     // From Date Search Field
     @FindBy(how = How.XPATH, using = "//input[@name='fromDate']")
     public WebElement FromDateSearchField;
@@ -38,6 +43,11 @@ public class AuditLog extends TransactGlobalPage {
     // To Date Search Field
     @FindBy(how = How.XPATH, using = "//input[@name='toDate']")
     public WebElement ToDateSearchField;
+
+    public void SetToDate(String value) {
+        ToDateSearchField.clear();
+        ToDateSearchField.sendKeys(value);
+    }
 
     // FI Name Search Field
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'FI Name')]/..//input")
@@ -91,39 +101,7 @@ public class AuditLog extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//table[@class='table table-bordered table-striped table-fixed']/tbody/tr/td")
     public WebElement table;
 
-    //Code for wait
-    public void iWaitForXTime(int value, String timeUnit) throws Throwable {
-        Integer timeToWaitInMS = 0;
-        Boolean uniteOfTimeValid = false;
 
-        //System.out.println("unitOfTime: " + timeUnit);
-
-        // Translate the value and timeUnit text to get the proper amount of time
-        if(timeUnit.toLowerCase().equals("milliseconds")){
-            uniteOfTimeValid = true;
-            timeToWaitInMS = value;
-        }
-
-        if(timeUnit.toLowerCase().equals("seconds")){
-            uniteOfTimeValid = true;
-            timeToWaitInMS = value * 1000;
-        }
-
-        if(timeUnit.toLowerCase().equals("minutes")){
-            uniteOfTimeValid = true;
-            timeToWaitInMS = value * 60000;
-        }
-
-        if (!uniteOfTimeValid){
-            System.out.println("Invalid unit of time, you can only use 'milliseconds', 'seconds', and 'minutes'");
-        }
-
-        try {
-            Thread.sleep(timeToWaitInMS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 
