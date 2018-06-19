@@ -1,5 +1,5 @@
 @TAG
-Feature: SmokeTest
+Feature: Search Program Management - PARTNER
 
    Background: User logged in
     Given I login TagUI
