@@ -20,11 +20,23 @@ public class LoginSteps extends AbstractSteps {
     private LoginPage loginPage;
     String tagURL = FileReaderManager.getInstance().getConfigReader().getTAGApplicationUrl();
     String super_userName = FileReaderManager.getInstance().getConfigReader().getSuperUserName();
+    String User1_userName = FileReaderManager.getInstance().getConfigReader().getUser1UserName();
+    String User2_userName = FileReaderManager.getInstance().getConfigReader().getUser2UserName();
+    String FISUPER_userName = FileReaderManager.getInstance().getConfigReader().getFISUPERUserName();
+    String PartnerSuper_userName = FileReaderManager.getInstance().getConfigReader().getPartnerSuperUserName();
+    String TAGCRM_userName = FileReaderManager.getInstance().getConfigReader().getTAGCRMUserName();
+    String TAGQA_userName = FileReaderManager.getInstance().getConfigReader().getTAGQAUserName();
     String automationTAGSUPER_password = FileReaderManager.getInstance().getConfigReader().getSuperUserPassword();
+    String automationUser1_password = FileReaderManager.getInstance().getConfigReader().getUser1Password();
+    String automationUser2_password = FileReaderManager.getInstance().getConfigReader().getUser2Password();
+    String automationFISUPER_password = FileReaderManager.getInstance().getConfigReader().getFISUPERPassword();
+    String automationPartnerSuper_password = FileReaderManager.getInstance().getConfigReader().getPartnerSuperPassword();
+    String automationTAGCRM_password = FileReaderManager.getInstance().getConfigReader().getTAGCRMPassword();
+    String automationTAGQA_password = FileReaderManager.getInstance().getConfigReader().getTAGQAPassword();
     //private MFAEntryPage mfaEntryPage;
 
-    @Given("^I login TagUI$")
-    public void theLoginFormAtUrl() {
+    @Given("^I navigate to TagUI$")
+    public void iNavigateToTagUi() {
 
         loginPage = new LoginPage(getDriver());
 
@@ -56,10 +68,128 @@ public class LoginSteps extends AbstractSteps {
         loginPage.SetUsername(super_userName);
         loginPage.SetPassword(automationTAGSUPER_password);
 
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login with a wrong password")
+    public void iLoginWithAWrongPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(super_userName);
+        SetMFAKey(super_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(super_userName);
+        loginPage.SetPassword("wrongpassword");
 
         // Click login button
         loginPage.LoginClick();
     }
+
+    @When("^I login as User1")
+    public void iLoginAsUser1WithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(User1_userName);
+        SetMFAKey(User1_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(User1_userName);
+        loginPage.SetPassword(automationUser1_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as User2")
+    public void iLoginAsUser2WithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(User2_userName);
+        SetMFAKey(User2_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(User2_userName);
+        loginPage.SetPassword(automationUser2_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as FISUPER")
+    public void iLoginAsFISUPERWithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(FISUPER_userName);
+        SetMFAKey(FISUPER_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(FISUPER_userName);
+        loginPage.SetPassword(automationFISUPER_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as PartnerSuper")
+    public void iLoginAsPartnerSuperWithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(PartnerSuper_userName);
+        SetMFAKey(PartnerSuper_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(PartnerSuper_userName);
+        loginPage.SetPassword(automationPartnerSuper_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as TAGCRM")
+    public void iLoginAsTAGCRMWithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(TAGCRM_userName);
+        SetMFAKey(TAGCRM_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(TAGCRM_userName);
+        loginPage.SetPassword(automationTAGCRM_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as TAGQA")
+    public void iLoginAsTAGQAWithPassword() throws Throwable {
+
+        // Set the local storage at login so MFA is skipped
+        System.out.println(TAGQA_userName);
+        SetMFAKey(TAGCRM_userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(TAGQA_userName);
+        loginPage.SetPassword(automationTAGQA_password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
+    @When("^I login as (.*) with (.*)")
+    public void iLoginAsUsernameWithPassword(String userName, String password) throws Throwable {
+        // Set the local storage at login so MFA is skipped
+        SetMFAKey(userName);
+
+        // Populate username and password from feature file
+        loginPage.SetUsername(userName);
+        loginPage.SetPassword(password);
+
+        // Click login button
+        loginPage.LoginClick();
+    }
+
 
     @Then("^I should be authenticated$")
     public void iShouldBeAuthenticated() throws Throwable {

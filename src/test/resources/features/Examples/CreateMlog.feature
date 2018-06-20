@@ -1,7 +1,7 @@
 Feature: Create Mlog in EnCompass
   Scenario: EnCompassCreateMlogPOC
     Proof of Concept / Test work for Create Mlog within EnCompass
-    Given the login form at https://test.transact-global.net/
+    Given I navigate to TagUI
     And I open EnCompass
     When I login to EnCompass as a SuperUser
     And I select the 0003414 company number on the EnCompass select org page

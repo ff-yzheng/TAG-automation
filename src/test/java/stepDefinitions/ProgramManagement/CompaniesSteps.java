@@ -249,9 +249,10 @@ public class CompaniesSteps extends AbstractSteps {
 
         // Search for Type company and the company number
         auditLog.SetTypeDropdown("Company");
+        WaitForElementToDisappear(getDriver(), companiesSetup.LoadingSpinnerXPATH);
         auditLog.CompanyNumberSearchField.sendKeys(companyNumber);
         auditLog.SearchButton.click();
-        WaitUntilElementExists(auditLog.LoadingSpinnerIsHidden);
+        WaitForElementToDisappear(getDriver(), companiesSetup.LoadingSpinnerXPATH);
 
         // Need to reformat the credit limit for verification step (entered as number, displayed with thousands separator)
         String formattedCL = FormatWithThousandAnd2Decimals(creditLimit);

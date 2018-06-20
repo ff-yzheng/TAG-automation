@@ -2,8 +2,8 @@
 Feature: SmokeTestUser1
 
   Background: User logged in
-	Given the login form at https://test.transact-global.net/
-	When I login as automationWEXRole1 with Abcd-1234
+	Given I navigate to TagUI
+	When I login as User1
 	Then I should be authenticated
 
   @IgnoreForNow

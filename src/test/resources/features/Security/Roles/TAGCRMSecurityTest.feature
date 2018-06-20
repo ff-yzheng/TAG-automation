@@ -3,9 +3,9 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 
 
 	Background: User logged in
-		Given the login form at https://test.transact-global.net/
-		When I login as automationTAGCRM with Abcd-4321
-		Then I should be authenticated
+      Given I navigate to TagUI
+      When  I login as TAGCRM
+      Then  I should be authenticated
 
 	Scenario: CheckTAGCRMUserMainMenu
 		Then I should see the Program Management menu
@@ -27,13 +27,14 @@ Feature: TAG CRM Role which has access to all FI-level privileges within the sys
 
 	Scenario: CheckTAGCRMUserPMFITabs
 		When I navigate to Program Management - FIs
-		Then I should be on the MCC Groups tab
+        And  I click on WEX Bank
+        Then I should be on the MCC Groups tab
 		And  I should see the Authorization Controls tab
 		And  I should see the Statements tab
         And  I should NOT see the Setup tab
-        And  I should NOT see the BINs tab
-		And  I should NOT see the Fees tab
-		And  I should NOT see the Reports tab
+        And  I should NOT see the BINS tab
+        And  I should NOT see the Fees tab
+        And  I should NOT see the Reports tab
 		When I logout
 		Then I should be logged out and on the login page
 
