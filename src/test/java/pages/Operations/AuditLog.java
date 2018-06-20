@@ -31,6 +31,11 @@ public class AuditLog extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//input[@name='username']")
     public WebElement UsernameSearchField;
 
+    public void SetUserName(String value) {
+        UsernameSearchField.clear();
+        UsernameSearchField.sendKeys(value);
+    }
+
     // From Date Search Field
     @FindBy(how = How.XPATH, using = "//input[@name='fromDate']")
     public WebElement FromDateSearchField;
@@ -38,6 +43,11 @@ public class AuditLog extends TransactGlobalPage {
     // To Date Search Field
     @FindBy(how = How.XPATH, using = "//input[@name='toDate']")
     public WebElement ToDateSearchField;
+
+    public void SetToDate(String value) {
+        ToDateSearchField.clear();
+        ToDateSearchField.sendKeys(value);
+    }
 
     // FI Name Search Field
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'FI Name')]/..//input")
@@ -83,6 +93,15 @@ public class AuditLog extends TransactGlobalPage {
     // Card Issuer Reference Search Field
     @FindBy(how = How.XPATH, using = "//label[contains(text(),'Card Issuer Reference')]/..//input")
     public WebElement CardIssuerReferenceSearchField;
+
+    //SearchButton
+    @FindBy(how = How.XPATH, using = "//*[@id='search-form']/div[3]/button")
+    public WebElement SearchButton;
+
+    @FindBy(how = How.XPATH, using = "//table[@class='table table-bordered table-striped table-fixed']/tbody/tr/td")
+    public WebElement table;
+
+
 
 
 
