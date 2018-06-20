@@ -1,4 +1,4 @@
-package pages.ProgramManagement;
+package pages.Security;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,46 +7,38 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
-import stepDefinitions.AbstractSteps;
 
-import static global.SharedWebDriver.getDriver;
+public class UsersSearch extends TransactGlobalPage {
 
-public class PartnerSearch extends TransactGlobalPage {
-
-    public PartnerSearch(WebDriver driver) {
+    public UsersSearch(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    //FI Dropdown for PM-Partners
-    @FindBy(how = How.XPATH, using = "//select[@name='fiID']")
-    public WebElement FINameDropdown;
+    //Role Dropdown for SEC-Users
+    @FindBy(how = How.XPATH, using = "//select[@id='searchRoleID']")
+    public WebElement RoleNameDropdown;
 
-    public void SetFIDropdown(String value){
-        Select select = new Select(FINameDropdown);
+    public void SetRoleDropdown(String value){
+        Select select = new Select(RoleNameDropdown);
         select.selectByVisibleText(value);
     }
 
-    //FI Dropdown for PM-Clients
-    @FindBy(how = How.XPATH, using = "//select[@name='FiName']")
-    public WebElement ClientFINameDropdown;
+    //Owner Dropdown for SEC-Users
+    @FindBy(how = How.XPATH, using = "//select[@id='searchFiID']")
+    public WebElement OwnerDropdown;
 
-    public void SetClientFIDropdown(String value){
-        Select select = new Select(ClientFINameDropdown);
+    public void SetOwnerDropdown(String value){
+        Select select = new Select(OwnerDropdown);
         select.selectByVisibleText(value);
     }
 
-    // SEARCH Button for PM-Clients
-    @FindBy(how = How.XPATH, using = "//button[@class='btn btn-lg btn-primary']") // Need more definitions? //button[@id='search-btn']
-    public WebElement SearchButton;
+    //Status Dropdown for SEC-Users
+    @FindBy(how = How.XPATH, using = "//select[@id='searchStatus']")
+    public WebElement StatusDropdown;
 
-    //FI Dropdown for PM-Companies
-    @FindBy(how = How.XPATH, using = "//select[@name='fiID']")
-    public WebElement CompanyFINameDropdown;
-
-
-    public void SetCompanyFIDropdown(String value){
-        Select select = new Select(CompanyFINameDropdown);
+    public void SetStatusDropdown(String value){
+        Select select = new Select(StatusDropdown);
         select.selectByVisibleText(value);
     }
 
