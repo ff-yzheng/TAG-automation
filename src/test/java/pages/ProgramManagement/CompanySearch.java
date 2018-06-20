@@ -7,33 +7,12 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import pages.TransactGlobalPage;
-import stepDefinitions.AbstractSteps;
 
-import static global.SharedWebDriver.getDriver;
+public class CompanySearch extends TransactGlobalPage {
 
-public class PartnerSearch extends TransactGlobalPage {
-
-    public PartnerSearch(WebDriver driver) {
+    public CompanySearch(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-    }
-
-    //FI Dropdown for PM-Partners
-    @FindBy(how = How.XPATH, using = "//select[@name='fiID']")
-    public WebElement FINameDropdown;
-
-    public void SetFIDropdown(String value){
-        Select select = new Select(FINameDropdown);
-        select.selectByVisibleText(value);
-    }
-
-    //FI Dropdown for PM-Clients
-    @FindBy(how = How.XPATH, using = "//select[@name='FiName']")
-    public WebElement ClientFINameDropdown;
-
-    public void SetClientFIDropdown(String value){
-        Select select = new Select(ClientFINameDropdown);
-        select.selectByVisibleText(value);
     }
 
     // SEARCH Button for PM-Clients

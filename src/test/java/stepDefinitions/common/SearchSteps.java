@@ -21,7 +21,7 @@ public class SearchSteps extends AbstractSteps {
         tagPage= new TransactGlobalPage(getDriver());
 
         // Find the Search Field item from the passed searchFieldLabel
-        WebElement searchField = getDriver().findElement(By.xpath("//label[contains(text(),'" + searchFieldLabel + "')]/../div/input"));
+        WebElement searchField = getDriver().findElement(By.xpath("//label[contains(text(),'" + searchFieldLabel + "')]/..//input"));
 
         // Set the searchField to the passed searchText value
         searchField.clear();
