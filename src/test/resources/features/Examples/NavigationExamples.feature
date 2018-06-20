@@ -1,5 +1,5 @@
 Feature: Navigation Examples
-
+  @IgnoreForNow
   Background: User logged in
 	Given I navigate to TagUI
 	When I login as superUser

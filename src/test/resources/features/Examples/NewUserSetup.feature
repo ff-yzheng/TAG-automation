@@ -7,8 +7,9 @@ Feature: New Automation User Setup
 # - Run and complete user MFA during the wait time
 # - Dev will need modify the MFA check flag in Mongo to false
 # - Automation should then be able log in as the user via the login steps
+  @IgnoreForNow
   Scenario: SettingUpNewUser
-    Given I navigate to TagUI
-    When I login as NEWUSERNAME with PASSWORD
-    Then I wait for 120 seconds
+	Given I navigate to TagUI
+	When I login as NEWUSERNAME with PASSWORD
+	Then I wait for 120 seconds
 
