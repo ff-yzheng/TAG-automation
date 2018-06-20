@@ -24,6 +24,12 @@ public class EnCompassSteps extends AbstractSteps {
     public String cardExpDate;
     public String cardCsc;
 
+    // Variables saving company information
+    public String companyName;
+    public String companyNumber;
+    public String orgId;
+    public String orgAbbrevation;
+
     @Given("^I open EnCompass")
     public void iOpenEnCompass() {
         // Create the driver and page object
@@ -158,6 +164,127 @@ public class EnCompassSteps extends AbstractSteps {
         System.out.println("Card Num = " + cardNumber);
         System.out.println("Card Exp = " + cardExpDate);
         System.out.println("Card CSC = " + cardCsc);
+    }
+
+    @When("^I search for company number (.*) in Encompass Select Org Group$")
+    public void iSearchForCompanyNumberXInEncompassSelectOrgGroup(String companyNum) {
+        // Confirm I am on the Select Org Page
+        assertThat("Cannot find the New Clients checkbox", enCompass.NewClientsCheckbox.isDisplayed(), is(equalTo(true)));
+
+        // Set the Active Clients, Disabled Clients and New Clients checkboxes to true
+        SetCheckboxToTrue(enCompass.ActiveClientsCheckbox);
+        SetCheckboxToTrue(enCompass.DisableClientsCheckbox);
+        SetCheckboxToTrue(enCompass.NewClientsCheckbox);
+
+        // Clear any existing search values
+        enCompass.CompanyName.clear();
+        enCompass.CompanyNumber.clear();
+        enCompass.OrganizationId.clear();
+
+        // Populate the company number search
+        enCompass.CompanyNumber.sendKeys(companyNum);
+
+        // Click Search
+        enCompass.SearchOrgGroupButton.click();
+
+        // Wait for the search to complete (should only have 1 row returned)
+        WaitForElementToDisappear(enCompassDriver, enCompass.ORGROW2XPATH);
+        WaitUntilElementExists(enCompass.OrgGroupRow1);
+
+        // Keep the Org Info for later use
+        companyName = enCompass.OrgGroupRow1Colm1.getText();
+        //System.out.println("Org Group Name = " + companyName);
+        companyNumber = companyNum;
+        //System.out.println("Org Number = " + companyNumber);
+    }
+
+    @Then("^I set up the company in EnCompass$")
+    public void iSetUpTheCompanyInEnCompass() {
+        // Prereq: should have the company to setup in row 1 on the org group page
+
+        // Click the company row
+        enCompass.OrgGroupRow1.click();
+
+        // Click edit
+        enCompass.EditRowAction.click();
+
+        // wait for the page to load
+        WaitUntilElementExists(enCompass.OrganizationIdInput);
+
+        // Set the Org Id to the company name
+        enCompass.OrganizationIdInput.sendKeys(companyName);
+
+        // Save Client Profile
+        enCompass.SaveButton.click();
+
+        // Wait for success message
+        WaitUntilElementExists(enCompass.SuccessMessage);
+    }
+
+    @Then("^I navigate to Super Admin Accounts Payable in EnCompass$")
+    public void iNavigateToSuperAdminAccountsPayableInEnCompass() {
+        // click Super Admin Utilities
+        enCompass.SuperAdminUtilitiesLink.click();
+
+        // wait for the page to load
+        WaitUntilElementExists(enCompass.SuperAdminUtilitiesBreadcrumb);
+
+        // Check to see if we are already on the Manage AP page, if so no further navigation is needed
+        if(!enCompass.APOrgRow1.isDisplayed()){
+            //System.out.println("I am not on the AP Page");
+            // click the menu items to get to manage ap
+            enCompass.SuperrAdminPayablesLink.click();
+            enCompass.SuperAdminAPToolsLink.click();
+            WaitUntilElementExists(enCompass.SuperAdminManageAPLink);
+            enCompass.SuperAdminManageAPLink.click();
+
+            WaitUntilElementExists(enCompass.APOrgRow1);
+        }
+        else{
+            //System.out.println("I am already on the AP Page");
+        }
+
+        assertThat("Cannot fine the Manage AP Search grid", enCompass.APOrgRow1.isDisplayed(), is(equalTo(true)));
+    }
+
+    @Then("^I search for company number (.*) in EnCompass Super Admin$")
+    public void iSearchForCompanyNumberXInEnCompassSuperAdmin(String companyNum) {
+        // Populate the search
+        SetDropdownByText(enCompass.SearchTermDropdown, "Company Number");
+        SetDropdownByText(enCompass.SearchFilterTypeDropdown, "Starts With");
+        enCompass.SearchValueText.sendKeys(companyNum);
+
+        // Click search
+        enCompass.SearchButton.click();
+
+        // Wait for only one row to exist
+        WaitForElementToDisappear(enCompassDriver, enCompass.APORGROW2XPATH);
+    }
+
+    @Then("^I activate AP for the company in EnCompass$")
+    public void iActivateAPForTheCompanyInEnCompass() {
+        // click on row 1
+
+        // click edit
+
+        // setup ap
+
+        // save
+
+    }
+
+    @Then("^I create inventory for the company in EnCompass$")
+    public void iCreateInventoryForTheCompanyInEnCompass() {
+        // click on row 1
+
+        // click inventory
+
+        // click add new
+
+        // create inventory
+
+        // save
+
     }
 
     @Then("^I close EnCompass")

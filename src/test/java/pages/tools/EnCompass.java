@@ -83,8 +83,12 @@ public class EnCompass extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//tbody/tr[@id='ctl00_contents_dgClients_ctl03']")
     public WebElement OrgGroupRow1;
 
+    // Org Group Row 1, colm 1 (Org Group Name)
+    @FindBy(how = How.XPATH, using = "//tbody/tr[@id='ctl00_contents_dgClients_ctl03']/td[2]")
+    public WebElement OrgGroupRow1Colm1;
+
     // Org Group Row 2
-    public static final String ORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgClients_ctl04']";
+    public final String ORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgClients_ctl04']";
 
     @FindBy(how = How.XPATH, using = ORGROW2XPATH)
     public WebElement OrgGroupRow2;
@@ -94,7 +98,7 @@ public class EnCompass extends TransactGlobalPage {
     public WebElement SelectOrgAction;
 
     // Edit Org Org Group Settings Action
-    @FindBy(how = How.XPATH, using = "//a[text()='Edit Organization Group Settings']")
+    @FindBy(how = How.XPATH, using = "//a[contains(text(),'Edit Organization Group Settings')]")
     public WebElement EditOrgGroupOrgAction;
 
     // Edit Row Action
@@ -131,11 +135,24 @@ public class EnCompass extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//input[@value='Close']")
     public WebElement CloseButton;
 
-    // *** ENCOMPASS MENU ***
+    // ** SUPER ADMIN LINKS **
     // Super Admin Utilities link
     @FindBy(how = How.XPATH, using = "//a[@id='ctl00_MainHeader_lnkSuperAdmin']")
     public WebElement SuperAdminUtilitiesLink;
 
+    // Super Admin Utilities Payables link
+    @FindBy(how = How.XPATH, using = "//span[text()='PAYABLES']")
+    public WebElement SuperrAdminPayablesLink;
+
+    // Super Admin Utilities AP Tools link
+    @FindBy(how = How.XPATH, using = "//a[@id='ctl00_ctlSuperAdminMenu_lnkAP']")
+    public WebElement SuperAdminAPToolsLink;
+
+    // Super Admin Utilities Manage AP link
+    @FindBy(how = How.XPATH, using = "//a[text()='Manage AP']")
+    public WebElement SuperAdminManageAPLink;
+
+    // *** ENCOMPASS MENU ***
     // Payables Menu
     @FindBy(how = How.XPATH, using = "//span[@id='payablesItemText']")
     public WebElement PayablesMenu;
@@ -212,23 +229,31 @@ public class EnCompass extends TransactGlobalPage {
 
     // Filter Type Dropdown
     @FindBy(how = How.XPATH, using = "//select[@aria-label='Filter Type']")
-    public WebElement FilterTypeDropdown;
+    public WebElement SearchFilterTypeDropdown;
 
     // Search Values Dropdown
     @FindBy(how = How.XPATH, using = "//select[@aria-label='Search Term Values']")
-    public WebElement SearchValuesDropdown;
+    public WebElement SearchValueDropdown;
+
+    // Search Values Text
+    @FindBy(how = How.XPATH, using = "//input[@id='ctl00_ctlSearch_SearchOutput_txt']")
+    public WebElement SearchValueText;
 
     // Search button
     @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_btnSearch']")
     public WebElement SearchButton;
 
     // *** SUPER ADMIN - MANAGE AP ***
+    // Super Admin Utilities breadcrumb
+    @FindBy(how = How.XPATH, using = "//div[text()='Super Admin Utilities']")
+    public WebElement SuperAdminUtilitiesBreadcrumb;
+
     // AP Orgs Group Row 1
     @FindBy(how = How.XPATH, using = "//tbody/tr[@id='ctl00_contents_dgAP_ctl03']")
     public WebElement APOrgRow1;
 
     // AP Orgs Row 2
-    public static final String APORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgAP_ctl04']";
+    public final String APORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgAP_ctl04']";
 
     @FindBy(how = How.XPATH, using = APORGROW2XPATH)
     public WebElement APOrgRow2;

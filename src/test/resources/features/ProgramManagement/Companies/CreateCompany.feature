@@ -25,13 +25,14 @@ Feature: Create A Company
     This scenario is designed to run on a company which was just created and activated in Transact Global
     When I open EnCompass
     And I login to EnCompass as a SuperUser
-    And I search for company number X in Encompass Select Org Group
-    Then I set up the company in EnCompass
+    #And I search for company number 0003455 in Encompass Select Org Group
+    #Then I set up the company in EnCompass
     And I navigate to Super Admin Accounts Payable in EnCompass
-    And I search for company number X in EnCompass Super Admin
+    And I search for company number 0003455 in EnCompass Super Admin
     And I activate AP for the company in EnCompass
     And I create inventory for the company in EnCompass
     # Run the JTA Card Order or let it run on its own (hourly)?
+    And I wait for 30 seconds
     And I close EnCompass
 
 
