@@ -3,6 +3,7 @@ package stepDefinitions.tools;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import global.Hooks;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,16 +20,16 @@ public class EnCompassSteps extends AbstractSteps {
     private WebDriver enCompassDriver; // driver specific to test harness so it gets it's own browser instance during test
 
     // Variables to save the card and  mlog information
-    public String mlogId;
-    public String cardNumber;
-    public String cardExpDate;
-    public String cardCsc;
+    public String mlogId = "uninitialized";
+    public String cardNumber = "uninitialized";
+    public String cardExpDate = "uninitialized";
+    public String cardCsc = "uninitialized";
 
     // Variables saving company information
-    public String companyName;
-    public String companyNumber;
-    public String orgId;
-    public String orgAbbrevation;
+    public String companyName = "uninitialized";
+    public String companyNumber = "uninitialized";
+    public String orgId = "uninitialized";
+    public String orgAbbrevation = "uninitialized";
 
     @Given("^I open EnCompass")
     public void iOpenEnCompass() {
@@ -47,6 +48,10 @@ public class EnCompassSteps extends AbstractSteps {
 
         // Check to see if I am on the login page
         assertThat("Cannot find the EnCompass username field", enCompass.Username.isDisplayed(), is(equalTo(true)));
+
+        // TODO Todd POC work on sharing data across step definition classes
+        // Just seeing if I can see the sharedCompanyNumber, I can!
+        System.out.println("shared co number = " + AbstractSteps.sharedCompanyNumber);
     }
 
     @When("^I login to EnCompass as a SuperUser")
@@ -168,6 +173,7 @@ public class EnCompassSteps extends AbstractSteps {
 
     @When("^I search for company number (.*) in Encompass Select Org Group$")
     public void iSearchForCompanyNumberXInEncompassSelectOrgGroup(String companyNum) {
+        // *** If you want to search for a company created in
         // Confirm I am on the Select Org Page
         assertThat("Cannot find the New Clients checkbox", enCompass.NewClientsCheckbox.isDisplayed(), is(equalTo(true)));
 
@@ -264,27 +270,72 @@ public class EnCompassSteps extends AbstractSteps {
     @Then("^I activate AP for the company in EnCompass$")
     public void iActivateAPForTheCompanyInEnCompass() {
         // click on row 1
+        enCompass.APOrgRow1.click();
+        WaitUntilElementExists(enCompass.EditRowAction);
 
-        // click edit
+        // click Enable AP
+        enCompass.EnableAPRowAction.click();
+        WaitUntilElementExists(enCompass.OrgAbbrev);
 
-        // setup ap
+        // Get org abbrev value
+        orgAbbrevation = enCompass.OrgAbbrev.getText();
+        System.out.println("Org Abbrev = " + orgAbbrevation);
+
+        // set up ap options
+        // Enable AP
+        SetCheckboxToTrue(enCompass.EnableAPOnlineCheckbox);
+        // Set up the required email address to use
+        enCompass.StatusEmailAddress.clear();
+        enCompass.StatusEmailAddress.sendKeys("tagtesting@wexinc.com");
+        enCompass.DisputeReplyToEmail.clear();
+        enCompass.DisputeReplyToEmail.sendKeys("tagtesting@wexinc.com");
+        // Click Use Single Use Accounts option
+        SetCheckboxToTrue(enCompass.EnableSingleUseAccountsCheckbox);
+        // Wait for the additional SUGA options to appear
+        WaitForElementToDisappear(enCompassDriver, enCompass.UPDATINGDISPLAYEDXPATH);
+        WaitUntilElementExists(enCompass.EnableAPPlogCheckbox);
+        // Click the additional SUGA options
+        SetCheckboxToTrue(enCompass.EnableAPPlogCheckbox);
+        WaitForElementToDisappear(enCompassDriver, enCompass.UPDATINGDISPLAYEDXPATH);
+        SetCheckboxToTrue(enCompass.EnableEffDatesCheckbox);
+        WaitForElementToDisappear(enCompassDriver, enCompass.UPDATINGDISPLAYEDXPATH);
 
         // save
+        enCompass.SaveButton.click();
 
+        // Wait for success message
+        WaitUntilElementExists(enCompass.SuccessMessage);
     }
 
     @Then("^I create inventory for the company in EnCompass$")
     public void iCreateInventoryForTheCompanyInEnCompass() {
         // click on row 1
+        enCompass.APOrgRow1.click();
+        WaitUntilElementExists(enCompass.EditRowAction);
 
         // click inventory
+        enCompass.InventoryRowAction.click();
+        WaitUntilElementExists(enCompass.ManageInventoryBreadcrumb);
 
         // click add new
+        enCompass.AddNewButton.click();
+        WaitUntilElementExists(enCompass.MinQuantity);
 
-        // create inventory
+        // set inventory value
+        SetDropdownByText(enCompass.CurrencyDropdown, "USD - US dollar");
+        SetDropdownByText(enCompass.ProcessorDropdown, "TG");
+        enCompass.MinQuantity.clear();
+        enCompass.MinQuantity.sendKeys("10");
+        enCompass.MaxQuantity.clear();
+        enCompass.MaxQuantity.sendKeys("50");
+        enCompass.OrderQuantity.clear();
+        enCompass.OrderQuantity.sendKeys("20");
 
         // save
+        enCompass.SubmitButton.click();
 
+        // Wait for success message
+        WaitUntilElementExists(enCompass.SuccessMessage);
     }
 
     @Then("^I close EnCompass")

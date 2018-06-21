@@ -101,6 +101,10 @@ public class CompaniesSteps extends AbstractSteps {
         companyNumber = companiesSetup.CompanyNumber.getText();
         System.out.println("Company number: " + companyNumber);
 
+        // TODO Todd POC work on sharing data across step definition classes
+        // Save the company number so it can be shared step definition classes
+        AbstractSteps.sharedCompanyNumber = companyNumber;
+
         // Verify that I see the new tabs
         try {
             iShouldSeeTheXTab("BINs");

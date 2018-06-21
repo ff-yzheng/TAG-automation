@@ -29,6 +29,16 @@ public class EnCompass extends TransactGlobalPage {
     @FindBy(how = How.XPATH, using = "//div[@id='ctl00_DivSuccessMessage']")
     public WebElement SuccessMessage;
 
+    // 'Updating' box (used on some pages while items on the page update) is hidden
+    @FindBy(how = How.XPATH, using = "//div[@id='ctl00_contents_upProgress' and contains(@style,'none')]")
+    public WebElement UpdatingMessageHidden;
+
+    // 'Updating' box (used on some pages while items on the page update) is displayed
+    public final String UPDATINGDISPLAYEDXPATH = "//div[@id='ctl00_contents_upProgress' and contains(@style,'block')]";
+
+    @FindBy(how = How.XPATH, using = UPDATINGDISPLAYEDXPATH)
+    public WebElement UpdatingMessageDisplayed;
+
     // *** LOGIN PAGE ***
     // Username
     @FindBy(how = How.XPATH, using = "//input[@id='txtusername']")
@@ -255,6 +265,11 @@ public class EnCompass extends TransactGlobalPage {
     // AP Orgs Row 2
     public final String APORGROW2XPATH = "//tbody/tr[@id='ctl00_contents_dgAP_ctl04']";
 
+    // Enable AP Action
+    @FindBy(how = How.XPATH, using = "//a[text()='Enable AP']")
+    public WebElement EnableAPRowAction;
+
+
     @FindBy(how = How.XPATH, using = APORGROW2XPATH)
     public WebElement APOrgRow2;
 
@@ -298,6 +313,10 @@ public class EnCompass extends TransactGlobalPage {
     // already defined above as SaveButton
 
     // *** INVENTORY PAGE
+    // Manage Inventory Breadcrumb
+    @FindBy(how = How.XPATH, using = "//div[text()='Manage Inventory']")
+    public WebElement ManageInventoryBreadcrumb;
+
     // Add New button
     @FindBy(how = How.XPATH, using = "//div[text()='Add New']")
     public WebElement AddNewButton;
@@ -305,6 +324,10 @@ public class EnCompass extends TransactGlobalPage {
     // Currency dropdown
     @FindBy(how = How.XPATH, using = "//select[@id='ctl00_contents_CurrencyDropdown']")
     public WebElement CurrencyDropdown;
+
+    // Processor dropdown
+    @FindBy(how = How.XPATH, using = "//select[@id='ctl00_contents_ProcessorDropDown']")
+    public WebElement ProcessorDropdown;
 
     // Min Quantity
     @FindBy(how = How.XPATH, using = "//input[@id='ctl00_contents_InventoryMinText']")

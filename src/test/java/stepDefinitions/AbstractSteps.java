@@ -20,6 +20,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class AbstractSteps{
 
+    // TODO Todd POC work on sharing data across step definition classes
+    // Data to share across stepdefinition classes
+    public static String sharedCompanyNumber = "uninitialized";
+
     // Enable wait options in steps
     public static void WaitForElementToLoad(WebDriver activeDriver, WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(activeDriver, 10);
