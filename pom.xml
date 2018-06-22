@@ -25,24 +25,34 @@
         </dependency>
 
         <!--Cucumber dependencies-->
+        <!--
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+-->
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.picocontainer/picocontainer -->
+        <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>2.15</version>
+        </dependency>
+
         <!--Selenium Dependencies-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -64,12 +74,14 @@
             <artifactId>selenium-remote-driver</artifactId>
             <version>3.5.2</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>gherkin</artifactId>
             <version>2.12.2</version>
             <scope>provided</scope>
         </dependency>
+        -->
         <!--Added by Yingqiao to integrate cucumber with TestNG -->
         <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-testng -->
         <dependency>
